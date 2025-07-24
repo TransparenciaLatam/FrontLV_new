@@ -233,6 +233,23 @@
       font-weight: 600;
       color: var(--primary-color);
     }
+
+
+    .progress-container {
+  width: 100%;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #007bff;
+  width: 0;
+  transition: width 0.3s ease;
+}
   </style>
 </head>
 
@@ -243,7 +260,7 @@
       <p class="text-muted">Por favor complete todos los campos requeridos</p>
     </div>
 
-    <div class="progress-counter" id="progress-counter">1/3</div>
+    <div class="progress-counter" id="progress-counter"></div>
     <div class="progress-container">
       <div class="progress-bar" id="form-progress" style="width: 33%"></div>
     </div>
@@ -251,7 +268,10 @@
     <form id="responder-formulario" class="form-section" data-formulario-id="{{ formulario_id }}"
       enctype="multipart/form-data">
      
-      
+
+    </form>
+
+          
       <div class="form-navigation">
         <button type="button" class="nav-btn btn btn-outline-primary" id="prev-btn" disabled>
           <i class="fas fa-arrow-left me-2"></i>Anterior
@@ -263,103 +283,14 @@
           Enviar<i class="fas fa-paper-plane ms-2"></i>
         </button>
       </div>
-    </form>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-         // Cargar preguntas desde localStorage (ejemplo)
-      const data = localStorage.getItem('responder-formulario');
-      if (data) {
-        const preguntas = JSON.parse(data);
-        console.log(preguntas.preguntas);
-        renderizarPreguntasTerceros(preguntas.preguntas, "responder-formulario")// Aquí iría la lógica para renderizar las preguntas dinámicamente
-      }
-    })
 
-      const questions = document.querySelectorAll('.question-item');
-      const prevBtn = document.getElementById('prev-btn');
-      const nextBtn = document.getElementById('next-btn');
-      const submitBtn = document.getElementById('submit-btn');
-      const progressCounter = document.getElementById('progress-counter');
-      const progressBar = document.getElementById('form-progress');
-      
-      let currentQuestion = 0;
-      const totalQuestions = questions.length;
-      
-      // Inicializar el formulario
-      updateProgress();
-      
-      // Event listeners para botones de navegación
-      nextBtn.addEventListener('click', () => {
-        if (validateCurrentQuestion()) {
-          showQuestion(currentQuestion + 1);
-        }
-      });
-      
-      prevBtn.addEventListener('click', () => {
-        showQuestion(currentQuestion - 1);
-      });
-      
-      // Función para mostrar una pregunta específica
-      function showQuestion(index) {
-        // Ocultar pregunta actual
-        questions[currentQuestion].classList.remove('active');
-        questions[currentQuestion].classList.add('hidden-question');
-        
-        // Mostrar nueva pregunta
-        currentQuestion = index;
-        questions[currentQuestion].classList.remove('hidden-question');
-        questions[currentQuestion].classList.add('active', 'animate__animated', 'animate__fadeIn');
-        
-        // Actualizar botones de navegación
-        prevBtn.disabled = currentQuestion === 0;
-        
-        if (currentQuestion === totalQuestions - 1) {
-          nextBtn.style.display = 'none';
-          submitBtn.style.display = 'block';
-        } else {
-          nextBtn.style.display = 'block';
-          submitBtn.style.display = 'none';
-        }
-        
-        updateProgress();
-      }
-      
-      // Función para validar la pregunta actual
-      function validateCurrentQuestion() {
-        const currentQ = questions[currentQuestion];
-        const inputs = currentQ.querySelectorAll('input, select, textarea');
-        let isValid = true;
-        
-        inputs.forEach(input => {
-          if (input.required && !input.value) {
-            input.classList.add('is-invalid');
-            isValid = false;
-          } else {
-            input.classList.remove('is-invalid');
-          }
-        });
-        
-        if (!isValid) {
-          currentQ.classList.add('animate__animated', 'animate__headShake');
-          setTimeout(() => {
-            currentQ.classList.remove('animate__animated', 'animate__headShake');
-          }, 1000);
-        }
-        
-        return isValid;
-      }
-      
-      // Función para actualizar el progreso
-      function updateProgress() {
-        const progress = ((currentQuestion + 1) / totalQuestions) * 100;
-        progressBar.style.width = `${progress}%`;
-        progressCounter.textContent = `${currentQuestion + 1}/${totalQuestions}`;
-      }
-      
+            
       // Verificar acceso (ejemplo)
       function verificarAcceso() {
         const usuario = localStorage.getItem("usuarioLogueado");
@@ -370,9 +301,75 @@
       }
       
       verificarAcceso();
+
+         // Cargar preguntas desde localStorage (ejemplo)
+      const data = localStorage.getItem('formularios_terceros');
+
+      if (data) {
+        const preguntas = JSON.parse(data);
+        console.log(preguntas);
+        renderizarPreguntasTerceros(preguntas, "responder-formulario")// Aquí iría la lógica para renderizar las preguntas dinámicamente
+      }
+ 
+
+
+
       
      
 
+
+
+
+    const grupos = Array.from(document.querySelectorAll('.grupo-preguntas'));
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    const submitBtn = document.getElementById('submit-btn');
+
+    let currentGroup = 0;
+function mostrarGrupo(index) {
+  grupos.forEach((grupo, i) => {
+    grupo.style.display = i === index ? 'block' : 'none';
+  });
+
+  // Actualizar botones
+  prevBtn.disabled = index === 0;
+  nextBtn.style.display = index === grupos.length - 1 ? 'none' : 'inline-block';
+  submitBtn.style.display = index === grupos.length - 1 ? 'inline-block' : 'none';
+
+  // Actualizar contador
+  const progressCounter = document.getElementById('progress-counter');
+  if (progressCounter) {
+    progressCounter.textContent = `${index + 1}/${grupos.length}`;
+  }
+
+  // Actualizar barra de progreso
+  const progressBar = document.getElementById('form-progress');
+  if (progressBar) {
+    const porcentaje = ((index + 1) / grupos.length) * 100;
+    progressBar.style.width = `${porcentaje}%`;
+  }
+}
+    // Botón siguiente
+    nextBtn.addEventListener('click', () => {
+      if (currentGroup < grupos.length - 1) {
+        currentGroup++;
+        mostrarGrupo(currentGroup);
+      }
+    });
+
+    // Botón anterior
+    prevBtn.addEventListener('click', () => {
+      if (currentGroup > 0) {
+        currentGroup--;
+        mostrarGrupo(currentGroup);
+      }
+    });
+
+    // Mostrar el primer grupo al iniciar
+    mostrarGrupo(currentGroup);
+
+
+   })
   </script>
 </body>
 

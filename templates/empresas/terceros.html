@@ -154,7 +154,7 @@
                         </div>
                     </div>
                     <div class="topic-actions">
-                        <button onclick=traerFormulario(17) class="btn btn-primary">
+                        <button onclick=traerFormulario(16) class="btn btn-primary">
                             <i class="fas fa-play"></i> Iniciar
                         </button>
                     </div>
@@ -248,14 +248,16 @@
     function traerFormulario(idFormulario){
 
  
-      fetch(`http://localhost:8000/formularios/${idFormulario}`, {
-          method: 'GET',
-      })
-      .then(res => res.json())
-      .then(data => {
-          localStorage.setItem('formularios_terceros', JSON.stringify(data));
-          window.location.href = 'formularios_terceros.html';
-      });
+          fetch(`http://localhost:8000/formularios/${idFormulario}`, {
+        method: 'GET',
+            })
+            .then(res => res.json())
+            .then(data => {
+  
+                console.log("Datos recibidos:", data.preguntas);  // Verificá que esto sea un objeto completo
+                localStorage.setItem('formularios_terceros', JSON.stringify(data.preguntas));
+                window.location.href = 'formularios_terceros.html';
+            });
 
     }
     </script>
