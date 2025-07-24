@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Proveedores</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+    #logoutBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 15px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+    }
+
+    #logoutBtn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+
+  </head>
+
+  <body>
+     <script>
+    // Verifica si el usuario tiene acceso
+    function verificarAcceso() {
+      const usuario = localStorage.getItem("usuarioLogueado");
+      if (!usuario) {
+        alert("No tienes acceso. Iniciá sesión.");
+        window.location.href = "../../index.html";
+      }
+    }
+
+    verificarAcceso(); // ejecutar al inicio de cada página privada
+
+
+
+
+
+
+    // public/js/estadisticas.js
+async function cargarEstadisticas() {
+  const usuario = localStorage.getItem("usuarioLogueado");
+
+  if (!usuario || usuario!='admin') return;
+
+  try {
+    const res = await fetch("http://localhost:8000/estadisticas");
+    const data = await res.json();
+
+    document.querySelector(".empresas-count").textContent = data.empresas;
+    document.querySelector(".proveedores-count").textContent = data.proveedores;
+    document.querySelector(".formularios-count").textContent = data.formularios;
+  } catch (e) {
+    console.error("Error cargando estadísticas", e);
+  }
+}
+
+cargarEstadisticas()
+
+  </script>
+    <div class="dashboard">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <img src="../../static/media/logoLv.png" width="150" height="70" alt="logo linking value" />
+        </div>
+        <div class="sidebar-menu">
+          <p class="menu-title">Navegación</p>
+          <a href="admin.html" class="menu-item">
+            <i class="fas fa-building"></i>
+            <span>Empresas</span>
+          </a>
+          <a href="proveedores.html" class="menu-item active">
+            <i class="fas fa-users"></i>
+            <span>Proveedores</span>
+          </a>
+          <a href="formularios.html" class="menu-item">
+            <i class="fas fa-file-alt"></i>
+            <span>Formularios</span>
+          </a>
+          <a href="#" class="menu-item">
+            <i class="fas fa-cog"></i>
+            <span>Configuración</span>
+          </a>
+          <p class="menu-title">Reportes</p>
+          <a href="#" class="menu-item">
+            <i class="fas fa-chart-bar"></i>
+            <span>Analíticos</span>
+          </a>
+          <a href="#" class="menu-item">
+            <i class="fas fa-file-export"></i>
+            <span>Exportar</span>
+          </a>
+        </div>
+      </div>
+  <button id="logoutBtn">Cerrar sesión</button>
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+          <h1>Dashboard de Administrador</h1>
+          <div class="user-profile">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" />
+            <div class="user-info">
+              <h4>Admin User</h4>
+              <p>Administrador</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-container">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Empresas</span>
+              <i class="fas fa-building" style="color: var(--primary)"></i>
+            </div>
+            <h3 class="stat-value empresas-count">-</h3>
+            <span class="stat-change positive">
+              <i class="fas fa-arrow-up"></i> 12% desde el mes pasado
+            </span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title ">Proveedores</span>
+              <i class="fas fa-users" style="color: var(--success)"></i>
+            </div>
+            <h3 class="stat-value proveedores-count">-</h3>
+            <span class="stat-change positive">
+              <i class="fas fa-arrow-up"></i> 8% desde el mes pasado
+            </span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Formularios</span>
+              <i class="fas fa-file-alt" style="color: var(--warning)"></i>
+            </div>
+            <h3 class="stat-value formularios-count">-</h3>
+            <span class="stat-change positive">
+              <i class="fas fa-arrow-up"></i> 5% desde el mes pasado
+            </span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Completados</span>
+              <i class="fas fa-check-circle" style="color: var(--danger)"></i>
+            </div>
+            <h3 class="stat-value">78%</h3>
+            <span class="stat-change negative">
+              <i class="fas fa-arrow-down"></i> 3% desde el mes pasado
+            </span>
+          </div>
+        </div>
+
+        <!-- Proveedores Table -->
+        <div class="companies-container">
+          <div class="table-header">
+            <h3>Proveedores Registrados</h3>
+            <a href="./../analista/analista.html" class="create-form-btn" target="_blank">Evaluar Proveedor</a>
+            <div class="search-bar">
+              <i class="fas fa-search"></i>
+              <input type="text" placeholder="Buscar proveedor..." />
+            </div>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Proveedor</th>
+                <th>Email</th>
+                <th>Empresa</th>
+                <th>Formularios Asignados</th>
+              </tr>
+            </thead>
+            <tbody id="proveedorBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const tbody = document.getElementById("proveedorBody");
+        try {
+          const res = await fetch("http://localhost:8000/terceros");
+          const proveedores = await res.json();
+          console.log(proveedores)
+          proveedores.forEach(proveedor => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${proveedor.nombre_tercero}</td>
+              <td>${proveedor.email}</td>
+              <td>${proveedor.cliente.nombre_cliente}</td>
+              <td>${proveedor.formulario_generado.nombre_formulario}<strong> Activo<strong></td>
+            `;
+            tbody.appendChild(tr);
+          });
+        } catch (error) {
+          console.error("Error cargando proveedores:", error);
+        }
+      });
+
+
+              document.getElementById('logoutBtn').addEventListener('click', function() {
+      localStorage.clear();
+      window.location.href = '../../index.html';
+    });
+    </script>
+
+  </body>
+</html>

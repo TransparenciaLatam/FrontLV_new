@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seleccionar Preguntas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <style>
+      .category-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        overflow: hidden;
+      }
+      .category-header {
+        background-color: #f8f9fa;
+        padding: 10px 15px;
+        border-bottom: 1px solid #ddd;
+      }
+      .question-item {
+        padding: 10px 15px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .question-item:last-child {
+        border-bottom: none;
+      }
+      .question-item span {
+        width: 50rem;
+      }
+      .question-actions {
+        display: flex;
+      }
+      .question-actions button {
+        background: none;
+        border: none;
+        margin-left: 10px;
+        cursor: pointer;
+      }
+      .question-actions i {
+        font-size: 1rem;
+      }
+      #selected-questions {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        min-height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mb-4 text-start">
+      <a href="../../admin/formularios.html" class="btn btn-outline-primary mt-4 ms-2">
+        <i class="fas fa-arrow-left me-2"></i>Volver al Dashboard
+      </a>
+    </div>
+    <div class="container py-4">
+      <h1 class="text-center mb-4">Seleccionar Preguntas para Proveedor</h1>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="mb-3">
+            <input type="text" id="search-questions" class="form-control" placeholder="Buscar preguntas..." />
+          </div>
+          <div id="questions-container"></div>
+        </div>
+        <div class="col-md-4">
+          <h4>Preguntas seleccionadas</h4>
+          <div id="selected-questions" class="mb-3">
+            <p class="text-muted">No hay preguntas seleccionadas</p>
+          </div>
+          <button id="generate-form" class="btn btn-primary w-100" disabled>Generar Formulario</button>
+
+          <hr class="my-4" />
+          <h4>Agregar Pregunta</h4>
+          <form id="add-question-form">
+            <div class="mb-3">
+              <label class="form-label">Categoría</label>
+              <select class="form-select" id="nueva-categoria" required>
+                <option value="">Seleccionar...</option>
+                <option value="informacion general">Informacion General</option>
+                <option value="derechos humanos">Derechos Humanos</option>
+                <option value="estandares laborales">Estándares Laborales</option>
+                <option value="anticorrupcion">Anticorrupción</option>
+                <option value="medio ambiente">Medio Ambiente</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Pregunta</label>
+              <textarea class="form-control" id="nueva-pregunta" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tipo de respuesta</label>
+              <select class="form-select" id="nueva-tipo">
+                <option value="text">Texto</option>
+                <option value="radio">Radio</option>
+                <option value="checkbox">Checkbox</option>
+                <option value="file">Archivo</option>
+                <option value="date">Fecha</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Opciones (si aplica)</label>
+              <input type="text" class="form-control" id="nueva-opciones" placeholder="Separadas por coma" />
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="toggle-dependiente" />
+              <label class="form-check-label" for="toggle-dependiente">Agregar pregunta dependiente</label>
+            </div>
+            <div id="dependiente-container" style="display: none">
+              <div class="mb-3">
+                <label class="form-label">Texto de la pregunta dependiente</label>
+                <textarea class="form-control" id="dependiente-pregunta"></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Tipo de respuesta dependiente</label>
+                <select class="form-select" id="dependiente-tipo">
+                  <option value="text">Texto</option>
+                  <option value="radio">Radio</option>
+                  <option value="checkbox">Checkbox</option>
+                  <option value="file">Archivo</option>
+                  <option value="date">Fecha</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Opciones dependiente</label>
+                <input type="text" class="form-control" id="dependiente-opciones" placeholder="Separadas por coma" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Opción disparadora</label>
+                <input type="text" class="form-control" id="disparadora-opcion" placeholder="Ej: Sí" />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Agregar Pregunta</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Pregunta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <textarea id="edit-text" class="form-control"></textarea>
+            <input type="hidden" id="edit-id" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="save-edit">Guardar cambios</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      
+      document.getElementById("toggle-dependiente").addEventListener("change", function () {
+        document.getElementById("dependiente-container").style.display = this.checked ? "block" : "none";
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+    <script src="../../../src/script.js"></script>
+  </body>
+</html>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+
+
+    // Verifica si el usuario tiene acceso
+    function verificarAcceso() {
+      const usuario = localStorage.getItem("usuarioLogueado");
+      if (!usuario || usuario!='admin') {
+        alert("No tienes acceso. Iniciá sesión.");
+        window.location.href = "../../index.html";
+      }
+    }
+
+    verificarAcceso(); // ejecutar al inicio de cada página privada
+
+
+  
+   selectorPreguntas() })
+
+//   document.addEventListener("click", function (e) {
+//     if (e.target.closest(".edit-btn")) {
+//       const id = e.target.closest(".edit-btn").dataset.id;
+//       const currentText = e.target.closest(".question-item").querySelector("span").textContent;
+//       document.getElementById("edit-id").value = id;
+//       document.getElementById("edit-text").value = currentText;
+//       new bootstrap.Modal(document.getElementById("editModal")).show();
+//     }
+
+//     if (e.target.closest(".delete-btn")) {
+//       const id = e.target.closest(".delete-btn").dataset.id;
+//       if (confirm("¿Estás seguro de que deseas eliminar esta pregunta?")) {
+//         fetch(`/delete_question/${id}`, { method: "DELETE" })
+//           .then((res) => res.json())
+//           .then((data) => {
+//             if (data.status === "success") {
+//               e.target.closest(".question-item").remove();
+//             } else {
+//               alert("Error al eliminar la pregunta");
+//             }
+//           });
+//       }
+//     }
+//   });
+
+
+
+
+
+
+
+
+
+//   document.getElementById("save-edit").addEventListener("click", function () {
+//     const id = document.getElementById("edit-id").value;
+//     const newText = document.getElementById("edit-text").value.trim();
+
+//     if (newText) {
+//       fetch(`/update_question/${id}`, {
+//         method: "PUT",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ pregunta: newText }),
+//       })
+//         .then((res) => res.json())
+//         .then((data) => {
+//           if (data.status === "success") {
+//             const span = document.querySelector(`.question-item[data-id='${id}'] span`);
+//             if (span) span.textContent = newText;
+//             bootstrap.Modal.getInstance(document.getElementById("editModal")).hide();
+//           } else {
+//             alert("Error al actualizar la pregunta");
+//           }
+//         });
+//     }
+//   });
+
+
+  document.getElementById("generate-form").addEventListener("click", () => {
+    console.log(selectedQuestions)
+    const idsArray = Array.from(selectedQuestions); 
+    console.log(idsArray)
+
+
+
+    
+
+    fetch('http://localhost:8000/formularios', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(idsArray)
+    })
+    .then(res => res.json())
+    .then(data => {
+        // Guardar datos en localStorage (para pasar a otro HTML)
+        localStorage.setItem('preguntas_formulario', JSON.stringify(data));
+        // Redirigir a otro HTML
+        window.location.href = 'formulario_proveedor.html';
+    });
+  });
+
+
+
+
+//   document.getElementById("add-question-form").addEventListener("submit", (e) => {
+//     e.preventDefault();
+
+//     const categoria = document.getElementById("nueva-categoria").value;
+//     const pregunta = document.getElementById("nueva-pregunta").value;
+//     const tipo = document.getElementById("nueva-tipo").value;
+//     const opcionesRaw = document.getElementById("nueva-opciones").value;
+
+//     if (!categoria || !pregunta || !tipo) {
+//       alert("Todos los campos son obligatorios");
+//       return;
+//     }
+
+//     const opciones =
+//       (tipo === "radio" || tipo === "checkbox") && opcionesRaw
+//         ? opcionesRaw.split(",").map((o) => o.trim()).filter(Boolean)
+//         : [];
+
+//     const dependiente = document.getElementById("toggle-dependiente").checked;
+//     let dependientePayload = null;
+
+//     if (dependiente) {
+//       const depPregunta = document.getElementById("dependiente-pregunta").value;
+//       const depTipo = document.getElementById("dependiente-tipo").value;
+//       const depOpcionesRaw = document.getElementById("dependiente-opciones").value;
+//       const disparadora = document.getElementById("disparadora-opcion").value || "Sí";
+
+//       const depOpciones =
+//         (depTipo === "radio" || depTipo === "checkbox") && depOpcionesRaw
+//           ? depOpcionesRaw.split(",").map((o) => o.trim()).filter(Boolean)
+//           : [];
+
+//       if (!depPregunta || !depTipo) {
+//         alert("Completa todos los campos de la pregunta dependiente");
+//         return;
+//       }
+
+//       dependientePayload = {
+//         pregunta: depPregunta,
+//         tipo: depTipo,
+//         disparadora,
+//         opciones: depOpciones,
+//       };
+//     }
+
+//     const payload = {
+//       categoria,
+//       pregunta,
+//       tipo_respuesta: tipo,
+//       opciones,
+//       dependiente: dependientePayload,
+//     };
+
+//     fetch("/add_question", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify(payload),
+//     })
+//       .then((res) => res.json())
+//       .then((data) => {
+//         if (data.status === "success") {
+//           alert("Pregunta agregada");
+//           location.reload();
+//         } else {
+//           alert("Error al agregar pregunta");
+//         }
+//       });
+//   });
+// });
+
+
+
+</script>
+
+  </body>
+</html>

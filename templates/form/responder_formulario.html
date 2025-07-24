@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Formulario Interactivo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="../../src/script.js"></script>
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3f37c9;
+      --accent-color: #4cc9f0;
+      --light-bg: #f8f9fa;
+      --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      background-color: #f5f7ff;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    .form-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--primary-color);
+    }
+
+    .form-header h1 {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-container {
+      height: 8px;
+      background: #e9ecef;
+      border-radius: 4px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--primary-color);
+      transition: width 0.6s ease;
+    }
+
+    .question-item {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+      border-left: 4px solid transparent;
+    }
+
+    .question-item.active {
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .question-item.hidden-question {
+      display: none;
+    }
+
+    .question-label {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #212529;
+      display: flex;
+      align-items: center;
+    }
+
+    .required-marker {
+      color: #e63946;
+      margin-left: 4px;
+    }
+
+    /* Custom radio and checkbox */
+    .form-check-input {
+      width: 1.2em;
+      height: 1.2em;
+      margin-top: 0.15em;
+    }
+
+    .form-check-label {
+      margin-left: 0.5rem;
+      cursor: pointer;
+    }
+
+    /* Enhanced input styles */
+    .form-control {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #dee2e6;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 0.25rem rgba(76, 201, 240, 0.25);
+    }
+
+    /* File upload styling */
+    .file-upload-container {
+      border: 2px dashed #dee2e6;
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .file-upload-container:hover {
+      border-color: var(--accent-color);
+      background: rgba(76, 201, 240, 0.05);
+    }
+
+    .file-upload-icon {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .file-preview {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .file-preview-item {
+      background: var(--light-bg);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .file-preview-item i {
+      margin-left: 0.5rem;
+      cursor: pointer;
+      color: #6c757d;
+    }
+
+    /* Submit button */
+    .submit-btn {
+      background: var(--primary-color);
+      border: none;
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: var(--transition);
+      width: 100%;
+      max-width: 300px;
+      margin: 2rem auto 0;
+      display: block;
+    }
+
+    .submit-btn:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    /* Navigation buttons for multi-step forms */
+    .form-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+
+    .nav-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .form-container {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+
+      .question-item {
+        padding: 1rem;
+      }
+    }
+
+    /* Animation classes */
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="form-container animate__animated animate__fadeIn">
+    <div class="form-header">
+      <h1><i class="fas fa-edit me-2"></i>Formulario Interactivo</h1>
+      <p class="text-muted">Por favor complete todos los campos requeridos</p>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="form-progress" style="width: 0%"></div>
+    </div>
+
+    <form id="responder-formulario" class="form-section" data-formulario-id="{{ formulario_id }}"
+      enctype="multipart/form-data">
+
+    </form>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    //   const relationsData = {{ relations | tojson | safe }};
+    //   let fileInputs = {};
+
+    //   // Initialize form
+    //   document.addEventListener("DOMContentLoaded", () => {
+    //     // Set up file upload previews
+
+    //     document.querySelectorAll('input[type="file"]').forEach(input => {
+    //   const questionId = input.name.match(/question_(\d+)/)[1];
+    //   fileInputs[questionId] = [];
+
+    //   input.addEventListener('change', function (e) {
+    //     const previewContainer = document.getElementById(`file-preview-${questionId}`);
+    //     previewContainer.innerHTML = '';
+    //     fileInputs[questionId] = [];
+
+    //     const archivos = Array.from(e.target.files);
+    //     const tiposValidos = ['application/pdf', 'image/jpeg', 'image/png'];
+    //     const maxMB = 5;
+
+    //     archivos.forEach((file, index) => {
+    //       const esTipoValido = tiposValidos.includes(file.type);
+    //       const esTamanioValido = file.size <= maxMB * 1024 * 1024;
+
+    //       if (!esTipoValido || !esTamanioValido) {
+    //         const errorMsg = document.createElement('div');
+    //         errorMsg.className = 'text-danger small';
+    //         errorMsg.textContent = `${file.name} es inválido: ${!esTipoValido ? 'tipo no permitido' : ''} ${!esTamanioValido ? 'excede 5MB' : ''}`;
+    //         previewContainer.appendChild(errorMsg);
+    //         return;
+    //       }
+
+    //       fileInputs[questionId].push(file); // agregar al array de archivos válidos
+
+    //       const fileItem = document.createElement('div');
+    //       fileItem.className = 'file-preview-item mb-2';
+
+    //       if (file.type.startsWith('image/')) {
+    //         const reader = new FileReader();
+    //         reader.onload = function (e) {
+    //           const img = document.createElement('img');
+    //           img.src = e.target.result;
+    //           img.style.maxWidth = '100px';
+    //           img.className = 'me-2 mb-1';
+    //           fileItem.appendChild(img);
+    //           appendFileInfo();
+    //         };
+    //         reader.readAsDataURL(file);
+    //       } else {
+    //         appendFileInfo();
+    //       }
+
+    //       function appendFileInfo() {
+    //         fileItem.innerHTML += `
+    //           <span>${file.name} (${(file.size / 1024).toFixed(1)} KB)</span>
+    //           <i class="fas fa-times ms-2 text-danger remove-file" style="cursor:pointer;" data-index="${fileInputs[questionId].length - 1}" data-question="${questionId}"></i>
+    //         `;
+    //         previewContainer.appendChild(fileItem);
+    //       }
+    //     });
+
+    //     // Agregar listeners para eliminar archivos
+    //     setTimeout(() => {
+    //       previewContainer.querySelectorAll('.remove-file').forEach(btn => {
+    //         btn.addEventListener('click', function (e) {
+    //           e.stopPropagation();
+    //           const index = parseInt(this.getAttribute('data-index'));
+    //           const qId = this.getAttribute('data-question');
+
+    //           // Remover el archivo del array
+    //           fileInputs[qId].splice(index, 1);
+
+    //           // Actualizar el input con los archivos restantes
+    //           const dataTransfer = new DataTransfer();
+    //           fileInputs[qId].forEach(file => dataTransfer.items.add(file));
+    //           document.getElementById(`file-input-${qId}`).files = dataTransfer.files;
+
+    //           // Volver a renderizar la vista previa
+    //           const event = new Event('change');
+    //           document.getElementById(`file-input-${qId}`).dispatchEvent(event);
+    //         });
+    //       });
+    //     }, 0);
+    //   });
+    // });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //     // Initialize conditional questions
+    //     Object.values(relationsData).flat().forEach(rel => {
+    //       const cont = document.getElementById(`question-${rel.hija}`);
+    //       if (cont) {
+    //         cont.classList.add('hidden-question');
+    //         cont.querySelectorAll('input, select, textarea').forEach(input => {
+    //           input.disabled = true;
+    //         });
+    //       }
+    //     });
+
+    //     // Set up event listeners for conditional logic
+    //     Object.keys(relationsData).forEach(padreId => {
+    //       const padreDiv = document.getElementById('question-' + padreId);
+    //       if (!padreDiv) return;
+
+    //       const tipoPadre = padreDiv.getAttribute('data-tipo');
+    //       if (tipoPadre === 'radio') {
+    //         const radios = document.getElementsByName('question_' + padreId);
+    //         Array.from(radios).forEach(radio => {
+    //           radio.addEventListener('change', actualizarPreguntasHijas);
+    //         });
+    //       } else if (tipoPadre === 'checkbox') {
+    //         const checkboxes = padreDiv.querySelectorAll('input[type="checkbox"]');
+    //         checkboxes.forEach(chk => {
+    //           chk.addEventListener('change', actualizarPreguntasHijas);
+    //         });
+    //       }
+    //     });
+
+    //     // Calculate and update progress
+    //     updateFormProgress();
+
+    //     // Add input event listeners for progress tracking
+    //     document.querySelectorAll('input, textarea, select').forEach(input => {
+    //       input.addEventListener('input', updateFormProgress);
+    //       input.addEventListener('change', updateFormProgress);
+    //     });
+
+    //     // Initial update of conditional questions
+    //     actualizarPreguntasHijas();
+
+
+
+
+
+    //     fetch('/obtener_respuestas?id_usuario=12&formulario_id=13')
+    //       .then(res => res.json())
+    //       .then(data => {
+    //           cargarRespuestasEnFormulario(data);
+    //       })
+    //       .catch(err => console.error('Error cargando respuestas:', err));
+    //   });
+
+    //   function actualizarPreguntasHijas() {
+    //     Object.entries(relationsData).forEach(([padreId, rels]) => {
+    //       const padreDiv = document.getElementById('question-' + padreId);
+    //       if (!padreDiv) return;
+
+    //       const tipoPadre = padreDiv.getAttribute('data-tipo');
+    //       let opcionesSeleccionadas = [];
+
+    //       if (tipoPadre === 'radio') {
+    //         const radios = document.getElementsByName('question_' + padreId);
+    //         for (const radio of radios) {
+    //           if (radio.checked) {
+    //             opcionesSeleccionadas = [radio.value];
+    //             break;
+    //           }
+    //         }
+    //       } else if (tipoPadre === 'checkbox') {
+    //         const checkboxes = padreDiv.querySelectorAll('input[type="checkbox"]');
+    //         opcionesSeleccionadas = Array.from(checkboxes)
+    //           .filter(chk => chk.checked)
+    //           .map(chk => chk.value);
+    //       }
+
+    //       rels.forEach(rel => {
+    //         const hijaId = rel.hija;
+    //         const divHija = document.getElementById('question-' + hijaId);
+    //         if (!divHija) return;
+
+    //         const inputsHija = divHija.querySelectorAll('input, select, textarea');
+
+    //         if (opcionesSeleccionadas.includes(rel.opcion)) {
+    //           if (!padreDiv.nextSibling || padreDiv.nextSibling.id !== divHija.id) {
+    //             padreDiv.parentNode.insertBefore(divHija, padreDiv.nextSibling);
+    //           }
+    //           divHija.classList.remove('hidden-question');
+    //           divHija.classList.add('animate__animated', 'animate__fadeIn');
+    //           inputsHija.forEach(input => input.disabled = false);
+    //         } else {
+    //           divHija.classList.add('hidden-question');
+    //           inputsHija.forEach(input => {
+    //             input.disabled = true;
+    //             if (input.type === 'radio' || input.type === 'checkbox') {
+    //               input.checked = false;
+    //             } else {
+    //               input.value = '';
+    //             }
+    //           });
+    //         }
+    //       });
+    //     });
+
+    //     updateFormProgress();
+    //   }
+
+    //   function updateFormProgress() {
+    //     const allQuestions = document.querySelectorAll('.question-item:not(.hidden-question)');
+    //     if (allQuestions.length === 0) return;
+
+    //     let answered = 0;
+
+    //     allQuestions.forEach(question => {
+    //       const isRequired = question.getAttribute('data-obligatoria') === 'true';
+    //       if (!isRequired) {
+    //         answered++;
+    //         return;
+    //       }
+
+    //       const type = question.getAttribute('data-tipo');
+    //       const questionId = question.getAttribute('data-id');
+    //       let hasAnswer = false;
+
+    //       if (type === 'radio') {
+    //         const checked = question.querySelector('input[type="radio"]:checked');
+    //         hasAnswer = !!checked;
+    //       } 
+    //       else if (type === 'checkbox') {
+    //         const checked = question.querySelector('input[type="checkbox"]:checked');
+    //         hasAnswer = !!checked;
+    //       }
+    //       else if (type === 'file') {
+    //         hasAnswer = fileInputs[questionId] && fileInputs[questionId].length > 0;
+    //       }
+    //       else {
+    //         const input = question.querySelector('input, textarea, select');
+    //         hasAnswer = input && input.value.trim() !== '';
+    //       }
+
+    //       if (hasAnswer) answered++;
+    //     });
+
+    //     const progress = (answered / allQuestions.length) * 100;
+    //     document.getElementById('form-progress').style.width = `${progress}%`;
+
+    //     // Update active state on questions
+    //     document.querySelectorAll('.question-item').forEach(q => q.classList.remove('active'));
+    //     const firstUnanswered = document.querySelector('.question-item:not(.hidden-question) input:not(:checked):not([type="checkbox"]), .question-item:not(.hidden-question) input[type="text"]:not(:valid), .question-item:not(.hidden-question) input[type="date"]:not(:valid)');
+    //     if (firstUnanswered) {
+    //       firstUnanswered.closest('.question-item').classList.add('active');
+    //     }
+    //   }
+
+
+    //   //Funciones nuevas
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // Verifica si el usuario tiene acceso
+      function verificarAcceso() {
+        const usuario = localStorage.getItem("usuarioLogueado");
+        if (!usuario || usuario != 'admin') {
+          alert("No tienes acceso. Iniciá sesión.");
+          window.location.href = "../../index.html";
+        }
+      }
+
+      verificarAcceso(); // ejecutar al inicio de cada página privada
+
+      const data = localStorage.getItem('responder-formulario');
+      if (data) {
+        const preguntas = JSON.parse(data);
+        console.log(preguntas.preguntas)
+        renderizarPreguntas(preguntas.preguntas, "responder-formulario")  // una función que vos definís
+      }
+    });
+  </script>
+</body>
+
+</html>

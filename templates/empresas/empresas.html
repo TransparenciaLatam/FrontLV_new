@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Proveedor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../static/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+
+.hidden {
+  display: none;
+}
+.show {
+  display: flex;
+}
+
+    #logoutBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 15px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+    }
+
+    #logoutBtn:hover {
+      background-color: #c0392b;
+    }
+
+    </style>
+
+</head>
+
+<body>
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <img src="../../static/media/logoLv.png" width="150" height="70" alt="logo linking value" />
+      </div>
+      <div class="sidebar-menu">
+        <p class="menu-title">Navegación</p>
+        <a href="#" class="menu-item active">
+          <i class="fas fa-home"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="terceros.html" class="menu-item">
+          <i class="fas fa-file-alt"></i>
+          <span>Proveedores</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-bell"></i>
+          <span>Notificaciones</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-cog"></i>
+          <span>Configuración</span>
+        </a>
+
+        <p class="menu-title">Empresa</p>
+        <a href="#" class="menu-item">
+          <i class="fas fa-building"></i>
+          <span>Información</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-question-circle"></i>
+          <span>Soporte</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header -->
+      <div class="header">
+        <h1>Dashboard de Proveedor</h1>
+        <div class="user-profile">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User">
+          <div class="user-info">
+            <h4>Maria García</h4>
+            <p>Proveedor de Acme Corp</p>
+          </div>
+        </div>
+      </div>
+  <button id="logoutBtn">Cerrar sesión</button>
+      <!-- Welcome Banner -->
+      <div class="welcome-banner">
+        <div class="welcome-text">
+          <h2>Formularios de Cumplimiento</h2>
+          <p>Complete los formularios requeridos por su empresa cliente para mantener su relación comercial
+            activa.</p>
+        </div>
+        <div>
+          <button class="btn btn-white">
+            <i class="fas fa-question-circle"></i> Ayuda
+          </button>
+        </div>
+      </div>
+
+
+
+      <!-- Botones de acción -->
+    <div class="table-actions">
+      <button class="btn btn-primary" onclick="abrirModalAgregar()">
+        <i class="fas fa-plus"></i> Agregar Proveedor
+      </button>
+      <button class="btn btn-secondary" onclick="abrirModalExcel()">
+        <i class="fas fa-file-excel"></i> Cargar con Excel
+      </button>
+    </div>
+
+
+
+    <!-- Modal Agregar Proveedor -->
+<div id="modalAgregar" class="modal hidden">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarModalAgregar()">&times;</span>
+    <h3>Agregar nuevo proveedor</h3>
+    <label>Nombre del proveedor:</label>
+    <input type="text" id="nombreProveedor" placeholder="Ej: Juan Pérez S.A.">
+    <label>Email de contacto:</label>
+    <input type="email" id="emailProveedor" placeholder="Ej: contacto@empresa.com">
+    <button class="btn btn-primary" onclick="guardarProveedor()">Guardar</button>
+  </div>
+</div>
+
+
+
+
+    <!-- Modal Excel -->
+<div id="modalExcel" class="modal hidden">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarModalExcel()">&times;</span>
+    <h3>Cargar proveedores desde Excel</h3>
+    <p>¿Tenés la plantilla de Excel?</p>
+    <div style="margin-top: 10px;">
+      <a href="../../static/plantilla_proveedores.xlsx" download class="btn btn-outline">Descargar plantilla</a>
+    </div>
+    <input type="file" accept=".xlsx" id="archivoExcel" />
+    <button class="btn btn-primary" onclick="subirExcel()">Subir archivo</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+      <!-- Companies Table -->
+      <div class="companies-container">
+        <div class="table-header">
+          <h3>Proveedores Registrados</h3>
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Buscar empresa..." />
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Proveedor</th>
+              <th>Email</th>
+              <th>Estado de Formularios</th>
+            </tr>
+          </thead>
+          <tbody class="topics-container" id="proveedoresContainer"></tbody>
+        </table>
+      </div>
+
+      <!-- Topics Grid
+      <div class="topics-container" id="proveedoresContainer">
+      Proveedores se insertarán aquí dinámicamente 
+      </div> -->
+    </div>
+  </div>
+
+  <script>
+    //document.addEventListener("DOMContentLoaded", async () => {
+    //   const container = document.getElementById("proveedoresContainer");
+
+    //   try {
+    //     const res = await fetch("/api/proveedores");
+    //     const proveedores = await res.json();
+
+    //     container.innerHTML = "";
+
+    //     proveedores.forEach(p => {
+    //       const card = document.createElement("div");
+    //       card.className = "topic-card";
+    //       card.innerHTML = `
+    //         <div class="topic-header">
+    //           <div class="topic-icon"><i class="fas fa-user"></i></div>
+    //           <div class="topic-info">
+    //             <h3>${p.nombre_tercero}</h3>
+    //             <p><i class="fas fa-envelope"></i> ${p.email}</p>
+    //           </div>
+    //         </div>
+    //         <div class="topic-body">
+    //           <h4>Formularios asignados:</h4>
+    //           ${p.formularios && p.formularios.length > 0
+    //           ? `<ul>${p.formularios.map(f => `<li><i class="fas fa-file-alt"></i> ${f.nombre_formulario}</li>`).join("")}</ul>`
+    //           : `<p><em>No tiene formularios asignados</em></p>`
+    //         }
+    //         </div>
+    //       `;
+    //       container.appendChild(card);
+    //     });
+    //   } catch (error) {
+    //     container.innerHTML = "<p>Error al cargar los proveedores.</p>";
+    //     console.error(error);
+    //   }
+    // });
+
+
+
+
+
+
+  function abrirModalAgregar() {
+  document.getElementById('modalAgregar').classList.remove('hidden');
+  document.getElementById('modalAgregar').classList.add('show');
+}
+
+function cerrarModalAgregar() {
+  document.getElementById('modalAgregar').classList.remove('show');
+  document.getElementById('modalAgregar').classList.add('hidden');
+}
+
+function abrirModalExcel() {
+  document.getElementById('modalExcel').classList.remove('hidden');
+  document.getElementById('modalExcel').classList.add('show');
+}
+
+function cerrarModalExcel() {
+  document.getElementById('modalExcel').classList.remove('show');
+  document.getElementById('modalExcel').classList.add('hidden');
+}
+
+function guardarProveedor() {
+  const nombre = document.getElementById("nombreProveedor").value;
+  const email = document.getElementById("emailProveedor").value;
+
+  if (!nombre || !email) {
+    alert("Completa ambos campos.");
+    return;
+  }
+
+  console.log("Guardar proveedor:", nombre, email);
+  // Aquí podrías hacer un fetch al backend
+  cerrarModalAgregar();
+}
+
+function subirExcel() {
+  const archivo = document.getElementById("archivoExcel").files[0];
+  if (!archivo) {
+    alert("Seleccioná un archivo Excel");
+    return;
+  }
+
+  console.log("Subiendo archivo Excel:", archivo);
+  // Aquí va tu lógica para enviar con FormData
+  cerrarModalExcel();
+}
+
+
+
+
+
+
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+      localStorage.clear();
+      window.location.href = '../../index.html';
+    });
+   
+  </script>
+</body>
+
+</html>

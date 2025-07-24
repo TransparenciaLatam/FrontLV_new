@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../static/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+    #logoutBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 15px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+    }
+
+    #logoutBtn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+
+
+
+
+
+</head>
+
+<body>
+  <div class="dashboard">
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <img src="../../static/media/logoLv.png" width="150" height="70" alt="logo linking value" />
+      </div>
+        <button id="logoutBtn">Cerrar sesión</button>
+      <div class="sidebar-menu">
+        <p class="menu-title">Navegación</p>
+        <a href="admin.html" class="menu-item"><i class="fas fa-building"></i><span>Empresas</span></a>
+        <a href="proveedores.html" class="menu-item"><i class="fas fa-users"></i><span>Proveedores</span></a>
+        <a href="formularios.html" class="menu-item"><i class="fas fa-file-alt"></i><span>Formularios</span></a>
+        <a href="#" class="menu-item"><i class="fas fa-cog"></i><span>Configuración</span></a>
+        <p class="menu-title">Reportes</p>
+        <a href="#" class="menu-item"><i class="fas fa-chart-bar"></i><span>Analíticos</span></a>
+        <a href="#" class="menu-item"><i class="fas fa-file-export"></i><span>Exportar</span></a>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="header">
+        <h1>Dashboard de Administrador</h1>
+        <div class="user-profile">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" />
+          <div class="user-info">
+            <h4>Admin User</h4>
+            <p>Administrador</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+        <div class="stats-container">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Empresas</span>
+              <i class="fas fa-building" style="color: var(--primary)"></i>
+            </div>
+            <h3 class="stat-value empresas-count">-</h3>
+            <span class="stat-change positive">
+              <i class="fas fa-arrow-up"></i> 12% desde el mes pasado
+            </span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Proveedores</span>
+              <i class="fas fa-users" style="color: var(--success)"></i>
+            </div>
+            <h3 class="stat-value proveedores-count">-</h3>
+            <span class="stat-change positive">
+              <i class="fas fa-arrow-up"></i> 8% desde el mes pasado
+            </span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Formularios</span>
+              <i class="fas fa-file-alt" style="color: var(--warning)"></i>
+            </div>
+            <h3 class="stat-value formularios-count">-</h3>
+            <span class="stat-change positive">
+              <i class="fas fa-arrow-up"></i> 5% desde el mes pasado
+            </span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Completados</span>
+              <i class="fas fa-check-circle" style="color: var(--danger)"></i>
+            </div>
+            <h3 class="stat-value">78%</h3>
+            <span class="stat-change negative">
+              <i class="fas fa-arrow-down"></i> 3% desde el mes pasado
+            </span>
+          </div>
+        </div>
+
+      <div class="companies-container">
+        <div class="table-header">
+          <h3>Empresas Registradas</h3>
+          <a class="create-form-btn" onclick="abrirModalEmpresa()">Agregar Empresas</a>
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Buscar empresa..." />
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Empresa</th>
+              <th>Proveedores</th>
+              <th>Formularios</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Modal -->
+    <div id="modalEmpresa" class="modal fade">
+      <div class="modal-content">
+        <span class="close" onclick="cerrarModalEmpresa()">&times;</span>
+        <h2>Cargar Empresa</h2>
+
+        <label for="nombre_cliente">Nombre de la empresa</label>
+        <input type="text" id="nombre_cliente" placeholder="Ingrese el nombre">
+
+        <label for="email_contacto">Email de contacto</label>
+        <input type="email" id="email_contacto" placeholder="Ingrese el email">
+
+        <button id="guardarEmpresa">Guardar Empresa</button>
+      </div>
+    </div>
+
+
+  <div class="modal" id="suppliersModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Proveedores de <span id="companyName"></span></h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body"></div>
+    </div>
+  </div>
+
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+
+
+      // Verifica si el usuario tiene acceso
+    function verificarAcceso() {
+      const usuario = localStorage.getItem("usuarioLogueado");
+      if (!usuario || usuario!='admin') {
+        alert("No tienes acceso. Iniciá sesión.");
+        window.location.href = "../../index.html";
+      }
+    }
+
+    verificarAcceso(); // ejecutar al inicio de cada página privada
+
+
+
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      localStorage.clear();
+      window.location.href = '../../index.html';
+    });
+
+
+
+// public/js/estadisticas.js
+async function cargarEstadisticas() {
+  const usuario = localStorage.getItem("usuarioLogueado");
+
+  if (usuario !== "admin") return;
+
+  try {
+    const res = await fetch("http://localhost:8000/estadisticas");
+    const data = await res.json();
+
+    document.querySelector(".empresas-count").textContent = data.empresas;
+    document.querySelector(".proveedores-count").textContent = data.proveedores;
+    document.querySelector(".formularios-count").textContent = data.formularios;
+  } catch (e) {
+    console.error("Error cargando estadísticas", e);
+  }
+}
+
+cargarEstadisticas()
+
+
+      const tablaBody = document.querySelector("tbody");
+      const modal = document.getElementById("suppliersModal");
+      const modalTitle = document.getElementById("companyName");
+      const modalBody = modal.querySelector(".modal-body");
+
+      try {
+        const res = await fetch("http://localhost:8000/clientes_terceros");
+        const data = await res.json();
+        console.log(data)
+        const clientes = data;
+
+
+
+
+        clientes.forEach(empresa => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>
+              <div class="company-info">
+                <div class="company-logo">${empresa.nombre_cliente.slice(0, 2)}</div>
+                <div class="company-name">
+                  <h4>${empresa.nombre_cliente}</h4>
+                  <p>${empresa.email_contacto}</p>
+                </div>
+              </div>
+            </td>
+            <td>${empresa.terceros.length}</td>
+            <td>–</td>
+            <td><span class="status-badge active">Activo</span></td>
+            <td>
+              <button class="action-btn view-suppliers" data-cliente-id="${empresa.id}" data-cliente-nombre="${empresa.nombre_cliente}">
+                <i class="fas fa-eye"></i>
+              </button>
+            </td>
+          `;
+          tablaBody.appendChild(row);
+
+          const div = document.createElement("div");
+          div.classList.add("suppliers-list", "company-providers");
+          div.id = `empresa-${empresa.id}`;
+          div.style.display = "none";
+
+          (empresa.terceros).forEach(proveedor => {
+            div.innerHTML += `
+              <div class="supplier-card">
+                <div class="supplier-header">
+                  <div class="supplier-avatar">${proveedor.nombre_tercero.slice(0, 2)}</div>
+                  <div class="supplier-info">
+                    <h4>${proveedor.nombre_tercero}</h4>
+                    <p>${proveedor.email}</p>
+                  </div>
+                </div>
+                <div class="supplier-actions">
+                  <button class="btn btn-outline">Detalles</button>
+                  <button class="btn btn-primary">Contactar</button>
+                </div>
+              </div>
+            `;
+          });
+
+          modalBody.appendChild(div);
+        });
+
+        document.querySelectorAll(".view-suppliers").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const clienteId = btn.getAttribute("data-cliente-id");
+            const clienteNombre = btn.getAttribute("data-cliente-nombre");
+
+            document.querySelectorAll(".company-providers").forEach((div) => {
+              div.style.display = "none";
+            });
+
+            const selected = document.getElementById("empresa-" + clienteId);
+            if (selected) selected.style.display = "grid";
+
+            modalTitle.textContent = clienteNombre;
+            modal.classList.add("active");
+            document.body.style.overflow = "hidden";
+          });
+        });
+      } catch (err) {
+        console.error("Error al cargar datos del dashboard:", err);
+      }
+
+      document.querySelector(".modal-close").addEventListener("click", () => {
+        modal.classList.remove("active");
+        document.body.style.overflow = "auto";
+      });
+
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.classList.remove("active");
+          document.body.style.overflow = "auto";
+        }
+      });
+    });
+
+    function abrirModalEmpresa() {
+      document.getElementById("modalEmpresa").classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function cerrarModalEmpresa() {
+      document.getElementById("modalEmpresa").classList.remove("active");
+      document.body.style.overflow = "auto";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+  document.getElementById("guardarEmpresa").addEventListener("click", () => {
+    const nombre = document.getElementById("nombre_cliente").value.trim();
+    const email = document.getElementById("email_contacto").value.trim();
+
+    // Validación básica
+    if (!nombre || !email) {
+      alert("Por favor, completá todos los campos.");
+      return;
+    }
+
+    // Objeto a enviar
+    const datos = {
+      nombre_cliente: nombre,
+      email_contacto: email
+    };
+
+    // Hacer POST
+    fetch("http://localhost:8000/clientes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(datos)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Error al guardar la empresa");
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("Respuesta del servidor:", data);
+      alert("Empresa guardada correctamente");
+      // Podés cerrar el modal o limpiar campos si querés
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      alert("Ocurrió un error al guardar la empresa.");
+    });
+  });
+  </script>
+</body>
+
+</html>

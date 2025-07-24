@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../static/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+
+<body>
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <img src="../../static/media/logoLv.png" width="150" height="70" alt="logo linking value" />
+      </div>
+      <div class="sidebar-menu">
+        <p class="menu-title">Navegación</p>
+        <a href="/admin" class="menu-item">
+          <i class="fas fa-building"></i>
+          <span>Empresas</span>
+        </a>
+        <a href="/proveedores" class="menu-item">
+          <i class="fas fa-users"></i>
+          <span>Proveedores</span>
+        </a>
+        <a href="/formularios" class="menu-item">
+          <i class="fas fa-file-alt"></i>
+          <span>Formularios</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-cog"></i>
+          <span>Configuración</span>
+        </a>
+        <p class="menu-title">Reportes</p>
+        <a href="#" class="menu-item">
+          <i class="fas fa-chart-bar"></i>
+          <span>Analíticos</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-file-export"></i>
+          <span>Exportar</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header -->
+      <div class="header">
+        <h1>Dashboard de Administrador</h1>
+        <div class="user-profile">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" />
+          <div class="user-info">
+            <h4>Admin User</h4>
+            <p>Administrador</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-container" id="statsContainer"></div>
+
+      <!-- Companies Table -->
+      <div class="companies-container">
+        <div class="table-header">
+          <h3>Proveedores Registrados</h3>
+          <a href="/evaluacion" class="create-form-btn" target="_blank">Evaluar Proveedor</a>
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Buscar empresa..." />
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Proveedor</th>
+              <th>Email</th>
+              <th>Formularios Asignados</th>
+            </tr>
+          </thead>
+          <tbody id="proveedorTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const tableBody = document.getElementById("proveedorTableBody");
+      const statsContainer = document.getElementById("statsContainer");
+
+      const res = await fetch("/api/dashboard/proveedores");
+      const data = await res.json();
+
+      statsContainer.innerHTML = `
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">Empresas</span>
+            <i class="fas fa-building" style="color: var(--primary)"></i>
+          </div>
+          <h3 class="stat-value">${data.total_empresas}</h3>
+          <span class="stat-change positive">
+            <i class="fas fa-arrow-up"></i> ${data.variacion_empresas}% desde el mes pasado
+          </span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">Proveedores</span>
+            <i class="fas fa-users" style="color: var(--success)"></i>
+          </div>
+          <h3 class="stat-value">${data.total_proveedores}</h3>
+          <span class="stat-change positive">
+            <i class="fas fa-arrow-up"></i> ${data.variacion_proveedores}% desde el mes pasado
+          </span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">Formularios</span>
+            <i class="fas fa-file-alt" style="color: var(--warning)"></i>
+          </div>
+          <h3 class="stat-value">${data.total_formularios}</h3>
+          <span class="stat-change positive">
+            <i class="fas fa-arrow-up"></i> ${data.variacion_formularios}% desde el mes pasado
+          </span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">Completados</span>
+            <i class="fas fa-check-circle" style="color: var(--danger)"></i>
+          </div>
+          <h3 class="stat-value">${data.porcentaje_completados}%</h3>
+          <span class="stat-change ${data.cambio_completados >= 0 ? 'positive' : 'negative'}">
+            <i class="fas fa-arrow-${data.cambio_completados >= 0 ? 'up' : 'down'}"></i> ${Math.abs(data.cambio_completados)}% desde el mes pasado
+          </span>
+        </div>
+      `;
+
+      data.proveedores.forEach((p) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${p.nombre_tercero}</td>
+          <td>${p.email}</td>
+          <td>
+            <ul>
+              ${p.formularios.length > 0 ? p.formularios.map(f => `<li>${f.nombre_formulario} - <strong>${f.estado}</strong></li>`).join("") : '<li><em>No tiene formularios asignados</em></li>'}
+            </ul>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    });
+  </script>
+</body>
+</html>

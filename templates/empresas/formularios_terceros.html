@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Formulario Interactivo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="../../src/script.js"></script>
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3f37c9;
+      --accent-color: #4cc9f0;
+      --light-bg: #f8f9fa;
+      --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      background-color: #f5f7ff;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    .form-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--primary-color);
+    }
+
+    .form-header h1 {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-container {
+      height: 8px;
+      background: #e9ecef;
+      border-radius: 4px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--primary-color);
+      transition: width 0.6s ease;
+    }
+
+    .question-item {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+      border-left: 4px solid transparent;
+    }
+
+    .question-item.active {
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .question-item.hidden-question {
+      display: none;
+    }
+
+    .question-label {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #212529;
+      display: flex;
+      align-items: center;
+    }
+
+    .required-marker {
+      color: #e63946;
+      margin-left: 4px;
+    }
+
+    /* Custom radio and checkbox */
+    .form-check-input {
+      width: 1.2em;
+      height: 1.2em;
+      margin-top: 0.15em;
+    }
+
+    .form-check-label {
+      margin-left: 0.5rem;
+      cursor: pointer;
+    }
+
+    /* Enhanced input styles */
+    .form-control {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #dee2e6;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 0.25rem rgba(76, 201, 240, 0.25);
+    }
+
+    /* File upload styling */
+    .file-upload-container {
+      border: 2px dashed #dee2e6;
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .file-upload-container:hover {
+      border-color: var(--accent-color);
+      background: rgba(76, 201, 240, 0.05);
+    }
+
+    .file-upload-icon {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .file-preview {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .file-preview-item {
+      background: var(--light-bg);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .file-preview-item i {
+      margin-left: 0.5rem;
+      cursor: pointer;
+      color: #6c757d;
+    }
+
+    /* Submit button */
+    .submit-btn {
+      background: var(--primary-color);
+      border: none;
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: var(--transition);
+      width: 100%;
+      max-width: 300px;
+      margin: 2rem auto 0;
+      display: block;
+    }
+
+    .submit-btn:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    /* Navigation buttons for multi-step forms */
+    .form-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+
+    .nav-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .form-container {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+
+      .question-item {
+        padding: 1rem;
+      }
+    }
+
+    /* Animation classes */
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Progress counter */
+    .progress-counter {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="form-container animate__animated animate__fadeIn">
+    <div class="form-header">
+      <h1><i class="fas fa-edit me-2"></i>Formulario Interactivo</h1>
+      <p class="text-muted">Por favor complete todos los campos requeridos</p>
+    </div>
+
+    <div class="progress-counter" id="progress-counter">1/3</div>
+    <div class="progress-container">
+      <div class="progress-bar" id="form-progress" style="width: 33%"></div>
+    </div>
+
+    <form id="responder-formulario" class="form-section" data-formulario-id="{{ formulario_id }}"
+      enctype="multipart/form-data">
+     
+      
+      <div class="form-navigation">
+        <button type="button" class="nav-btn btn btn-outline-primary" id="prev-btn" disabled>
+          <i class="fas fa-arrow-left me-2"></i>Anterior
+        </button>
+        <button type="button" class="nav-btn btn btn-primary" id="next-btn">
+          Siguiente<i class="fas fa-arrow-right ms-2"></i>
+        </button>
+        <button type="submit" class="nav-btn btn btn-success" id="submit-btn" style="display: none;">
+          Enviar<i class="fas fa-paper-plane ms-2"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+         // Cargar preguntas desde localStorage (ejemplo)
+      const data = localStorage.getItem('responder-formulario');
+      if (data) {
+        const preguntas = JSON.parse(data);
+        console.log(preguntas.preguntas);
+        renderizarPreguntasTerceros(preguntas.preguntas, "responder-formulario")// Aquí iría la lógica para renderizar las preguntas dinámicamente
+      }
+    })
+
+      const questions = document.querySelectorAll('.question-item');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const submitBtn = document.getElementById('submit-btn');
+      const progressCounter = document.getElementById('progress-counter');
+      const progressBar = document.getElementById('form-progress');
+      
+      let currentQuestion = 0;
+      const totalQuestions = questions.length;
+      
+      // Inicializar el formulario
+      updateProgress();
+      
+      // Event listeners para botones de navegación
+      nextBtn.addEventListener('click', () => {
+        if (validateCurrentQuestion()) {
+          showQuestion(currentQuestion + 1);
+        }
+      });
+      
+      prevBtn.addEventListener('click', () => {
+        showQuestion(currentQuestion - 1);
+      });
+      
+      // Función para mostrar una pregunta específica
+      function showQuestion(index) {
+        // Ocultar pregunta actual
+        questions[currentQuestion].classList.remove('active');
+        questions[currentQuestion].classList.add('hidden-question');
+        
+        // Mostrar nueva pregunta
+        currentQuestion = index;
+        questions[currentQuestion].classList.remove('hidden-question');
+        questions[currentQuestion].classList.add('active', 'animate__animated', 'animate__fadeIn');
+        
+        // Actualizar botones de navegación
+        prevBtn.disabled = currentQuestion === 0;
+        
+        if (currentQuestion === totalQuestions - 1) {
+          nextBtn.style.display = 'none';
+          submitBtn.style.display = 'block';
+        } else {
+          nextBtn.style.display = 'block';
+          submitBtn.style.display = 'none';
+        }
+        
+        updateProgress();
+      }
+      
+      // Función para validar la pregunta actual
+      function validateCurrentQuestion() {
+        const currentQ = questions[currentQuestion];
+        const inputs = currentQ.querySelectorAll('input, select, textarea');
+        let isValid = true;
+        
+        inputs.forEach(input => {
+          if (input.required && !input.value) {
+            input.classList.add('is-invalid');
+            isValid = false;
+          } else {
+            input.classList.remove('is-invalid');
+          }
+        });
+        
+        if (!isValid) {
+          currentQ.classList.add('animate__animated', 'animate__headShake');
+          setTimeout(() => {
+            currentQ.classList.remove('animate__animated', 'animate__headShake');
+          }, 1000);
+        }
+        
+        return isValid;
+      }
+      
+      // Función para actualizar el progreso
+      function updateProgress() {
+        const progress = ((currentQuestion + 1) / totalQuestions) * 100;
+        progressBar.style.width = `${progress}%`;
+        progressCounter.textContent = `${currentQuestion + 1}/${totalQuestions}`;
+      }
+      
+      // Verificar acceso (ejemplo)
+      function verificarAcceso() {
+        const usuario = localStorage.getItem("usuarioLogueado");
+        if (!usuario || usuario != 'tercero') {
+          alert("No tienes acceso. Iniciá sesión.");
+          window.location.href = "../../index.html";
+        }
+      }
+      
+      verificarAcceso();
+      
+     
+
+  </script>
+</body>
+
+</html>
