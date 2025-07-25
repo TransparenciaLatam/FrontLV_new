@@ -298,11 +298,6 @@
         font-size: 0.95rem;
       }
       
-      #search-questions:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 2px 12px rgba(67, 97, 238, 0.15);
-      }
-      
       .input-group-text {
         background-color: white;
         border-right: none;
@@ -566,22 +561,118 @@
     selectorPreguntas(); // tu función para cargar preguntas
   });
 
-     // Función de búsqueda
-        document.getElementById('search-questions').addEventListener('input', (e) => {
-          const term = e.target.value.toLowerCase();
-          if (term === '') {
-            mostrarPreguntas(allQuestions);
-          } else {
-            const filtered = allQuestions.filter(pregunta => 
-              pregunta.pregunta.toLowerCase().includes(term) || 
-              pregunta.categoria.toLowerCase().includes(term)
-            );
-            mostrarPreguntas(filtered);
-          }
+
+  //buscador de preguntas
+  document.getElementById('search-questions').addEventListener('input', (e) => {
+  const term = e.target.value.toLowerCase();
+
+  // Si está vacío, recargamos todo
+  if (term === '') {
+    selectorPreguntas(); // vuelve a cargar las preguntas originales
+    return;
+  }
+
+  const agrupadas = {};
+
+  allQuestionsFlat.forEach((q) => {
+    if (
+      q.text.toLowerCase().includes(term) ||
+      (q.categoria && q.categoria.toLowerCase().includes(term))
+    ) {
+      if (!agrupadas[q.categoria]) {
+        agrupadas[q.categoria] = [];
+      }
+      agrupadas[q.categoria].push({
+        id: q.id,
+        texto_pregunta: q.text,
+        categoria: q.categoria
+      });
+    }
+  });
+
+  const resultadoFinal = Object.entries(agrupadas).map(([categoria, preguntas]) => ({
+    categoria,
+    preguntas
+  }));
+
+  const contenedor = document.getElementById("questions-container");
+  selectorPreguntas_armarPregunta(resultadoFinal, contenedor);
+});
+
+
+  let allQuestions = [];
+
+  async function cargarPreguntas() {
+    const response = await fetch("http://127.0.0.1:8000/preguntas_formulario");
+    const data = await response.json();
+    allQuestions = [];
+
+    data.preguntas.forEach(grupo => {
+      grupo.preguntas.forEach(p => {
+        allQuestions.push({
+          categoria: grupo.categoria,
+          pregunta: p.texto_pregunta || "",
+          ...p
         });
-        
+      });
+    });
 
+    mostrarPreguntas(allQuestions);
+  }
 
+//agregar preguntas
+document.getElementById("add-question-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+    const categoria = document.getElementById("nueva-categoria").value;
+    const texto = document.getElementById("nueva-pregunta").value;
+    const tipo = document.getElementById("nueva-tipo").value;
+    const opciones = document.getElementById("nueva-opciones").value;
+
+    let preguntas_relacionadas = null;
+
+    if (document.getElementById("toggle-dependiente").checked) {
+      const textoDep = document.getElementById("dependiente-pregunta").value;
+      const tipoDep = document.getElementById("dependiente-tipo").value;
+      const opcionesDep = document.getElementById("dependiente-opciones").value;
+      const disparadora = document.getElementById("disparadora-opcion").value;
+
+      preguntas_relacionadas = `(${textoDep},${tipoDep})`;
+      // Se espera: opciones = (Sí,No)(Campo extra), preguntas_relacionadas = ((Texto dependiente,tipo))
+    }
+
+    const payload = {
+      categoria,
+      texto_pregunta: texto,
+      tipo_pregunta: tipo,
+      opciones: opciones ? `(${opciones.split(",").map(op => op.trim()).join(",")})` : null,
+      preguntas_relacionadas
+    };
+
+    try {
+      const res = await fetch("http://127.0.0.1:8000/nueva_pregunta", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error("Error al guardar la pregunta");
+
+      const data = await res.json();
+      alert("Pregunta agregada correctamente");
+
+      document.getElementById("add-question-form").reset();
+      document.getElementById("dependiente-container").style.display = "none";
+
+      // Podés volver a cargar las preguntas si querés:
+      // selectorPreguntas();
+
+    } catch (err) {
+      console.error(err);
+      alert("Ocurrió un error al agregar la pregunta");
+    }
+  });
+  
 //   document.getElementById("save-edit").addEventListener("click", function () {
 //     const id = document.getElementById("edit-id").value;
 //     const newText = document.getElementById("edit-text").value.trim();
