@@ -158,8 +158,86 @@ function updateSelectedQuestions() {
   if (btn) btn.disabled = false;
 }
 
+//FUNCION PARA BUSCAR PREGUNTAS
+function mostrarPreguntas(preguntasFiltradas) {
+  const container = document.getElementById("preguntas-container");
+  container.innerHTML = "";
+
+  // Agrupar por categoría
+  const agrupadas = {};
+  preguntasFiltradas.forEach((p) => {
+    const categoria = p.categoria || "Sin categoría";
+    if (!agrupadas[categoria]) {
+      agrupadas[categoria] = [];
+    }
+    agrupadas[categoria].push(p);
+  });
+
+  // Renderizar por categoría
+  Object.entries(agrupadas).forEach(([categoria, preguntas]) => {
+    const card = document.createElement("div");
+    card.className = "category-card";
+
+    const header = document.createElement("div");
+    header.className = "category-header";
+    header.innerHTML = `<h5 class="mb-0">${categoria.toUpperCase()}</h5>`;
+    card.appendChild(header);
+
+    const list = document.createElement("div");
+
+    preguntas.forEach((q) => {
+      const texto = q.texto_pregunta || q.text || `Pregunta ${q.id}`;
+      allQuestionsFlat.push({ id: q.id, text: texto, categoria: preg.categoria });
 
 
+      const item = document.createElement("div");
+      item.className = "question-item";
+      item.dataset.id = q.id;
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.className = "form-check-input me-3";
+      checkbox.value = q.id;
+
+      // Sincronizar estado seleccionado
+      checkbox.checked = selectedQuestions.has(q.id);
+      checkbox.addEventListener("change", () => {
+        if (checkbox.checked) {
+          selectedQuestions.add(q.id);
+        } else {
+          selectedQuestions.delete(q.id);
+        }
+        updateSelectedQuestions();
+      });
+
+      const label = document.createElement("span");
+      label.textContent = texto;
+
+      const actions = document.createElement("div");
+      actions.className = "question-actions";
+      actions.innerHTML = `
+        <button class="edit-btn" data-id="${q.id}">
+          <i class="fas fa-edit text-primary"></i>
+        </button>
+      `;
+
+      // Evento botón editar
+      actions.querySelector("button").addEventListener("click", () => {
+        document.getElementById("textoPreguntaEditar").value = texto;
+        document.getElementById("idPreguntaEditar").value = q.id;
+        modalEditar.show();
+      });
+
+      item.appendChild(checkbox);
+      item.appendChild(label);
+      item.appendChild(actions);
+      list.appendChild(item);
+    });
+
+    card.appendChild(list);
+    container.appendChild(card);
+  });
+}
 
 
 
