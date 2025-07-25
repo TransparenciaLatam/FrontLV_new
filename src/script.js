@@ -47,93 +47,116 @@ const selectedQuestions = new Set();
 const allQuestionsFlat = []; // Asegurate de que esté cargada con todas las preguntas
 
 
-function selectorPreguntas_armarPregunta(data,container){
-    
-    
+function selectorPreguntas_armarPregunta(data, container) {
+  container.innerHTML = "";
+  allQuestionsFlat.length = 0; // Limpia preguntas anteriores
 
+  data.forEach((preg) => {
+    const card = document.createElement("div");
+    card.className = "category-card";
 
-    container.innerHTML = "";
-    data.forEach(preg => {
+    const header = document.createElement("div");
+    header.className = "category-header";
+    header.textContent = preg.categoria.toUpperCase();
 
-      const card = document.createElement("div");
-      card.className = "category-card";
+    const list = document.createElement("div");
 
-      const header = document.createElement("div");
-      header.className = "category-header";
-      header.textContent = preg.categoria.toUpperCase();
+    preg.preguntas.forEach((q) => {
+      const texto =
+        q.preguntas?.[0]?.texto_pregunta ||
+        q.texto_pregunta ||
+        q.text ||
+        `Pregunta ${q.id}`;
 
-      const list = document.createElement("div");
+      allQuestionsFlat.push({ id: q.id, text: texto }); // Guardamos para edición
 
-      preg.preguntas.forEach((q) => {
-        const item = document.createElement("div");
-        item.className = "question-item";
-        item.dataset.id = q.id;
+      const item = document.createElement("div");
+      item.className = "question-item";
+      item.dataset.id = q.id;
 
-        const label = document.createElement("span");
-        label.textContent = q.preguntas[0].texto_pregunta;
+      const label = document.createElement("span");
+      label.textContent = texto;
 
-        const actions = document.createElement("div");
-        actions.className = "question-actions";
-        actions.innerHTML = `
-          <button class="edit-btn" data-id="${q.id}">
-            <i class="fas fa-edit text-primary"></i>
-          </button>
-          <button class="delete-btn" data-id="${q.id}">
-            <i class="fas fa-trash text-danger"></i>
-          </button>
-        `;
+      const actions = document.createElement("div");
+      actions.className = "question-actions";
+      actions.innerHTML = `
+        <button class="edit-btn btn btn-sm" data-id="${q.id}">
+          <i class="fas fa-edit text-primary"></i>
+        </button>
+      `;
 
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.className = "form-check-input";
-        checkbox.value = q.id;
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.className = "form-check-input me-3";
+      checkbox.value = q.id;
 
-
-        checkbox.addEventListener("change", () => {
-          q.id &&
-            (checkbox.checked
-              ? selectedQuestions.add(q.id)
-              : selectedQuestions.delete(q.id));
-          updateSelectedQuestions();
-        });
-
-        item.appendChild(label);
-        item.appendChild(checkbox);
-        item.appendChild(actions);
-        list.appendChild(item);
+      checkbox.addEventListener("change", () => {
+        q.id &&
+          (checkbox.checked
+            ? selectedQuestions.add(q.id)
+            : selectedQuestions.delete(q.id));
+        updateSelectedQuestions();
       });
 
-      card.appendChild(header);
-      card.appendChild(list);
-      container.appendChild(card);
+      item.appendChild(checkbox);
+      item.appendChild(label);
+      item.appendChild(actions);
+      list.appendChild(item);
+    });
 
-  })
+    card.appendChild(header);
+    card.appendChild(list);
+    container.appendChild(card);
+  });
 
+  // ✅ Activamos eventos de los botones de edición una vez renderizado
+  activarBotonesEditar();
+}
+function activarBotonesEditar() {
+  document.querySelectorAll(".edit-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const id = e.currentTarget.dataset.id;
+      const pregunta = allQuestionsFlat.find((q) => q.id == id);
+      if (!pregunta) return;
+
+      inputTexto.value = pregunta.text;
+      inputId.value = pregunta.id;
+      modalEditar.show();
+    });
+  });
 }
 
+function updateSelectedQuestions() {
+  const container = document.getElementById("selected-questions");
+  const badge = document.getElementById("selected-count");
+  const btn = document.getElementById("generate-form");
 
+  const total = selectedQuestions.size;
+  if (badge) badge.textContent = total;
 
-  function updateSelectedQuestions() {
-    const container = document.getElementById("selected-questions");
-    const btn = document.getElementById("generate-form");
-
-    if (selectedQuestions.size === 0) {
-      container.innerHTML = '<p class="text-muted">No hay preguntas seleccionadas</p>';
-      btn.disabled = true;
-      return;
-    }
-    console.log(selectedQuestions)
-    container.innerHTML = `<ul class="list-group">
-      ${Array.from(selectedQuestions)
-        .map((id) => {
-          const q = allQuestionsFlat.find((q) => q.id === id);
-          return `<li class="list-group-item">${q?.text || "Pregunta " + id}</li>`;
-        })
-        .join("")}
-    </ul><p class="mt-2">Total: ${selectedQuestions.size} preguntas</p>`;
-    btn.disabled = false;
+  if (total === 0) {
+    container.innerHTML =
+      '<p class="text-muted m-0">No hay preguntas seleccionadas</p>';
+    if (btn) btn.disabled = true;
+    return;
   }
 
+  const html = Array.from(selectedQuestions)
+    .map((id) => {
+      const pregunta = allQuestionsFlat.find((q) => q.id === id);
+      return `<li class="list-group-item">${
+        pregunta?.text || "Pregunta " + id
+      }</li>`;
+    })
+    .join("");
+
+  container.innerHTML = `
+    <ul class="list-group mb-2">${html}</ul>
+    <p class="mt-2 text-muted">Total: ${total} preguntas</p>
+  `;
+
+  if (btn) btn.disabled = false;
+}
 
 
 
