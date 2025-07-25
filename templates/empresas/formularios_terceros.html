@@ -11,7 +11,7 @@
   <script src="../../src/script.js"></script>
   <style>
     :root {
-      --primary-color: #4361ee;
+      --primary-color: #001162;
       --secondary-color: #3f37c9;
       --accent-color: #4cc9f0;
       --light-bg: #f8f9fa;
@@ -250,11 +250,23 @@
   width: 0;
   transition: width 0.3s ease;
 }
+
+
+.categoria-banner {
+  padding: 12px 20px;
+  border-top: 4px solid transparent;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
   </style>
 </head>
 
 <body>
   <div class="form-container animate__animated animate__fadeIn">
+    <div class="categoria-banner" id="categoria-banner">
+    <h2 class="titulo-categoria" id="titulo-categoria"></h2>
+  </div>
     <div class="form-header">
       <h1><i class="fas fa-edit me-2"></i>Formulario Interactivo</h1>
       <p class="text-muted">Por favor complete todos los campos requeridos</p>
@@ -303,14 +315,88 @@
       verificarAcceso();
 
          // Cargar preguntas desde localStorage (ejemplo)
-      const data = localStorage.getItem('formularios_terceros');
+      const data = localStorage.getItem('preguntas_categoria');
+      
+      const categoria = sessionStorage.getItem("categoria_actual");
+      const color = sessionStorage.getItem("color_categoria");
 
-      if (data) {
+
+      try {
         const preguntas = JSON.parse(data);
-        console.log(preguntas);
-        renderizarPreguntasTerceros(preguntas, "responder-formulario")// Aquí iría la lógica para renderizar las preguntas dinámicamente
+
+        if (Array.isArray(preguntas)) {
+            renderizarPreguntasTerceros(preguntas, "responder-formulario");
+        } else {
+            console.error("El JSON parseado no es un array:", preguntas);
+        }
+      } catch (err) {
+        console.error("Error al parsear JSON:", err);
       }
- 
+
+
+
+      if (categoria && color) {
+        const titulo = document.getElementById("titulo-categoria");
+        const banner = document.getElementById("categoria-banner");
+        const progressBar = document.getElementById("form-progress");
+        const progressCounter = document.getElementById("progress-counter");
+        const submitBtn = document.getElementById("submit-btn");
+        const nextBtn = document.getElementById("next-btn");
+
+        // Cambiar texto y color del título
+        titulo.textContent = categoria.toUpperCase();
+        titulo.color = '#001162'
+        banner.style.borderTop = `4px solid ${color}`;
+
+        // Barra de progreso
+        progressBar.style.backgroundColor = color;
+
+        // Estilo del contador
+        if (progressCounter) {
+          progressCounter.style.color = color;
+          progressCounter.style.fontWeight = "bold";
+        }
+
+        // Estilo botón "Enviar"
+        if (submitBtn) {
+          submitBtn.style.backgroundColor = color;
+          submitBtn.style.borderColor = color;
+          submitBtn.style.color = "white";
+        }
+
+        // Estilo botón "Siguiente" (opcional)
+        if (nextBtn) {
+          nextBtn.style.backgroundColor = color;
+          nextBtn.style.borderColor = color;
+          nextBtn.style.color = "white";
+        }
+
+        // Bordes de inputs cuando tienen foco
+        const form = document.getElementById("responder-formulario");
+        if (form) {
+          form.querySelectorAll("input, select, textarea").forEach(el => {
+            el.addEventListener("focus", () => {
+              el.style.borderColor = color;
+            });
+            el.addEventListener("blur", () => {
+              el.style.borderColor = ""; // volver al valor por defecto
+            });
+          });
+        }
+
+      } else {
+        console.warn("No se encontró información de categoría en sessionStorage");
+      }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -318,7 +404,7 @@
      
 
 
-
+      //fUNCIONES PARA LOS BOTONES
 
     const grupos = Array.from(document.querySelectorAll('.grupo-preguntas'));
     const nextBtn = document.getElementById('next-btn');

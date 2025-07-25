@@ -661,10 +661,13 @@ function renderizarPreguntas(listaPreguntas, contenedorId) {
 
 function renderizarPreguntasTerceros(listaPreguntas, contenedorId) {
     const contenedor = document.getElementById(contenedorId);
-    boolean = true
 
     if (!contenedor) {
         console.error(`No se encontró el contenedor con id: ${contenedorId}`);
+        return;
+    }
+    if (!Array.isArray(listaPreguntas)) {
+        console.error("listaPreguntas no es un array:", listaPreguntas);
         return;
     }
 

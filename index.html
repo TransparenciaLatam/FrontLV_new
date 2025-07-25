@@ -189,7 +189,28 @@
             }else if(usuarios[usuario] == 'tercero' && usuarios[usuario] === contrasena) {
 
                     localStorage.setItem("usuarioLogueado", usuario);
-                    window.location.href = "templates/empresas/terceros.html"; 
+
+
+                    // Supongamos que ya validaste que es un tercero y tenés su id
+                    const idTercero = 1;
+
+                    fetch(`http://localhost:8000/tercero_info/${idTercero}`)
+                    .then(res => {
+                        if (!res.ok) throw new Error("Error al obtener info del tercero");
+                        return res.json();
+                    })
+                    .then(data => {
+                        // Guardar en localStorage
+                        localStorage.setItem("infoTercero", JSON.stringify(data));
+                        
+                        // Redirigir al panel de terceros
+                        window.location.href = "templates/empresas/terceros.html";
+                    })
+                    .catch(err => {
+                        console.error("Error:", err);
+                    });
+
+                    //window.location.href = "templates/empresas/terceros.html"; 
                 
             } else {
                     document.getElementById("error").textContent = "Credenciales incorrectas.";
