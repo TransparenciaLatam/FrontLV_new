@@ -168,26 +168,33 @@ cargarEstadisticas()
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", async () => {
-        const tbody = document.getElementById("proveedorBody");
-        try {
-          const res = await fetch("http://localhost:8000/terceros");
-          const proveedores = await res.json();
-          console.log(proveedores)
-          proveedores.forEach(proveedor => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-              <td>${proveedor.nombre_tercero}</td>
-              <td>${proveedor.email}</td>
-              <td>${proveedor.cliente.nombre_cliente}</td>
-              <td>${proveedor.formulario_generado.nombre_formulario}<strong> Activo<strong></td>
-            `;
-            tbody.appendChild(tr);
-          });
-        } catch (error) {
-          console.error("Error cargando proveedores:", error);
-        }
-      });
+document.addEventListener("DOMContentLoaded", async () => {
+  const tbody = document.getElementById("proveedorBody");
+  try {
+    const res = await fetch("http://localhost:8000/terceros");
+    const proveedores = await res.json();
+    console.log(proveedores);
+
+    proveedores.forEach(proveedor => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${proveedor.nombre_tercero}</td>
+        <td>${proveedor.email}</td>
+        <td>${proveedor.cliente.nombre_cliente}</td>
+        <td>
+          ${
+            proveedor.formulario_generado
+              ? `${proveedor.formulario_generado.nombre_formulario} <strong>Activo</strong>`
+              : '<em>Sin formulario asignado</em>'
+          }
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (error) {
+    console.error("Error cargando proveedores:", error);
+  }
+});
 
 
               document.getElementById('logoutBtn').addEventListener('click', function() {

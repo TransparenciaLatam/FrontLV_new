@@ -9,6 +9,94 @@
   <link rel="stylesheet" href="../../static/css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    /* Estilos generales para el modal */
+.modal {
+   /* Oculto por defecto */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5); /* fondo semitransparente */
+}
+
+/* Contenedor del contenido del modal */
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.3s ease-out;
+}
+
+/* Animación de entrada */
+@keyframes slideDown {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Botón de cerrar (la "X") */
+.close {
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #666;
+}
+.close:hover {
+  color: #000;
+}
+
+/* Encabezado */
+.modal-content h2 {
+  margin-top: 0;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+/* Etiquetas y campos */
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+.modal-content select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Botón */
+.modal-content button {
+  margin-top: 10px;
+  width: 100%;
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.modal-content button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+.modal-content button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+  </style>
 </head>
 
 <body>
@@ -149,21 +237,27 @@ cargarEstadisticas()
     </div>
   </div>
 
-  <!-- Modal -->
-  <div id="modalEmpresa" class="modal fade">
-    <div class="modal-content">
-      <span class="close" onclick="cerrarModalEmpresa()">&times;</span>
-      <h2>Cargar Empresa</h2>
+<!-- Modal Asignar Formulario -->
+<div id="modalEmpresa" class="modal fade">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarModalEmpresa()">&times;</span>
+    <h2>Elegí una empresa y luego un proveedor para asignarle el formulario</h2>
 
-      <label for="nombre_cliente">Nombre de la empresa</label>
-      <input type="text" id="nombre_cliente" placeholder="Ingrese el nombre">
+    <label for="selectEmpresa">Empresa</label>
+    <select id="selectEmpresa" onchange="cargarProveedoresPorEmpresa()">
+      <option value="">Seleccione un cliente</option>
+      <!-- Opciones generadas dinámicamente -->
+    </select>
 
-      <label for="email_contacto">Email de contacto</label>
-      <input type="email" id="email_contacto" placeholder="Ingrese el email">
+    <label for="selectProveedor">Proveedor</label>
+    <select id="selectProveedor" disabled>
+      <option value="">Seleccione un proveedor</option>
+      <!-- Opciones generadas dinámicamente -->
+    </select>
 
-      <button id="guardarEmpresa">Guardar Empresa</button>
-    </div>
+    <button id="asignarFormulario" disabled>Asignar Formulario</button>
   </div>
+</div>
 
   <script>
 
@@ -188,7 +282,7 @@ cargarEstadisticas()
           <td>
             <a onclick=traerFormulario(${f.id})  target="_blank" class="action-btn view-form"><i class="fas fa-eye"></i></a>
             <button class="action-btn edit-form" data-id="${f.id}"><i class="fas fa-edit"></i></button>
-            <button class="action-btn share-form" onclick=abrirModalEmpresa()   data-id="${f.id}" data-nombre="${f.nombre_formulario}"><i class="fas fa-share-alt"></i></button>
+            <button class="action-btn share-form" onclick=abrirModalEmpresa(this)   data-id="${f.id}" data-nombre="${f.nombre_formulario}"><i class="fas fa-share-alt"></i></button>
           </td>`;
         tbody.appendChild(row);
       });
@@ -200,9 +294,35 @@ cargarEstadisticas()
 
 
 
-    function abrirModalEmpresa() {
+    function abrirModalEmpresa(buttonElement) {
+
+
+  fetch(`http://localhost:8000/clientes`)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      const select = document.getElementById("selectEmpresa");
+      select.innerHTML = '<option value="">Seleccione un cliente</option>';
+      data.forEach(p => {
+        const option = document.createElement("option");
+        option.value = p.id;
+        option.textContent = p.nombre_cliente;
+        select.appendChild(option);
+      });
+      select.disabled = false;
+    });
+
+
+
+
+
       document.getElementById("modalEmpresa").classList.add("active");
       document.body.style.overflow = "hidden";
+       formularioSeleccionadoId = buttonElement.dataset.id;
+
+      
+
+
     }
 
     function cerrarModalEmpresa() {
@@ -230,6 +350,99 @@ cargarEstadisticas()
 
 
     }
+
+function cargarProveedoresPorEmpresa() {
+  const empresaId = document.getElementById("selectEmpresa").value;
+
+  fetch(`http://localhost:8000/clientes/${empresaId}/terceros`)
+    .then(res => res.json())
+    .then(data => {
+      const select = document.getElementById("selectProveedor");
+      select.innerHTML = ''; // Limpiar primero
+
+      if (data.length === 0) {
+        // No hay proveedores
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "No hay proveedores para esta empresa";
+        select.appendChild(option);
+        select.disabled = true;
+      } else {
+        // Hay proveedores
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Seleccione un proveedor";
+        select.appendChild(defaultOption);
+
+        data.forEach(p => {
+          const option = document.createElement("option");
+          option.value = p.id_tercero;
+          option.textContent = p.nombre_tercero;
+          select.appendChild(option);
+        });
+        select.disabled = false;
+      }
+    })
+    .catch(error => {
+      console.error("Error al cargar proveedores:", error);
+    });
+}
+
+document.getElementById("selectProveedor").addEventListener("change", function () {
+  const proveedorId = this.value;
+  const botonAsignar = document.getElementById("asignarFormulario");
+
+  if (proveedorId) {
+    botonAsignar.disabled = false;
+  } else {
+    botonAsignar.disabled = true;
+  }
+});
+
+document.getElementById("asignarFormulario").addEventListener("click", function () {
+  const proveedorId = parseInt(document.getElementById("selectProveedor").value);
+
+  fetch("http://localhost:8000/asignar_formulario", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      id_tercero: proveedorId,
+      formulario_id: formularioSeleccionadoId
+    })
+  })
+    .then(res => res.json())
+    .then(data => {
+      alert("Formulario asignado correctamente!");
+      cerrarModalEmpresa();
+    })
+    .catch(error => {
+      console.error("Error al asignar el formulario:", error);
+      alert("Hubo un error al asignar el formulario.");
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     window.addEventListener("DOMContentLoaded", cargarFormularios);
 

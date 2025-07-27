@@ -576,6 +576,18 @@
   </div>
 
   <script>
+          function verificarAcceso() {
+        const usuario = localStorage.getItem("usuarioLogueado");
+        if (!usuario || usuario != 'admin') {
+          alert("No tienes acceso. Iniciá sesión.");
+          window.location.href = "../../index.html";
+        }
+      }
+
+      verificarAcceso(); // ejecutar al inicio de cada página privada
+
+
+
     let reportLanguage = 'es'; // Default language
     let selected_report = 'THEREPORTSPANISH.html'; // Default report
     const fillFormButton = document.getElementById('fillFormButton'); // Get the button element
@@ -640,7 +652,7 @@
   </script>
 
   <!-- Generate Report Button -->
-  <button onclick="generateReport()">Generar Reporte</button>
+  <button onclick="generarReporte()">Generar Reporte</button>
 </div>
 
 <script>
@@ -1660,6 +1672,19 @@ The commitment demonstrated by management to address the identified areas for im
       fillFormForTestEnglish();
     }
   });
+
+
+
+
+
+  function generarReporte(){
+
+
+    window.location.href = "../../static/reportehtml/reporte.html";
+
+
+
+  }
 
 </script>
 

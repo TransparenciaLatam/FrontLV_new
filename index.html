@@ -184,7 +184,14 @@
                 }else if(usuarios[usuario] == 'empresa' && usuarios[usuario] === contrasena) {
 
                     localStorage.setItem("usuarioLogueado", usuario);
-                    window.location.href = "templates/empresas/empresas.html"; 
+
+                     // Supongamos que ya validaste que es un tercero y tenés su id
+                    const idCliente = 1;
+                    localStorage.setItem("idCliente", idCliente);
+                    window.location.href = "templates/empresas/empresas.html";
+
+
+                    
                 
             }else if(usuarios[usuario] == 'tercero' && usuarios[usuario] === contrasena) {
 
@@ -210,7 +217,6 @@
                         console.error("Error:", err);
                     });
 
-                    //window.location.href = "templates/empresas/terceros.html"; 
                 
             } else {
                     document.getElementById("error").textContent = "Credenciales incorrectas.";
