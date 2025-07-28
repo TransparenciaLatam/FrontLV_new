@@ -85,6 +85,29 @@
     </div>
 
     <script>
+
+              // Verifica si el usuario tiene acceso
+      function verificarLogin() {
+        const usuario = localStorage.getItem("usuarioLogueado");
+        if (usuario) {
+            if(usuario == 'admin'){
+                window.location.href = "templates/admin/admin.html";
+
+            }else if(usuario == 'empresa'){
+                window.location.href = "templates/empresas/empresas.html";
+
+            }else if(usuario == 'tercero'){
+                window.location.href = "templates/empresas/terceros.html";
+
+            }
+          
+          
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", verificarLogin);
+
+
         // document.addEventListener('DOMContentLoaded', function () {
         //     // Toggle password visibility
         //     const togglePassword = document.getElementById('togglePassword');

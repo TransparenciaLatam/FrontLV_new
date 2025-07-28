@@ -658,16 +658,16 @@
             background: var(--secondary);
         }
 
-         /* Badges */
+         /* /* Badges
         .status-badge {
-            position: absolute;
+            /*position: absolute;
             top: 1.5rem;
             right: 1.5rem;
             padding: 0.25rem 0.75rem;
             border-radius: 50px;
             font-size: 0.7rem;
-            font-weight: 500;
-        }
+            font-weight: 500; 
+        } */
 
         .general .status-badge {
             background: rgba(76, 201, 240, 0.1);
