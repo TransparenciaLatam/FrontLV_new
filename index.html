@@ -84,7 +84,37 @@
         </div>
     </div>
 
-    <script>
+<script src="https://www.google.com/recaptcha/api.js?render=6Lc2kJQrAAAAABP_LZzFE6Goys2qA_MLR6KOsu4a"></script>
+<script>
+//   async function enviarFormularioConReCaptcha() {
+//     const token = await grecaptcha.execute('6Lc2kJQrAAAAABP_LZzFE6Goys2qA_MLR6KOsu4a', { action: 'submit' });
+
+//     const formData = {
+//       // Agrega aquí los datos de tu formulario
+//       nombre: document.getElementById("nombre").value,
+//       email: document.getElementById("email").value,
+//       recaptcha_token: token
+//     };
+
+//     const response = await fetch("http://localhost:8000/verificar-recaptcha", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json"
+//       },
+//       body: JSON.stringify(formData)
+//     });
+
+//     const resultado = await response.json();
+//     if (resultado.success && resultado.score > 0.5) {
+//       alert("reCAPTCHA verificado correctamente");
+//       // Puedes enviar el formulario real aquí
+//     } else {
+//       alert("Fallo la verificación reCAPTCHA. Intente nuevamente.");
+//     }
+//   }
+
+
+
 
               // Verifica si el usuario tiene acceso
       function verificarLogin() {

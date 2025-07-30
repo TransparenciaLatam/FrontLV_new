@@ -859,46 +859,53 @@ function renderizarPreguntasTerceros(listaPreguntas, contenedorId) {
 
 
 
-//Funciones para controlar carga de archivos
+// //Funciones para controlar carga de archivos
+// document.addEventListener("DOMContentLoaded", () => {
+//   const inputArchivo = document.getElementById("archivoPregunta");
 
-function configurarSubidaDeArchivos(selector = 'input[type="file"]') {
-  document.querySelectorAll(selector).forEach(input => {
-    input.addEventListener('change', async (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
+//   inputArchivo.addEventListener("change", async (event) => {
+//     const archivo = event.target.files[0];
+//     if (!archivo) return;
 
-      const formData = new FormData();
-      formData.append('archivo', file);
-      formData.append('nombre_input', event.target.name); // opcional
+//     // Validación frontend
+//     const tiposPermitidos = [
+//       "image/jpeg",
+//       "image/png",
+//       "application/pdf",
+//       "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+//       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"        // .xlsx
+//     ];
 
-      try {
-        const res = await fetch('http://localhost:8000/subir-archivo', {
-          method: 'POST',
-          body: formData
-        });
+//     if (archivo.size > 10 * 1024 * 1024) {
+//       alert("El archivo supera los 10MB.");
+//       return;
+//     }
 
-        const data = await res.json();
+//     if (!tiposPermitidos.includes(archivo.type)) {
+//       alert("Tipo de archivo no permitido.");
+//       return;
+//     }
 
-        if (!res.ok) {
-          alert(data.detail || 'Error al subir archivo');
-          return;
-        }
+//     // Enviar archivo al backend para revisión
+//     const formData = new FormData();
+//     formData.append("archivo", archivo);
 
-        console.log("Archivo subido en:", data.url);
+//     const res = await fetch("http://localhost:8000/validar-archivo", {
+//       method: "POST",
+//       body: formData
+//     });
 
-        // Guardar URL en dataset del contenedor
-        const container = event.target.closest('.pregunta');
-        if (container) {
-          container.dataset.fileUrl = data.url;
-        }
+//     const data = await res.json();
 
-      } catch (err) {
-        console.error('Error al subir archivo', err);
-        alert('Error al subir archivo');
-      }
-    });
-  });
-}
+//     if (res.ok && data.aprobado) {
+//       alert("Archivo validado correctamente.");
+//       // Podrías guardar el archivo en una variable para enviarlo luego
+//     } else {
+//       alert(`Archivo rechazado: ${data.detalle || "Motivo desconocido"}`);
+//       inputArchivo.value = ""; // Limpiar input
+//     }
+//   });
+// });
 
 
 
