@@ -10,10 +10,10 @@
             --gray: #6c757d;
             --gray-light: #e9ecef;
             --general: #4cc9f0;      /* Azul claro */
-            --anticorruption: #f8961e; /* Naranja */
-            --humanrights: #7209b7;   /* Morado */
-            --labor: #f72585;         /* Rosa */
-            --environment: #4ad66d;   /* Verde */
+            --anticorruption: #D7263D; /* Naranja */
+            --humanrights: #ebbf13;   /* Morado */
+            --labor: #45c6c2;         /* Rosa */
+            --environment: #8dc62a;   /* Verde */
         }
 
         * {
@@ -517,9 +517,15 @@
         }
 
          /* Topics Grid */
-        .topics-container {
+        /* .topics-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        } */
+         .topics-container {
+            display: flex;
+            flex-direction: column;
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
@@ -674,19 +680,19 @@
             color: var(--general);
         }
         .anticorruption .status-badge {
-            background: rgba(248, 150, 30, 0.1);
+            background: #7bb51823;
             color: var(--anticorruption);
         }
         .humanrights .status-badge {
-            background: rgba(114, 9, 183, 0.1);
+            background: #ebc01320;
             color: var(--humanrights);
         }
         .labor .status-badge {
-            background: rgba(247, 37, 133, 0.1);
+            background: #45c6c22e;
             color: var(--labor);
         }
         .environment .status-badge {
-            background: rgba(74, 214, 109, 0.1);
+            background: #8dc62a29;
             color: var(--environment);
         }
 

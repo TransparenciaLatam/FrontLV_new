@@ -637,7 +637,7 @@ document.getElementById("add-question-form").addEventListener("submit", async fu
       const opcionesDep = document.getElementById("dependiente-opciones").value;
       const disparadora = document.getElementById("disparadora-opcion").value;
 
-      preguntas_relacionadas = `(${textoDep},${tipoDep})`;
+      preguntas_relacionadas = `(${textoDep},${tipoDep})()`;
       // Se espera: opciones = (Sí,No)(Campo extra), preguntas_relacionadas = ((Texto dependiente,tipo))
     }
 
