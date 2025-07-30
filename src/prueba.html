@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Formulario de Carga</title>
+</head>
+<body>
+  <h2>Cargar un archivo</h2>
+  <form id="formArchivo" enctype="multipart/form-data">
+    <label for="archivo">Seleccione un archivo:</label>
+    <input type="file" id="archivo" name="archivo" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xlsx" required />
+    <br><br>
+    <button type="submit">Subir</button>
+  </form>
+
+  <div id="mensaje"></div>
+
+  <script>
+
+//Funciones para controlar carga de archivos
+document.addEventListener("DOMContentLoaded", () => {
+  const inputArchivo = document.getElementById("archivo");
+
+  inputArchivo.addEventListener("change", async (event) => {
+    const archivo = event.target.files[0];
+    if (!archivo) return;
+
+    // Validación frontend
+    const tiposPermitidos = [
+      "image/jpeg",
+      "image/png",
+      "application/pdf",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"        // .xlsx
+    ];
+
+    if (archivo.size > 10 * 1024 * 1024) {
+      alert("El archivo supera los 10MB.");
+      return;
+    }
+
+    if (!tiposPermitidos.includes(archivo.type)) {
+      alert("Tipo de archivo no permitido.");
+      return;
+    }
+
+    // Enviar archivo al backend para revisión
+    const formData = new FormData();
+    formData.append("archivo", archivo);
+
+    const res = await fetch("http://localhost:8000/validar-archivo", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.aprobado) {
+      alert("Archivo validado correctamente.");
+      // Podrías guardar el archivo en una variable para enviarlo luego
+    } else {
+      alert(`Archivo rechazado: ${data.detalle || "Motivo desconocido"}`);
+      inputArchivo.value = ""; // Limpiar input
+    }
+  });
+});
+
+
+
+
+
+  </script>
+</body>
+</html>

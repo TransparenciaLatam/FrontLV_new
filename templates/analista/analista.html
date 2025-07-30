@@ -317,6 +317,22 @@
       width: 0%;
       transition: width 0.3s ease;
     }
+
+    .btn-blue {
+  background-color: #007BFF; /* azul brillante */
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-blue:hover {
+  background-color: #0056b3; /* azul más oscuro al pasar el mouse */
+}
+
   </style>
 </head>
 <body>
@@ -652,7 +668,7 @@
   </script>
 
   <!-- Generate Report Button -->
-  <button onclick="generarReporte()">Generar Reporte</button>
+  <button  class="btn-blue" onclick="generarReporte()">Generar Reporte</button>
 </div>
 
 <script>
@@ -1680,7 +1696,7 @@ The commitment demonstrated by management to address the identified areas for im
   function generarReporte(){
 
 
-    window.location.href = "../../static/reportehtml/reporte.html";
+    window.location.href = "../../static/reportehtml/report.html";
 
 
 

@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Due Diligence Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --secondary: #7c3aed;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --gray-light: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f1f5f9;
+      color: #334155;
+      overflow-x: hidden;
+    }
+
+    /* Gradient Header */
+    .gradient-background {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
+      background-size: 200% 200%;
+      animation: gradient-animation 15s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      padding: 2rem 1rem;
+    }
+
+    @keyframes gradient-animation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-out;
+    }
+
+    .powered-by {
+      position: absolute;
+      right: 2rem;
+      bottom: 1rem;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* Main Container */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 2rem auto;
+      background-color: white;
+      padding: 2.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+
+    /* Executive Summary Section */
+    .executive-summary {
+      background-color: #f8fafc;
+      border-radius: 0.5rem;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      border-left: 4px solid var(--primary);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .summary-card {
+      background: white;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      border-top: 3px solid var(--primary);
+    }
+
+    .summary-card h4 {
+      margin-top: 0;
+      color: var(--dark);
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .summary-card h4 svg {
+      margin-right: 0.5rem;
+    }
+
+    .summary-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0.5rem 0;
+      color: var(--dark);
+    }
+
+    .summary-value span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--gray);
+    }
+
+    .summary-trend {
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .trend-up {
+      color: var(--success);
+    }
+
+    .trend-down {
+      color: var(--danger);
+    }
+
+    /* Company Info Section */
+    .company-info {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .company-info h1 {
+      font-size: 2rem;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .company-info p {
+      font-size: 1.1rem;
+      color: var(--gray);
+      margin: 0.3rem 0;
+    }
+
+    .company-info .date {
+      font-size: 1rem;
+      margin-top: 1rem;
+      color: var(--gray);
+    }
+
+    /* Section Headers */
+    h2 {
+      color: var(--dark);
+      font-size: 1.8rem;
+      margin: 2rem 0 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gray-light);
+    }
+
+    h3 {
+      color: white;
+      margin: 1.5rem 0 1rem;
+      padding: 0.8rem 1.2rem;
+      border-radius: 0.5rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    table th, table td {
+      padding: 1rem;
+      text-align: left;
+      border: 1px solid var(--gray-light);
+    }
+
+    table th {
+      background-color: #f8fafc;
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    /* Charts Container */
+    .chart-container {
+      position: relative;
+      height: 400px;
+      margin: 2rem 0;
+    }
+
+    /* Chart Grid */
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .chart-card {
+      background: white;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+    }
+
+    .chart-card h4 {
+      margin-top: 0;
+      color: var(--dark);
+      font-size: 1.1rem;
+    }
+
+    .chart-wrapper {
+      position: relative;
+      height: 250px;
+    }
+
+    /* Medal Section */
+    .medal-section {
+      text-align: center;
+      margin: 3rem 0;
+    }
+
+    .medal-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .medal-img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      animation: bounceIn 1s ease-out;
+    }
+
+    .medal-message {
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      color: var(--dark);
+      background-color: #f0fdf4;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      border-left: 4px solid var(--success);
+    }
+
+    /* Conclusion Box */
+    .conclusion-box {
+      background-color: #f8fafc;
+      border-radius: 0.5rem;
+      padding: 2rem;
+      margin: 3rem 0;
+      position: relative;
+      overflow: hidden;
+      border-left: 4px solid var(--primary);
+    }
+
+    .conclusion-box h2 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+
+    /* Buttons */
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 3rem 0;
+    }
+
+    .button {
+      padding: 0.8rem 1.8rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .print-button {
+      background-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+    }
+
+    .print-button:hover {
+      background-color: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(37, 99, 235, 0.25);
+    }
+
+    .linkedin-button {
+      background-color: #0a66c2;
+      color: white;
+      box-shadow: 0 4px 6px rgba(10, 102, 194, 0.2);
+    }
+
+    .linkedin-button:hover {
+      background-color: #0d5eb1;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(10, 102, 194, 0.25);
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      60% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background-color: white;
+        font-size: 12pt;
+      }
+
+      .container {
+        box-shadow: none;
+        width: 100%;
+        margin: 0;
+        padding: 0.5in;
+      }
+
+      .button-group {
+        display: none;
+      }
+
+      footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+
+      h2 {
+        page-break-after: avoid;
+      }
+
+      .chart-grid {
+        page-break-inside: avoid;
+      }
+    }
+
+    /* Category gradients */
+    .gradient-bg {
+      background: linear-gradient(135deg, #f97316, #f59e0b);
+    }
+
+    .gradient-politica-integridad-bg {
+      background: linear-gradient(135deg, #8b5cf6, #d946ef);
+    }
+
+    .gradient-medio-ambiente-bg {
+      background: linear-gradient(135deg, #10b981, #84cc16);
+    }
+
+    .gradient-estandares-laborales-bg {
+      background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+    }
+
+    /* Icons */
+    .icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 0.5rem;
+    }
+
+    /* Cards */
+      .card {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        transition: var(--transition);
+      }
+
+      .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .card-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+       /* Company Info */
+      .company-info {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+      .company-info h1 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .company-meta {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--gray);
+      }
+
+      /* Tables */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        font-size: 0.95rem;
+      }
+
+      th,
+      td {
+        padding: 0.75rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      th {
+        background-color: #f3f4f6;
+        font-weight: 600;
+        color: #374151;
+      }
+
+      tr:hover td {
+        background-color: #f9fafb;
+      }
+
+      /* Score Cards */
+      .score-card {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .score-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .score-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      .score-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .score-good {
+        color: var(--secondary);
+      }
+
+      .score-medium {
+        color: var(--warning);
+      }
+
+      .score-bad {
+        color: var(--danger);
+      }
+
+      .progress-container {
+        height: 8px;
+        background-color: #e5e7eb;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 0.5rem;
+      }
+
+      .progress-bar {
+        height: 100%;
+        border-radius: 4px;
+      }
+
+            /* Charts */
+      .chart-container {
+        position: relative;
+        height: 300px;
+        margin: 1.5rem 0;
+      }
+
+      /* Findings */
+      .findings {
+        background-color: #fef3c7;
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        margin: 1.5rem 0;
+      }
+
+      /* Niveles */
+      .risk-level-bar {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .risk-box {
+        flex: 1;
+        padding: 1rem;
+        text-align: center;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        font-size: 1rem;
+      }
+
+      .low {
+        background-color: #e6fff5;
+        color: #1aa179;
+      }
+      .medium {
+        background-color: #fff7cc;
+        color: #e6a100;
+      }
+      .high {
+        background-color: #ffe6e6;
+        color: #d9534f;
+      }
+
+      .risk-box.active {
+        border: 2px solid #999;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .risk-info li {
+        margin-bottom: 0.5rem;
+        opacity: 0.5;
+        list-style-type: none;
+      }
+
+      .risk-info li.active {
+        opacity: 1;
+        font-weight: 600;
+      }
+
+      /* Íconos */
+      .icon-success {
+        color: #2a9d8f;
+      }
+      .icon-warning {
+        color: #e09f3e;
+      }
+      .icon-danger {
+        color: #e63946;
+      }
+
+  </style>
+</head>
+<body>
+<!-- HEADER with Gradient -->
+<header class="gradient-background">
+  <h1>LINKING VALUES REPORT</h1>
+  <span class="powered-by">Powered by Transparencia Latam</span>
+</header>
+
+<!-- CONTENT CONTAINER -->
+<div class="container">
+  <!-- Executive Summary -->
+
+
+<!-- Company Info Section -->
+  <div class="company-info">
+    <h1><strong>Test Company S.A.</strong> - Confidential Report</h1>
+    <p>Country: <strong>Argentina</strong></p>
+    <p>Industry: <strong>Technology</strong></p>
+    <p class="date">2024-01-20</p>
+  </div>
+
+<!-- Performance Overview -->
+<h2>Detailed Analysis</h2>
+
+<div class="chart-grid">
+  <div class="chart-card">
+    <h4>Score Distribution</h4>
+    <div class="chart-wrapper">
+      <canvas id="radarChart"></canvas>
+    </div>
+  </div>
+  
+  <div class="chart-card">
+    <h4>Area Comparison</h4>
+    <div class="chart-wrapper">
+      <canvas id="barChart"></canvas>
+    </div>
+  </div>
+</div>
+
+
+<!-- Supplier Classification -->
+<div class="medal-section">
+  <h2>Supplier Classification</h2>
+  <p style="color: var(--gray); max-width: 800px; margin: 0 auto 1.5rem;">
+    Supplier evaluation is based on three levels: <strong>Bronze</strong>, <strong>Silver</strong>, and <strong>Gold</strong>.
+    The level obtained is shown below.
+  </p>
+
+  <div class="conclusion-box">
+    <h2>Overall Rating</h2>
+    <div class="medal-container">
+      <img src="https://app.linkingvalues.net/imgs/medals/Bronce.svg" alt="Approved supplier" class="medal-img">
+    </div>
+    <div class="medal-message">
+      🎉 Congratulations! The company has achieved the classification
+      <strong>Approved supplier</strong>
+      with a score of <strong>75.00%</strong>. 🎉
+    </div>
+  </div>
+</div>
+
+<!-- Company Details -->
+<h2>Name</h2>
+<table>
+  <tr>
+    <th>NAME</th>
+    <td>Test Company Sociedad Anónima</td>
+  </tr>
+  <tr>
+    <th>COUNTRY</th>
+    <td>Argentina</td>
+  </tr>
+  <tr>
+    <th>LEGAL FORM</th>
+    <td>S.A.</td>
+  </tr>
+  <tr>
+    <th>TAX IDENTIFICATION NUMBER</th>
+    <td>30-12345678-9</td>
+  </tr>
+  <tr>
+    <th>DECLARED MAIN ACTIVITY</th>
+    <td>Software Development</td>
+  </tr>
+  <tr>
+    <th>ADDRESS</th>
+    <td>Av. Test 123, Buenos Aires</td>
+  </tr>
+  <tr>
+    <th>START DATE OF OPERATIONS</th>
+    <td>2010-08-15</td>
+  </tr>
+  <tr>
+    <th>WEBSITE</th>
+    <td>https://www.testcompany.com</td>
+  </tr>
+</table>
+<!-- Checking V -->
+<h2>Checking V</h2>
+<p style="color: var(--gray);">
+  Company and partner status regarding bribery and corruption background.
+</p>
+<ul style="list-style: none; padding: 0; margin: 1rem 0;">
+  <li style="display: flex; align-items: center; margin-bottom: 0.5rem; color: var(--success);">
+    <span style="margin-right: 0.5rem;">✓</span> There is no information compromising the reputation of the company or its partners
+  </li>
+</ul>
+
+
+<!-- Public Profile -->
+<h3 class="gradient-politica-integridad-bg">COMPANY PUBLIC PROFILE AND REPUTATION</h3>
+<table>
+  <tr>
+    <td colspan="2" style="background-color: #f8fafc;">
+      <strong>About the Company</strong>
+      <p>Company dedicated to software development with over 10 years of experience in both local and international markets.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>Is there any relevant information related to the company, including: sanctions, blacklists, money laundering?</td>
+    <td style="text-align: center;"><strong>No</strong></td>
+  </tr>
+  <tr>
+    <td>Are there any accusations related to illicit activities? (see info in findings)</td>
+    <td style="text-align: center;"><strong>No</strong></td>
+  </tr>
+  <tr>
+    <td>Is there any information indicating that the Third Party has used its position or political connections for illegitimate business? (see info in findings)</td>
+    <td style="text-align: center;"><strong>No</strong></td>
+  </tr>
+</table>
+
+<!-- Partners Data -->
+<h2>Partners / Authorities Information</h2>
+
+<h3 class="gradient-bg">Partner 1</h3>
+<table>
+  <tr>
+    <th>Name</th>
+    <td>Juan Pérez</td>
+  </tr>
+  <tr>
+    <th>Position</th>
+    <td>CEO</td>
+  </tr>
+  <tr>
+    <th>Identification Number</th>
+    <td>12345678</td>
+  </tr>
+  <tr>
+    <th>Is Politically Exposed Person?</th>
+    <td>No</td>
+  </tr>
+  <tr>
+    <th>Is there any relevant associated information (sanctions, political exposure, money laundering)?</th>
+    <td>No</td>
+  </tr>
+</table>
+
+<h3 class="gradient-bg">Partner 2</h3>
+<table>
+  <tr>
+    <th>Name</th>
+    <td>Maria Garcia</td>
+  </tr>
+  <tr>
+    <th>Position</th>
+    <td>CFO</td>
+  </tr>
+  <tr>
+    <th>Identification Number</th>
+    <td>98765432</td>
+  </tr>
+  <tr>
+    <th>Is Politically Exposed Person?</th>
+    <td>Not Applicable</td>
+  </tr>
+  <tr>
+    <th>Is there any relevant associated information (sanctions, political exposure, money laundering)?</th>
+    <td>No</td>
+  </tr>
+</table>
+
+<!-- Evaluation Charts -->
+<h2>Evaluation by Areas</h2>
+
+<div class="chart-grid">
+  <div class="chart-card">
+    <h4 class="gradient-bg" style="color: white; padding: 0.5rem; border-radius: 0.25rem;">Human Rights</h4>
+    <div class="chart-wrapper">
+      <canvas id="derechosChart"></canvas>
+    </div>
+    <p class="gauge-comment"><strong>Comments:</strong> Good performance in human rights.</p>
+  </div>
+
+  <div class="chart-card">
+    <h4 class="gradient-estandares-laborales-bg" style="color: white; padding: 0.5rem; border-radius: 0.25rem;">Labor Standards</h4>
+    <div class="chart-wrapper">
+      <canvas id="estandaresChart"></canvas>
+    </div>
+    <p class="gauge-comment"><strong>Comments:</strong> Adequate labor standards.</p>
+  </div>
+
+  <div class="chart-card">
+    <h4 class="gradient-medio-ambiente-bg" style="color: white; padding: 0.5rem; border-radius: 0.25rem;">Environment</h4>
+    <div class="chart-wrapper">
+      <canvas id="medioAmbienteChart"></canvas>
+    </div>
+    <p class="gauge-comment"><strong>Comments:</strong> Some areas for improvement in environmental matters.</p>
+  </div>
+
+  <div class="chart-card">
+    <h4 class="gradient-politica-integridad-bg" style="color: white; padding: 0.5rem; border-radius: 0.25rem;">Integrity Policy</h4>
+    <div class="chart-wrapper">
+      <canvas id="integridadChart"></canvas>
+    </div>
+    <p class="gauge-comment"><strong>Comments:</strong> High integrity demonstrated.</p>
+  </div>
+</div>
+
+
+ <!-- SDGs Evaluation -->
+<div class="card">
+  <h2 class="card-title">SDGs Evaluation</h2>
+
+      <!-- Human Rights -->
+<div class="score-card">
+  <div class="score-header">
+    <span class="score-title">Human Rights</span>
+    <span class="score-value score-good">80%</span>
+  </div>
+  <p>
+    Companies must support and respect the protection of fundamental human rights, internationally recognized, and ensure they are not complicit in their violation.
+  </p>
+  <p>
+    <strong>
+      This company is not complying with the guideline because it lacks related policies.
+    </strong>
+  </p>
+
+  <div style="display: flex; align-items: center; gap: 35rem;">
+    <div>
+      <p style="margin-top: 1rem;"><strong>Improvement Points:</strong></p>
+      <ul style="margin-left: 1.5rem">
+        <li>Whistleblowing channel</li>
+        <li>Training</li>
+        <li>Lack of policies</li>
+        <li>Need for codes</li>
+        <li>Supplier improvement</li>
+      </ul>
+    </div>
+    <div class="gauge-wrapper" style="max-width: 150px;">
+      
+    </div>
+  </div>
+
+  <div class="risk-level-bar">
+    <div class="risk-box low active">Low risk</div>
+    <div class="risk-box medium">Medium risk</div>
+    <div class="risk-box high">High risk</div>
+  </div>
+
+</div>
+
+
+      <div class="score-card">
+  <div class="score-header">
+    <span class="score-title">Labor Standards</span>
+    <span class="score-value score-medium">70%</span>
+  </div>
+  <p>
+    Companies must support freedom of association and the effective recognition of the right to collective bargaining, support the elimination of all forms of forced or coerced labor, support the eradication of child labor, and the abolition of discrimination and workplace violence practices in employment.
+  </p>
+  <p>
+    <a href="http://www.ODS.com" target="_blank">see at www.SDGs.com</a>
+  </p>
+
+  <div style="margin-top: 1rem">
+    <p><strong>Improvement Points:</strong></p>
+    <ul style="margin-left: 1.5rem">
+      <li>Whistleblowing channel</li>
+      <li>Training</li>
+    </ul>
+  </div>
+
+  <div class="risk-level-bar">
+    <div class="risk-box low active">Low risk</div>
+    <div class="risk-box medium">Medium risk</div>
+    <div class="risk-box high">High risk</div>
+  </div>
+</div>
+
+
+      <div class="score-card">
+  <div class="score-header">
+    <span class="score-title">Environmental Protection</span>
+    <span class="score-value score-bad">60%</span>
+  </div>
+  <p>
+    Companies should maintain a preventive approach that favors the environment, promote initiatives that encourage greater environmental responsibility, as well as support the development and dissemination of environmentally friendly technologies.
+  </p>
+
+  <div style="margin-top: 1rem">
+    <p><strong>Improvement Points:</strong></p>
+    <ul style="margin-left: 1.5rem">
+      <li>Whistleblowing channel</li>
+      <li>Training</li>
+      <li>Lack of policies</li>
+      <li>Need for codes</li>
+      <li>Supplier improvement</li>
+    </ul>
+  </div>
+
+  <div class="risk-level-bar">
+    <div class="risk-box low">Low risk</div>
+    <div class="risk-box medium active">Medium risk</div>
+    <div class="risk-box high">High risk</div>
+  </div>
+</div>
+
+
+<div class="score-card">
+  <div class="score-header">
+    <span class="score-title">Integrity Policy</span>
+    <span class="score-value score-good">90%</span>
+  </div>
+  <p>
+    Companies must prevent corruption in all its forms, including extortion and bribery. Knowledge of international anti-corruption laws and practices allows the company to be exempt from liability and to prevent future cases of fraud and corruption.
+  </p>
+
+  <div style="margin-top: 1rem">
+    <p><strong>Improvement Points:</strong></p>
+    <ul style="margin-left: 1.5rem">
+      <li>Whistleblowing channel</li>
+      <li>Training</li>
+      <li>Lack of policies</li>
+      <li>Need for codes</li>
+      <li>Supplier improvement</li>
+    </ul>
+  </div>
+
+  <div class="risk-level-bar">
+    <div class="risk-box low active">Low risk</div>
+    <div class="risk-box medium">Medium risk</div>
+    <div class="risk-box high">High risk</div>
+  </div>
+</div>
+
+      </div>
+
+<!-- Financial Details -->
+<div class="card">
+  <h2 class="card-title">Financial Details</h2>
+
+  <h3 style="margin: 1rem 0">
+    Information about partners and administrators
+  </h3>
+
+  <h4 style="margin: 1rem 0">Corporate Information</h4>
+  <ul style="margin-left: 1.5rem; margin-bottom: 1rem">
+    <li><strong>Shareholders' equity:</strong> 250,000</li>
+    <li><strong>Capital stock:</strong> Credit risk</li>
+    <li><strong>Origin:</strong> Argentina</li>
+  </ul>
+
+  <p>
+    <strong>Control:</strong> Detailed explanation of our reasons and grounds for assigning this score to the specified company
+  </p>
+  <p><strong>Nature:</strong> Normal</p>
+
+  <h4 style="margin: 1rem 0">Tax ID (CUIT/CNPJ)</h4>
+  <ul style="margin-left: 1.5rem; margin-bottom: 1rem">
+    <li><strong>Shareholder partner:</strong> Nationality</li>
+    <li><strong>Capital:</strong> 250,000</li>
+  </ul>
+
+  <h4 style="margin: 1rem 0">Information</h4>
+  <p>
+    <strong>Control:</strong> Detailed explanation of our reasons and grounds for assigning this score to the specified company
+  </p>
+
+  <h4 style="margin: 1rem 0">Query Information</h4>
+  <p><strong>In the current month:</strong> NO QUERIES</p>
+
+  <h4 style="margin: 1rem 0">Latest queries made</h4>
+  <table>
+    <tr>
+      <th>Query Date</th>
+      <th>Company Name</th>
+      <th>QTD</th>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Company status</td>
+      <td>OI</td>
+    </tr>
+  </table>
+</div>
+<!-- Sources -->
+<h2>LIST OF SOURCES CONSULTED FOR THIS REPORT</h2>
+<table>
+  <tr>
+    <th>Source</th>
+    <th>Details</th>
+  </tr>
+  <tr>
+    <td><strong>Search Engines</strong></td>
+    <td>Google, English and Spanish</td>
+  </tr>
+  <tr>
+    <td><strong>Company Website</strong></td>
+    <td>https://www.testcompany.com</td>
+  </tr>
+  <tr>
+    <td><strong>Social Networks</strong></td>
+    <td>LinkedIn, YouTube, Instagram, Facebook, grok.com</td>
+  </tr>
+  <tr>
+    <td><strong>International Blacklists</strong></td>
+    <td>Basel Open Intelligence</td>
+  </tr>
+</table>
+
+
+<!-- Findings and Recommendations -->
+<h2>Findings and Recommendations</h2>
+<div style="background-color: #fff7ed; padding: 1.5rem; border-radius: 0.5rem; margin: 1.5rem 0;">
+  <p><strong>⚠️ Findings:</strong> Overall positive findings, with areas for improvement identified in environmental protection.</p>
+</div>
+<div style="background-color: #f0fdf4; padding: 1.5rem; border-radius: 0.5rem; margin: 1.5rem 0;">
+  <p><strong>💡 Recommendations:</strong> It is recommended to strengthen environmental protection policies and conduct staff training.</p>
+</div>
+
+<!-- Conclusion -->
+<div class="conclusion-box">
+  <h2>Conclusion</h2>
+  <p>
+    In conclusion, the company complies with due diligence standards with an overall satisfactory performance.
+  </p>
+</div>
+
+<!-- Action Buttons -->
+<div class="button-group">
+  <button class="button print-button" onclick="window.print()">Print Report</button>
+  <button class="button linkedin-button" onclick="shareOnLinkedIn()">Share on LinkedIn</button>
+</div>
+</div>
+
+
+<footer>
+  <p>© 2024 Linking Values. All rights reserved.</p>
+</footer>
+
+<script>
+  // Radar Chart
+  const radarCtx = document.getElementById('radarChart').getContext('2d');
+  const radarChart = new Chart(radarCtx, {
+    type: 'radar',
+    data: {
+      labels: ['Derechos Humanos', 'Estándares Laborales', 'Medio Ambiente', 'Integridad', 'Cumplimiento'],
+      datasets: [{
+        label: 'Puntaje',
+        data: [80, 70, 60, 90, 75],
+        backgroundColor: 'rgba(99, 102, 241, 0.2)',
+        borderColor: 'rgba(99, 102, 241, 1)',
+        borderWidth: 2,
+        pointBackgroundColor: 'rgba(99, 102, 241, 1)',
+        pointBorderColor: '#fff',
+        pointHoverRadius: 5
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          angleLines: {
+            display: true
+          },
+          suggestedMin: 0,
+          suggestedMax: 100,
+          ticks: {
+            stepSize: 20
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+
+  // Bar Chart
+  const barCtx = document.getElementById('barChart').getContext('2d');
+  const barChart = new Chart(barCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Derechos Humanos', 'Estándares Laborales', 'Medio Ambiente', 'Integridad'],
+      datasets: [{
+        data: [80, 70, 60, 90],
+        backgroundColor: [
+          'rgba(249, 115, 22, 0.7)',  // Derechos humanos - orange
+          'rgba(14, 165, 233, 0.7)',   // Estándares laborales - blue
+          'rgba(16, 185, 129, 0.7)',   // Medio ambiente - green
+          'rgba(139, 92, 246, 0.7)'    // Integridad - purple
+        ],
+        borderColor: [
+          'rgba(249, 115, 22, 1)',
+          'rgba(14, 165, 233, 1)',
+          'rgba(16, 185, 129, 1)',
+          'rgba(139, 92, 246, 1)'
+        ],
+        borderWidth: 1,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.parsed.y + '%';
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: {
+            callback: function(value) {
+              return value + '%';
+            }
+          },
+          grid: {
+            color: 'rgba(0, 0, 0, 0.05)'
+          }
+        },
+        x: {
+          grid: {
+            display: false
+          }
+        }
+      }
+    }
+  });
+
+  // Area Charts for each category
+  function createAreaChart(chartId, value, color, label) {
+    const ctx = document.getElementById(chartId).getContext('2d');
+    return new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+        datasets: [{
+          label: label,
+          data: [80, 70, 60, 90, value - 5, value],
+          backgroundColor: color.replace(')', ', 0.2)').replace('rgb', 'rgba'),
+          borderColor: color,
+          borderWidth: 2,
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.parsed.y + '%';
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            ticks: {
+              callback: function(value) {
+                return value + '%';
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Initialize area charts
+  //createAreaChart('derechosChart', 80, 'rgb(249, 115, 22)', 'Derechos Humanos');
+  //createAreaChart('estandaresChart', 70, 'rgb(14, 165, 233)', 'Estándares Laborales');
+  //createAreaChart('medioAmbienteChart', 60, 'rgb(16, 185, 129)', 'Medio Ambiente');
+  //createAreaChart('integridadChart', 90, 'rgb(139, 92, 246)', 'Integridad');
+
+
+  new Chart(document.getElementById("derechosChart"), {
+  type: 'doughnut',
+  data: {
+    datasets: [{
+      data: [80, 100 - 80], // 80% de puntaje
+      backgroundColor: [
+        'rgb(249, 115, 22)', // naranja
+        '#e5e7eb' // gris claro
+      ],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    rotation: -90,
+    circumference: 180, // media luna
+    cutout: '75%',
+    plugins: {
+      tooltip: { enabled: false },
+      legend: { display: false },
+      datalabels: {
+        color: 'rgb(249, 115, 22)',
+        font: {
+          size: 18,
+          weight: 'bold'
+        },
+        formatter: function(value, context) {
+          if (context.dataIndex === 0) {
+            return value + '%';
+          }
+          return '';
+        },
+        anchor: 'end',
+        align: 'start',
+        offset: 45,
+        clip: false
+      }
+    }
+  },
+  plugins: [ChartDataLabels]
+});
+// Estandares Laborales
+new Chart(document.getElementById("estandaresChart"), {
+  type: 'doughnut',
+  data: {
+    datasets: [{
+      data: [70, 100 - 70],
+      backgroundColor: ['rgb(14, 165, 233)', '#e5e7eb'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    rotation: -90,
+    circumference: 180,
+    cutout: '75%',
+    plugins: {
+      tooltip: { enabled: false },
+      legend: { display: false },
+      datalabels: {
+        color: 'rgb(14, 165, 233)',
+        font: {
+          size: 18,
+          weight: 'bold'
+        },
+        formatter: function(value, context) {
+          return context.dataIndex === 0 ? value + '%' : '';
+        },
+        anchor: 'end',
+        align: 'start',
+        offset: 45,
+        clip: false
+      }
+    }
+  },
+  plugins: [ChartDataLabels]
+});
+
+// Medio Ambiente
+new Chart(document.getElementById("medioAmbienteChart"), {
+  type: 'doughnut',
+  data: {
+    datasets: [{
+      data: [60, 100 - 60],
+      backgroundColor: ['rgb(16, 185, 129)', '#e5e7eb'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    rotation: -90,
+    circumference: 180,
+    cutout: '75%',
+    plugins: {
+      tooltip: { enabled: false },
+      legend: { display: false },
+      datalabels: {
+        color: 'rgb(16, 185, 129)',
+        font: {
+          size: 18,
+          weight: 'bold'
+        },
+        formatter: function(value, context) {
+          return context.dataIndex === 0 ? value + '%' : '';
+        },
+        anchor: 'end',
+        align: 'start',
+        offset: 45,
+        clip: false
+      }
+    }
+  },
+  plugins: [ChartDataLabels]
+});
+
+// Integridad
+new Chart(document.getElementById("integridadChart"), {
+  type: 'doughnut',
+  data: {
+    datasets: [{
+      data: [90, 100 - 90],
+      backgroundColor: ['rgb(139, 92, 246)', '#e5e7eb'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    rotation: -90,
+    circumference: 180,
+    cutout: '75%',
+    plugins: {
+      tooltip: { enabled: false },
+      legend: { display: false },
+      datalabels: {
+        color: 'rgb(139, 92, 246)',
+        font: {
+          size: 18,
+          weight: 'bold'
+        },
+        formatter: function(value, context) {
+          return context.dataIndex === 0 ? value + '%' : '';
+        },
+        anchor: 'end',
+        align: 'start',
+        offset: 45,
+        clip: false
+      }
+    }
+  },
+  plugins: [ChartDataLabels]
+});
+
+
+
+
+
+
+
+
+
+
+
+  // Confetti effect for medal
+  const medalRange = parseInt('75.00%');
+  if (medalRange >= 60) {
+    startConfetti();
+  }
+
+  function startConfetti() {
+    const duration = 5000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    const interval = setInterval(function() {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      const particleCount = 50 * (timeLeft / duration);
+      confetti(Object.assign({}, defaults, {
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+      }));
+      confetti(Object.assign({}, defaults, {
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+      }));
+    }, 250);
+  }
+
+
+
+
+  function shareOnLinkedIn() {
+    const postText = encodeURIComponent("I completed a Due Diligence Report! Check out the findings. #DueDiligence #BusinessEthics #Compliance");
+    const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${window.location.href}&text=${postText}`;
+    window.open(linkedInUrl, '_blank');
+  }
+</script>
+</body>
+</html>
