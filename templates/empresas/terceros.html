@@ -91,7 +91,7 @@
             <!-- Topics Grid -->
             <div class="topics-container">
                 <!-- Información General -->
-                <div class="topic-card general">
+                <div class="topic-card general" style="display:none;">
                     <span class="status-badge">Pendiente</span>
                     <div class="topic-header">
                         <div class="topic-icon">
@@ -119,7 +119,7 @@
                 </div>
 
                 <!-- Anticorrupción -->
-                <div class="topic-card anticorruption">
+                <div class="topic-card anticorruption" style="display:none;">
                     <span class="status-badge">En progreso</span>
                     <div class="topic-header">
                         <div class="topic-icon">
@@ -149,7 +149,7 @@
                 </div>
 
                 <!-- Derechos Humanos -->
-                <div class="topic-card humanrights">
+                <div class="topic-card humanrights" style="display:none;">
                     <span class="status-badge">No iniciado</span>
                     <div class="topic-header">
                         <div class="topic-icon">
@@ -179,7 +179,7 @@
                 </div>
 
                 <!-- Estándares Laborales -->
-                <div class="topic-card labor">
+                <div class="topic-card labor" style="display:none;">
                     <span class="status-badge">Completado</span>
                     <div class="topic-header">
                         <div class="topic-icon">
@@ -209,13 +209,13 @@
                 </div>
 
                 <!-- Medio Ambiente -->
-                <div class="topic-card environment">
+                <div class="topic-card environment" style="display:none;">
                     <span class="status-badge">Pendiente</span>
                     <div class="topic-header">
                         <div class="topic-icon">
                              <img src="../../static/icons/ico-medioambiente.svg"
-     alt="Icono Medio Ambiente"
-     class="icono-softsquare icono-medioambiente">
+                                alt="Icono Medio Ambiente"
+                                class="icono-softsquare icono-medioambiente">
                         </div>
                         <div class="topic-info">
                             <h3>Medio Ambiente</h3>
@@ -263,12 +263,10 @@
         console.log("Info del tercero:", infoTercero);
         const categorias = infoTercero?.categorias || [];
 
+
         const cards = document.querySelectorAll(".topic-card");
         let algunaVisible = false;
 
-        cards.forEach(card => {
-            card.style.display = "none"; // Oculta todas
-        });
 
         if (categorias.length === 0) {
             document.getElementById("noFormMsg").style.display = "block";
@@ -277,7 +275,6 @@
 
         categorias.forEach(cat => {
             let className = "";
-
             switch (cat.toLowerCase()) {
             case "informacion general":
                 className = "general";
@@ -295,7 +292,7 @@
                 className = "environment";
                 break;
             }
-
+            
             const card = document.querySelector(`.topic-card.${className}`);
             if (card) {
             card.style.display = "block";
