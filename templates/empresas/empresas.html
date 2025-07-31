@@ -325,6 +325,72 @@ td li {
           console.error("Error:", err);
         });
 
+
+
+
+  const inputArchivo = document.getElementById("archivoExcel");
+  inputArchivo.addEventListener("change", async (event) => {
+
+
+  const archivo = inputArchivo.files[0];
+
+  if (!archivo) {
+    alert("Por favor, seleccioná un archivo.");
+    return;
+  }
+
+  // Validaciones
+  if (archivo.size > 10 * 1024 * 1024) {
+    alert("El archivo supera los 10MB.");
+    inputArchivo.value = "";
+    return;
+  }
+
+  if (archivo.type !== "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+    alert("Solo se permite un archivo .xlsx (Excel).");
+    inputArchivo.value = "";
+    return;
+  }
+
+  // Enviar archivo al backend
+  const formData = new FormData();
+  formData.append("archivo", archivo);
+
+  try {
+    const res = await fetch("http://localhost:8000/validar-archivo", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.aprobado) {
+      alert("Archivo Excel validado correctamente.");
+      // Aquí podrías continuar con la carga de datos o cerrar el modal
+      //cerrarModalExcel(); // o lo que desees
+    } else {
+      alert(`Archivo rechazado: ${data.detalle || "Motivo desconocido"}`);
+      inputArchivo.value = "";
+    }
+  } catch (error) {
+    alert("Error al validar el archivo.");
+    inputArchivo.value = "";
+  }
+
+  })
+
+
+
+
+
+
+
+
+
+
+
+        
+
       });
 
 
@@ -410,8 +476,6 @@ function subirExcel() {
   // Aquí va tu lógica para enviar con FormData
   cerrarModalExcel();
 }
-
-
 
 
 
