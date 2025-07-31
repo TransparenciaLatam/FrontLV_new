@@ -399,7 +399,7 @@ function mostrarError(contenedor, mensaje) {
     // --- Subtexto
     const subtexto = document.createElement("p");
     subtexto.className = "text-muted small";
-    subtexto.textContent = "Formatos soportados: PDF, JPG, PNG (Máx. 5MB)";
+    subtexto.textContent = "Formatos soportados: PDF, JPG, JPEG, PNG, DOC, DOCX, XLSX (Máx. 10MB)";
     div.appendChild(subtexto);
 
     // --- Input file (oculto)
@@ -409,6 +409,7 @@ function mostrarError(contenedor, mensaje) {
     input.id = `file-input-${pregunta.index}`;
     input.name = `pregunta-${pregunta.index}[]`;
     input.multiple = true;
+    input.accept = ".pdf,.jpg,.jpeg,.png,.doc,.docx,.xlsx"
 
     if (pregunta.index === 1) {
         input.required = true;
@@ -557,31 +558,92 @@ function mostrarError(contenedor, mensaje) {
     // --- Subtexto
     const subtexto = document.createElement("p");
     subtexto.className = "text-muted small";
-    subtexto.textContent = "Formatos soportados: PDF, JPG, PNG (Máx. 5MB)";
+    subtexto.textContent = "Formatos soportados: PDF, JPG, JPEG, PNG, DOC, DOCX, XLSX (Máx. 10MB)";
     div.appendChild(subtexto);
 
     // --- Input file (oculto)
-    const input = document.createElement("input");
-    input.type = "file";
-    input.className = "d-none";
-    input.id = `file-input-${pregunta.index}`;
-    input.name = `pregunta-${pregunta.index}[]`;
-    input.multiple = true;
+const input = document.createElement("input");
+input.type = "file";
+input.className = "d-none";
+input.id = `file-input-${pregunta.index}`;
+input.name = `pregunta-${pregunta.index}[]`;
+input.multiple = true; // habilitar múltiples archivos
+input.accept = ".pdf,.jpg,.jpeg,.png,.doc,.docx,.xlsx";
 
-    if (pregunta.index === 1) {
-        input.required = true;
+if (pregunta.index === 1) {
+  input.required = true;
+}
+
+div.appendChild(input);
+
+// --- Contenedor de vista previa
+const preview = document.createElement("div");
+preview.className = "file-preview";
+preview.id = `file-preview-${pregunta.index}`;
+div.appendChild(preview);
+
+// --- Click sobre el contenedor activa input
+div.addEventListener("click", () => input.click());
+
+// --- Agregar event listener para validación y envío múltiple
+input.addEventListener("change", async (event) => {
+  const archivos = Array.from(event.target.files);
+  if (archivos.length === 0) return;
+
+  const tiposPermitidos = [
+    "image/jpeg",
+    "image/png",
+    "application/pdf",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"        // .xlsx
+  ];
+
+  const preview = document.getElementById(`file-preview-${pregunta.index}`);
+  preview.innerHTML = ""; // Limpiar vista previa anterior
+
+  for (const archivo of archivos) {
+    // Validación de tipo y tamaño
+    if (archivo.size > 10 * 1024 * 1024) {
+      alert(`"${archivo.name}" supera los 10MB.`);
+      continue;
     }
 
-    div.appendChild(input);
+    if (!tiposPermitidos.includes(archivo.type)) {
+      alert(`"${archivo.name}" tiene un tipo no permitido.`);
+      continue;
+    }
 
-    // --- Contenedor de vista previa
-    const preview = document.createElement("div");
-    preview.className = "file-preview";
-    preview.id = `file-preview-${pregunta.index}`;
-    div.appendChild(preview);
+    // Enviar al backend
+    const formData = new FormData();
+    formData.append("archivo", archivo);
 
-    // --- Click sobre el contenedor activa input
-    div.addEventListener("click", () => input.click());
+    try {
+      const res = await fetch("http://localhost:8000/validar-archivo", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.aprobado) {
+        // Mostrar archivo aprobado en la vista previa
+        const item = document.createElement("div");
+        item.textContent = archivo.name;
+        preview.appendChild(item);
+      } else {
+        alert(`"${archivo.name}" fue rechazado: ${data.detalle || "Motivo desconocido"}`);
+      }
+    } catch (error) {
+      alert(`Error al validar "${archivo.name}".`);
+    }
+  }
+
+  // Si ninguno fue válido, resetear input
+  if (preview.children.length === 0) {
+    input.value = "";
+  }
+});
+
 
     // --- Agregar al contenedor principal
     contenedor.appendChild(div);
