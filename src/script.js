@@ -295,12 +295,6 @@ function mostrarError(contenedor, mensaje) {
 }
 
 
-
-
-
-
-
-
 //ESta funcion toma una pregunta enviada desde la base de datos y la arma en un div, para agregar a otro contenedor
 
  function crearPregunta(pregunta) {
