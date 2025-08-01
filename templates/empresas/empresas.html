@@ -259,7 +259,7 @@ td li {
           <h3>Proveedores Registrados</h3>
           <div class="search-bar">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Buscar empresa..." />
+            <input type="text" id="buscador" placeholder="Buscar empresa..." />
           </div>
         </div>
         <table class="table">
@@ -516,7 +516,20 @@ function agregarTerceroTabla(tercero) {
   }
 }
 
+// Buscador
+document.getElementById("buscador").addEventListener("input", function () {
+  const filtro = this.value.toLowerCase();
+  const filas = document.querySelectorAll("#proveedoresContainer tr");
 
+  filas.forEach(fila => {
+    const nombre = fila.children[0].textContent.toLowerCase();
+    const email = fila.children[1].textContent.toLowerCase();
+    const formulario = fila.children[2].textContent.toLowerCase();
+
+    const coincide = nombre.includes(filtro) || email.includes(filtro) || formulario.includes(filtro);
+    fila.style.display = coincide ? "" : "none";
+  });
+});
 
 document.getElementById('logoutBtn').addEventListener('click', function (e) {
   console.log('cerrar session')
@@ -525,7 +538,7 @@ document.getElementById('logoutBtn').addEventListener('click', function (e) {
   window.location.href = '../../index.html';
 });
    
-  </script>
+</script>
 </body>
 
 </html>
