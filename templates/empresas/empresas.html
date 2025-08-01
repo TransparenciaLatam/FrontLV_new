@@ -280,7 +280,7 @@ td li {
       </div> -->
     </div>
   </div>
-
+  <script src="../../../src/script.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
 
@@ -374,30 +374,7 @@ td li {
   }
 
   })
-
-
-
-
-
-
-
-
-
-
-
-        
-
-      });
-
-
-
-  
-
-
-
-
-
-
+});
   function abrirModalAgregar() {
   document.getElementById('modalAgregar').classList.remove('hidden');
   document.getElementById('modalAgregar').classList.add('show');
@@ -516,28 +493,13 @@ function agregarTerceroTabla(tercero) {
   }
 }
 
-// Buscador
-document.getElementById("buscador").addEventListener("input", function () {
-  const filtro = this.value.toLowerCase();
-  const filas = document.querySelectorAll("#proveedoresContainer tr");
-
-  filas.forEach(fila => {
-    const nombre = fila.children[0].textContent.toLowerCase();
-    const email = fila.children[1].textContent.toLowerCase();
-    const formulario = fila.children[2].textContent.toLowerCase();
-
-    const coincide = nombre.includes(filtro) || email.includes(filtro) || formulario.includes(filtro);
-    fila.style.display = coincide ? "" : "none";
-  });
-});
-
 document.getElementById('logoutBtn').addEventListener('click', function (e) {
   console.log('cerrar session')
   e.preventDefault();  // <--- importante si usás href
   localStorage.clear();
   window.location.href = '../../index.html';
 });
-   
+
 </script>
 </body>
 

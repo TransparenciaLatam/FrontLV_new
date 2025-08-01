@@ -963,9 +963,6 @@ function renderizarPreguntasTerceros(listaPreguntas, contenedorId) {
 //   });
 // });
 
-
-
-
 function obtenerIdsGrupos() {
     const grupos = document.querySelectorAll('.grupo-preguntas');
     const ids = [];
@@ -978,3 +975,28 @@ function obtenerIdsGrupos() {
 
     return ids;
     }
+
+// Buscador reutilizable todas las plantillas
+document.addEventListener("DOMContentLoaded", () => {
+  const buscador = document.getElementById("buscador");
+
+  if (buscador) {
+    buscador.addEventListener("input", function () {
+      const filtro = this.value.toLowerCase();
+      const filas = document.querySelectorAll("#proveedoresContainer tr");
+
+      filas.forEach(fila => {
+        const nombre = fila.children[0]?.textContent.toLowerCase() || "";
+        const email = fila.children[1]?.textContent.toLowerCase() || "";
+        const formulario = fila.children[2]?.textContent.toLowerCase() || "";
+
+        const coincide =
+          nombre.includes(filtro) ||
+          email.includes(filtro) ||
+          formulario.includes(filtro);
+
+        fila.style.display = coincide ? "" : "none";
+      });
+    });
+  }
+});

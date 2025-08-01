@@ -149,7 +149,7 @@ cargarEstadisticas()
             <a href="./../analista/analista.html" class="create-form-btn" target="_blank">Evaluar Proveedor</a>
             <div class="search-bar">
               <i class="fas fa-search"></i>
-              <input type="text" placeholder="Buscar proveedor..." />
+              <input type="text" id="buscador" placeholder="Buscar proveedor..." />
             </div>
           </div>
           <table class="table">
@@ -166,7 +166,7 @@ cargarEstadisticas()
         </div>
       </div>
     </div>
-
+    <script src="../../../src/script.js"></script>
     <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const tbody = document.getElementById("proveedorBody");
