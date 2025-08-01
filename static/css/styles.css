@@ -708,3 +708,7 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .menu-item{
+            cursor: pointer;
+        }
