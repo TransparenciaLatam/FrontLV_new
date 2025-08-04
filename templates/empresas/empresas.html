@@ -7,139 +7,280 @@
   <title>Dashboard Proveedor</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../../static/css/styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Meta tags para responsividad -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+    /* Botones */
+    .btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+      margin-bottom: 10px;
+      /* 👈 margen inferior agregado */
+    }
 
+    .btn-primary {
+      background-color: #007bff;
+      color: white;
+    }
 
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
 
-/* Botones */
-.btn {
-  padding: 8px 15px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background 0.3s;
-  margin-bottom: 10px; /* 👈 margen inferior agregado */
-}
+    .btn-secondary {
+      background-color: #6c757d;
+      color: white;
+    }
 
-.btn-primary {
-  background-color: #007bff;
-  color: white;
-}
+    .btn-secondary:hover {
+      background-color: #545b62;
+    }
 
-.btn-primary:hover {
-  background-color: #0056b3;
-}
+    .btn-outline {
+      border: 1px solid #007bff;
+      background-color: transparent;
+      color: #007bff;
+      padding: 6px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+    }
 
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
-}
+    .btn-outline:hover {
+      background-color: #007bff;
+      color: white;
+    }
 
-.btn-secondary:hover {
-  background-color: #545b62;
-}
+    /* MODALES  */
+    .modal-flotante {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
 
-.btn-outline {
-  border: 1px solid #007bff;
-  background-color: transparent;
-  color: #007bff;
-  padding: 6px 12px;
-  border-radius: 4px;
-  text-decoration: none;
-}
+    .modal-flotante.active {
+      opacity: 1;
+      visibility: visible;
+    }
 
-.btn-outline:hover {
-  background-color: #007bff;
-  color: white;
-}
+    /* Estilos mejorados para modales y formularios */
+    .modal-content-flotante {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+      position: relative;
+      margin: 20px;
+    }
 
+    .modal-content-flotante h3 {
+      color: #2c3e50;
+      margin-bottom: 25px;
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+    }
 
+    .modal-content-flotante label {
+      display: block;
+      margin: 15px 0 8px;
+      color: #34495e;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
 
-/* Estado oculto */
-.hidden {
-  display: none !important;
-}
+    .modal-content-flotante input[type="text"],
+    .modal-content-flotante input[type="email"],
+    .modal-content-flotante input[type="file"] {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      box-sizing: border-box;
+    }
 
-/* Modal base */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: none;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
+    .modal-content-flotante input[type="text"]:focus,
+    .modal-content-flotante input[type="email"]:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+      outline: none;
+    }
 
-/* Mostrar el modal */
-.modal.show {
-  display: flex;
-}
+    .modal-content-flotante .btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 8px;
+    }
 
-/* Contenido del modal */
-.modal-content {
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  min-width: 300px;
-  max-width: 400px;
-  box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
-  position: relative;
-}
-.modal-content h3 {
-  margin-bottom: 20px;
-}
+    .modal-content-flotante .btn-outline {
+      display: inline-block;
+      text-align: center;
+      padding: 10px 15px;
+    }
 
-.modal-content label {
-  display: block;
-  margin-top: 10px;
-  font-weight: 500;
-}
+    .file-input-container {
+      margin: 20px 0;
+    }
 
-.modal-content input[type="text"],
-.modal-content input[type="email"],
-.modal-content input[type="file"] {
-  width: 100%;
-  margin-top: 5px;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
+    .file-input-container input[type="file"] {
+      padding: 10px;
+      background: #f8f9fa;
+      border: 1px dashed #ccc;
+      border-radius: 8px;
+      text-align: center;
+    }
 
-.close {
-  float: right;
-  font-size: 24px;
-  cursor: pointer;
-}
+    .file-input-container input[type="file"]::file-selector-button {
+      padding: 8px 12px;
+      background: #e9ecef;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
 
+    .mensaje-exito {
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
 
-td ul {
-  list-style-type: none; /* opcional, saca los puntos */
-  padding-left: 0;
-  margin: 0;
-}
+    .mensaje-exito:not(.hidden) {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-td li {
-  display: block; /* fuerza a que cada ítem esté en su propia línea */
-  margin-bottom: 4px; /* opcional, espacio entre formularios */
-}
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 25px;
+    }
 
-.mensaje-exito {
-  color: green;
-  margin-top: 10px;
-  font-weight: bold;
-}
+    .modal-text {
+      color: #7f8c8d;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
 
-.menu-item{
-  cursor: pointer;
-}
-    </style>
+    .modal.active .modal-content-flotante {
+      transform: translateY(0);
+    }
+
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .close:hover {
+      color: #333;
+    }
+
+    td ul {
+      list-style-type: none;
+      /* opcional, saca los puntos */
+      padding-left: 0;
+      margin: 0;
+    }
+
+    td li {
+      display: block;
+      /* fuerza a que cada ítem esté en su propia línea */
+      margin-bottom: 4px;
+      /* opcional, espacio entre formularios */
+    }
+
+    .mensaje-exito {
+      color: green;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .menu-item {
+      cursor: pointer;
+    }
+
+    /* Estilos para el modal personalizado */
+    .modal-personalizado {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-personalizado.mostrar {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-contenido {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+      position: relative;
+      margin: 20px;
+    }
+
+    .cerrar-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .cerrar-modal:hover {
+      color: #333;
+    }
+
+    .modal-acciones {
+      display: flex;
+      gap: 10px;
+      margin-top: 25px;
+      justify-content: flex-end;
+    }
+  </style>
 
 </head>
 
@@ -182,7 +323,7 @@ td li {
     <div class="main-content">
       <!-- Header -->
       <div class="header">
-        <h1>Dashboard de Proveedor</h1>
+        <h1>Dashboard</h1>
         <div class="user-profile">
           <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User">
           <div class="user-info">
@@ -199,63 +340,29 @@ td li {
           <p>Complete los formularios requeridos por su empresa cliente para mantener su relación comercial
             activa.</p>
         </div>
+        <!-- Botón de ayuda -->
         <div>
-          <button class="btn btn-white">
+          <button type="button" class="btn btn-primary" id="botonAyuda">
             <i class="fas fa-question-circle"></i> Ayuda
           </button>
+
         </div>
+
       </div>
 
 
 
-      <!-- Botones de acción -->
-    <div class="table-actions">
-      <button class="btn btn-primary" onclick="abrirModalAgregar()">
-        <i class="fas fa-plus"></i> Agregar Proveedor
-      </button>
-      <button class="btn btn-secondary" onclick="abrirModalExcel()">
-        <i class="fas fa-file-excel"></i> Cargar con Excel
-      </button>
-    </div>
+      <!-- BOTONES -->
+      <div class="table-actions">
 
+        <button type="button" class="btn btn-primary" onclick="abrirModalAgregar(); return false;">
+          <i class="fas fa-plus"></i> Agregar Proveedor
+        </button>
 
-
-    <!-- Modal Agregar Proveedor -->
-<div id="modalAgregar" class="hidden">
-  <div class="modal-content">
-    <span class="close" onclick="cerrarModalAgregar()">&times;</span>
-    <h3>Agregar nuevo proveedor</h3>
-    <label>Nombre del proveedor:</label>
-    <input type="text" id="nombreProveedor" placeholder="Ej: Juan Pérez S.A.">
-    <label>Email de contacto:</label>
-    <input type="email" id="emailProveedor" placeholder="Ej: contacto@empresa.com">
-     <div id="mensajeExito" class="mensaje-exito hidden">Proveedor guardado correctamente</div>
-    <button class="btn btn-primary" onclick="guardarProveedor()">Guardar</button>
-  </div>
-</div>
-
-
-
-
-    <!-- Modal Excel -->
-<div id="modalExcel" class="hidden">
-  <div class="modal-content">
-    <span class="close" onclick="cerrarModalExcel()">&times;</span>
-    <h3>Cargar proveedores desde Excel</h3>
-    <p>¿Tenés la plantilla de Excel?</p>
-    <div style="margin-top: 10px;">
-      <a href="../../static/plantilla/plantilla_proveedores.xlsx" download class="btn btn-outline">Descargar plantilla</a>
-    </div>
-    <input type="file" accept=".xlsx" id="archivoExcel" />
-    <button class="btn btn-primary" onclick="subirExcel()">Subir archivo</button>
-  </div>
-</div>
-
-
-
-
-
-
+        <button type="button" class="btn btn-secondary" onclick="abrirModalExcel(); return false;">
+          <i class="fas fa-file-excel"></i> Cargar con Excel
+        </button>
+      </div>
 
       <!-- Companies Table -->
       <div class="companies-container">
@@ -274,7 +381,7 @@ td li {
               <th>Estado de Formularios</th>
             </tr>
           </thead>
-          <tbody  id="proveedoresContainer"></tbody>
+          <tbody id="proveedoresContainer"></tbody>
         </table>
       </div>
 
@@ -284,12 +391,96 @@ td li {
       </div> -->
     </div>
   </div>
+
+
+
+  <!-- MODALES  -->
+
+  <!-- Modal de ayuda -->
+
+  <div id="modalAyudaPersonalizado" class="modal-personalizado">
+    <div class="modal-contenido">
+      <span class="cerrar-modal">&times;</span>
+      <h3>¿Necesitas ayuda?</h3>
+      <p>Por favor, contáctate con <strong>it@transparencialatam.com</strong> para recibir asistencia.</p>
+      <div class="modal-acciones">
+        <button class="btn btn-secondary cerrar-modal-btn">Cerrar</button>
+        <a href="mailto:it@transparencialatam.com" class="btn btn-primary">Enviar correo</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Agregar Proveedor -->
+  <div id="modalAgregar" class="modal-flotante hidden">
+    <div class="modal-content-flotante">
+      <span class="close" onclick="cerrarModalAgregar()">&times;</span>
+      <h3>Agregar nuevo proveedor</h3>
+
+      <div class="form-group">
+        <label for="nombreProveedor">Nombre del proveedor:</label>
+        <input type="text" id="nombreProveedor" placeholder="Ej: Juan Pérez S.A.">
+      </div>
+
+      <div class="form-group">
+        <label for="emailProveedor">Email de contacto:</label>
+        <input type="email" id="emailProveedor" placeholder="Ej: contacto@empresa.com">
+      </div>
+
+      <div id="mensajeExito" class="mensaje-exito hidden">
+        <i class="fas fa-check-circle"></i> Proveedor guardado correctamente
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="guardarProveedor()">
+          <i class="fas fa-save"></i> Guardar
+        </button>
+        <button class="btn btn-secondary" onclick="cerrarModalAgregar()">
+          <i class="fas fa-times"></i> Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cargar Excel -->
+  <div id="modalExcel" class="modal-flotante hidden">
+    <div class="modal-content-flotante">
+      <span class="close" onclick="cerrarModalExcel()">&times;</span>
+      <h3>Cargar proveedores desde Excel</h3>
+
+      <p class="modal-text">Sube un archivo Excel con la lista de proveedores. Asegúrate de usar el formato correcto.
+      </p>
+
+      <div class="download-template">
+        <p>¿No tenés la plantilla?</p>
+        <a href="../../static/plantilla/plantilla_proveedores.xlsx" download class="btn btn-outline">
+          <i class="fas fa-download"></i> Descargar plantilla
+        </a>
+      </div>
+
+      <div class="file-input-container">
+        <label>Selecciona tu archivo:</label>
+        <input type="file" accept=".xlsx" id="archivoExcel">
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="subirExcel()">
+          <i class="fas fa-upload"></i> Subir archivo
+        </button>
+        <button class="btn btn-secondary" onclick="cerrarModalExcel()">
+          <i class="fas fa-times"></i> Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS (con Popper incluido) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../../../src/script.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
 
 
-    function verificarAcceso() {
+      function verificarAcceso() {
         const usuario = localStorage.getItem("usuarioLogueado");
         if (!usuario || usuario != 'empresa') {
           alert("No tienes acceso. Iniciá sesión.");
@@ -301,9 +492,9 @@ td li {
 
 
 
-        const idCliente = localStorage.getItem("idCliente");
-       
-        fetch(`http://localhost:8000/clientes/${idCliente}/terceros`)                     
+      const idCliente = localStorage.getItem("idCliente");
+
+      fetch(`http://localhost:8000/clientes/${idCliente}/terceros`)
         .then(res => {
           if (!res.ok) throw new Error("Error al obtener info del cliente");
           return res.json();
@@ -328,183 +519,253 @@ td li {
 
 
 
-  const inputArchivo = document.getElementById("archivoExcel");
-  inputArchivo.addEventListener("change", async (event) => {
+      const inputArchivo = document.getElementById("archivoExcel");
+      inputArchivo.addEventListener("change", async (event) => {
 
 
-  const archivo = inputArchivo.files[0];
+        const archivo = inputArchivo.files[0];
 
-  if (!archivo) {
-    alert("Por favor, seleccioná un archivo.");
-    return;
-  }
+        if (!archivo) {
+          alert("Por favor, seleccioná un archivo.");
+          return;
+        }
 
-  // Validaciones
-  if (archivo.size > 10 * 1024 * 1024) {
-    alert("El archivo supera los 10MB.");
-    inputArchivo.value = "";
-    return;
-  }
+        // Validaciones
+        if (archivo.size > 10 * 1024 * 1024) {
+          alert("El archivo supera los 10MB.");
+          inputArchivo.value = "";
+          return;
+        }
 
-  if (archivo.type !== "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
-    alert("Solo se permite un archivo .xlsx (Excel).");
-    inputArchivo.value = "";
-    return;
-  }
+        if (archivo.type !== "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+          alert("Solo se permite un archivo .xlsx (Excel).");
+          inputArchivo.value = "";
+          return;
+        }
 
-  // Enviar archivo al backend
-  const formData = new FormData();
-  formData.append("archivo", archivo);
+        // Enviar archivo al backend
+        const formData = new FormData();
+        formData.append("archivo", archivo);
 
-  try {
-    const res = await fetch("http://localhost:8000/validar-archivo", {
-      method: "POST",
-      body: formData
+        try {
+          const res = await fetch("http://localhost:8000/validar-archivo", {
+            method: "POST",
+            body: formData
+          });
+
+          const data = await res.json();
+
+          if (res.ok && data.aprobado) {
+            alert("Archivo Excel validado correctamente.");
+            // Aquí podrías continuar con la carga de datos o cerrar el modal
+            //cerrarModalExcel(); // o lo que desees
+          } else {
+            alert(`Archivo rechazado: ${data.detalle || "Motivo desconocido"}`);
+            inputArchivo.value = "";
+          }
+        } catch (error) {
+          alert("Error al validar el archivo.");
+          inputArchivo.value = "";
+        }
+
+      })
     });
-
-    const data = await res.json();
-
-    if (res.ok && data.aprobado) {
-      alert("Archivo Excel validado correctamente.");
-      // Aquí podrías continuar con la carga de datos o cerrar el modal
-      //cerrarModalExcel(); // o lo que desees
-    } else {
-      alert(`Archivo rechazado: ${data.detalle || "Motivo desconocido"}`);
-      inputArchivo.value = "";
+    // Funciones para el modal de agregar
+    function abrirModalAgregar(e) {
+      if (e) e.preventDefault();
+      console.log('Abriendo modal agregar');
+      const modal = document.getElementById('modalAgregar');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
-  } catch (error) {
-    alert("Error al validar el archivo.");
-    inputArchivo.value = "";
-  }
 
-  })
-});
-  function abrirModalAgregar() {
-  document.getElementById('modalAgregar').classList.remove('hidden');
-  document.getElementById('modalAgregar').classList.add('show');
-}
+    function cerrarModalAgregar(e) {
+      if (e) e.preventDefault();
+      console.log('Cerrando modal agregar');
+      document.getElementById('modalAgregar').classList.remove('active');
+      document.body.style.overflow = '';
+    }
 
-function cerrarModalAgregar() {
-  document.getElementById('modalAgregar').classList.remove('show');
-  document.getElementById('modalAgregar').classList.add('hidden');
-}
+    // Funciones para el modal de Excel
+    function abrirModalExcel(e) {
+      if (e) e.preventDefault();
+      console.log('Abriendo modal Excel');
+      const modal = document.getElementById('modalExcel');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
 
-function abrirModalExcel() {
-  document.getElementById('modalExcel').classList.remove('hidden');
-  document.getElementById('modalExcel').classList.add('show');
-}
+    function cerrarModalExcel(e) {
+      if (e) e.preventDefault();
+      console.log('Cerrando modal Excel');
+      document.getElementById('modalExcel').classList.remove('active');
+      document.body.style.overflow = '';
+    }
 
-function cerrarModalExcel() {
-  document.getElementById('modalExcel').classList.remove('show');
-  document.getElementById('modalExcel').classList.add('hidden');
-}
-
-function guardarProveedor() {
-  const nombre = document.getElementById("nombreProveedor").value;
-  const email = document.getElementById("emailProveedor").value;
-
-  if (!nombre || !email) {
-    alert("Completa ambos campos.");
-    return;
-  }
-      const nuevoTercero = {
-      nombre_tercero: nombre,
-      email: email,
-      cliente_id: 1
-    };
-
-    fetch("http://localhost:8000/terceros/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(nuevoTercero)
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("Error al crear el tercero");
-        
+    // Cerrar modales haciendo clic fuera del contenido
+    document.addEventListener('click', function (e) {
+      if (e.target.classList.contains('modal-flotante')) {
+        if (e.target.id === 'modalAgregar') cerrarModalAgregar(e);
+        if (e.target.id === 'modalExcel') cerrarModalExcel(e);
       }
-      return response.json();
-    })
-    .then(data => {
-      console.log("Tercero creado:", data);
-      document.getElementById("mensajeExito").classList.remove("hidden");
-
-      agregarTerceroTabla(data)
-
-
-
-    })
-    .catch(error => {
-      console.error("Hubo un problema con la petición:", error);
     });
 
-}
+    function guardarProveedor() {
+      const nombre = document.getElementById("nombreProveedor").value.trim();
+      const email = document.getElementById("emailProveedor").value.trim();
+      const mensajeExito = document.getElementById("mensajeExito");
 
-function subirExcel() {
-  const archivo = document.getElementById("archivoExcel").files[0];
-  if (!archivo) {
-    alert("Seleccioná un archivo Excel");
-    return;
-  }
+      if (!nombre || !email) {
+        alert("Completa ambos campos.");
+        return;
+      }
 
-  console.log("Subiendo archivo Excel:", archivo);
-  // Aquí va tu lógica para enviar con FormData
-  cerrarModalExcel();
-}
+      const nuevoTercero = {
+        nombre_tercero: nombre,
+        email: email,
+        cliente_id: 1
+      };
 
+      fetch("http://localhost:8000/terceros/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(nuevoTercero)
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Error al crear el tercero");
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log("Tercero creado:", data);
 
+          // Agregar en la tabla
+          agregarTerceroTabla(data);
 
+          // Mostrar mensaje de éxito
+          mensajeExito.classList.remove("hidden");
 
+          // Limpiar campos
+          document.getElementById("nombreProveedor").value = "";
+          document.getElementById("emailProveedor").value = "";
 
-
-
-
-function agregarTerceroTabla(tercero) {
-  const container = document.getElementById("proveedoresContainer");
-
-  try {
-    const row = document.createElement("tr");
-
-    // Nombre del proveedor
-    const nombreCell = document.createElement("td");
-    nombreCell.textContent = tercero.nombre_tercero;
-
-    // Email
-    const emailCell = document.createElement("td");
-    emailCell.innerHTML = `<i class="fas fa-envelope"></i> ${tercero.email}`;
-
-    // Formulario asignado
-    const formulariosCell = document.createElement("td");
-    if (tercero.formulario_generado) {
-      const icono = `<i class="fas fa-file-alt"></i> `;
-      formulariosCell.innerHTML = icono + tercero.formulario_generado.nombre_formulario;
-    } else {
-      formulariosCell.innerHTML = `<em>No tiene formularios asignados</em>`;
+          // Cerrar modal después de 2 segundos
+          setTimeout(() => {
+            mensajeExito.classList.add("hidden");
+            cerrarModalAgregar();
+          }, 1500);
+        })
+        .catch(error => {
+          console.error("Hubo un problema con la petición:", error);
+          alert("No se pudo guardar el proveedor. Intenta nuevamente.");
+        });
     }
 
-    // Agregar celdas a la fila
-    row.appendChild(nombreCell);
-    row.appendChild(emailCell);
-    row.appendChild(formulariosCell);
 
-    // Agregar la fila al cuerpo de la tabla
-    container.appendChild(row);
+    function subirExcel() {
+      const archivo = document.getElementById("archivoExcel").files[0];
+      if (!archivo) {
+        alert("Seleccioná un archivo Excel");
+        return;
+      }
 
-  } catch (error) {
-    console.error("Error al agregar el tercero:", error);
-  }
-}
+      console.log("Subiendo archivo Excel:", archivo);
+      // Aquí va tu lógica para enviar con FormData
+      cerrarModalExcel();
+    }
 
-document.getElementById('logoutBtn').addEventListener('click', function (e) {
-  console.log('cerrar session')
-  e.preventDefault();  // <--- importante si usás href
-  localStorage.clear();
-  window.location.href = '../../index.html';
-});
 
-</script>
+
+
+
+
+
+
+    function agregarTerceroTabla(tercero) {
+      const container = document.getElementById("proveedoresContainer");
+
+      try {
+        const row = document.createElement("tr");
+
+        // Nombre del proveedor
+        const nombreCell = document.createElement("td");
+        nombreCell.textContent = tercero.nombre_tercero;
+
+        // Email
+        const emailCell = document.createElement("td");
+        emailCell.innerHTML = `<i class="fas fa-envelope"></i> ${tercero.email}`;
+
+        // Formulario asignado
+        const formulariosCell = document.createElement("td");
+        if (tercero.formulario_generado) {
+          const icono = `<i class="fas fa-file-alt"></i> `;
+          formulariosCell.innerHTML = icono + tercero.formulario_generado.nombre_formulario;
+        } else {
+          formulariosCell.innerHTML = `<em>No tiene formularios asignados</em>`;
+        }
+
+        // Agregar celdas a la fila
+        row.appendChild(nombreCell);
+        row.appendChild(emailCell);
+        row.appendChild(formulariosCell);
+
+        // Agregar la fila al cuerpo de la tabla
+        container.appendChild(row);
+
+      } catch (error) {
+        console.error("Error al agregar el tercero:", error);
+      }
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', function (e) {
+      console.log('cerrar session')
+      e.preventDefault();  // <--- importante si usás href
+      localStorage.clear();
+      window.location.href = '../../index.html';
+    });
+
+    // Boton ayuda
+    document.addEventListener('DOMContentLoaded', function () {
+      // Elementos del modal
+      const modal = document.getElementById('modalAyudaPersonalizado');
+      const btnAbrir = document.getElementById('botonAyuda');
+      const btnCerrar = document.querySelector('.cerrar-modal');
+      const btnCerrarModal = document.querySelector('.cerrar-modal-btn');
+
+      // Abrir modal
+      btnAbrir.addEventListener('click', function () {
+        modal.classList.add('mostrar');
+        document.body.style.overflow = 'hidden';
+      });
+
+      // Cerrar modal
+      function cerrarModal() {
+        modal.classList.remove('mostrar');
+        document.body.style.overflow = '';
+      }
+
+      btnCerrar.addEventListener('click', cerrarModal);
+      btnCerrarModal.addEventListener('click', cerrarModal);
+
+      // Cerrar al hacer clic fuera del contenido
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+          cerrarModal();
+        }
+      });
+
+      // Cerrar con tecla ESC
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('mostrar')) {
+          cerrarModal();
+        }
+      });
+    });
+
+  </script>
 </body>
 
 </html>
