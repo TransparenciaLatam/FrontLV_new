@@ -5,27 +5,48 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Due Diligence Report</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./reportes.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./reportes.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </head>
 
 <body>
-  <!-- HEADER with Gradient -->
-  <header class="gradient-background">
-    <img src="../../../static/media/logo_horizontal.png" alt="Logo transparencia horizontal">
-    <span class="powered-by">Powered by Transparencia Latam</span>
-  </header>
+  <!-- HEADER CAMBIO DAI -->
+  <div class="bloque-portada">
+    <header class="gradient-background header-center">
+      <img src="../../../static/media/logo_horizontal.png" alt="Logo transparencia horizontal" />
+      <span class="powered-by">Powered by Transparencia Latam</span>
+    </header>
+
+    <img src="../../../static/media/portada.png" class="solo-impresion"
+      style="width: 100%; margin-bottom: 5rem; display: none;" alt="Portada de Linking Value">
+    <!-- ====> CAMBIO DE DAI <==== -->
+  </div>
+
+  <style>
+    .header-center {
+      /*====> CAMBIO DAI <====*/
+      display: flex;
+      flex-direction: column;
+      /* o row si querés horizontal */
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .header-center img {
+      /*====> CAMBIO DAI <====*/
+      margin-right: 8rem;
+    }
+  </style>
 
   <!-- CONTENT CONTAINER -->
   <div class="container">
-    <img src="../../../static/media/portada.png" style="width: 100%; margin-bottom: 5rem;" alt="Portada de Linking Value">
     <!-- Executive Summary -->
-
 
     <!-- Company Info Section -->
     <div class="company-info">
@@ -37,53 +58,95 @@
 
     <!-- Checking Evaluation -->
     <h2>Checking V</h2>
-    <p style="color: var(--gray);">
-      Situación de la empresa y de sus socios respecto a antecedentes de soborno y corrupción.
+    <p style="color: var(--gray)">
+      Situación de la empresa y de sus socios respecto a antecedentes de
+      soborno y corrupción.
     </p>
-    <ul style="list-style: none; padding: 0; margin: 1rem 0;">
-      <li style="display: flex; align-items: center; margin-bottom: 0.5rem; color: var(--success);">
-        <span style="margin-right: 0.5rem;">✓</span> No existe información que comprometa la reputación de la empresa o
-        de los socios
+    <ul style="list-style: none; padding: 0; margin: 1rem 0">
+      <li style="
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: var(--success);
+          ">
+        <span style="margin-right: 0.5rem">✓</span> No existe información que
+        comprometa la reputación de la empresa o de los socios
       </li>
     </ul>
+
+    <!-- Supplier Classification -->
+    <div class="medal-section">
+      <h2>Clasificación de Proveedores</h2>
+      <p style="color: var(--gray); max-width: 800px; margin: 0 auto 1.5rem">
+        La evaluación de proveedores se basa en tres niveles:
+        <strong>Bronce</strong>, <strong>Plata</strong> y
+        <strong>Oro</strong>. A continuación, se muestra el nivel obtenido.
+      </p>
+
+      <div class="conclusion-box">
+        <h2>Calificación General</h2>
+        <div class="medal-container">
+          <img src="https://app.linkingvalues.net/imgs/medals/Bronce.svg" alt="Proveedor aprobado" class="medal-img" />
+        </div>
+        <div class="medal-message">
+          🎉 ¡Felicidades! La empresa ha alcanzado la clasificación
+          <strong>Proveedor aprobado</strong>
+          con un puntaje de <strong>75.00%</strong>. 🎉
+        </div>
+      </div>
+    </div>
 
     <!-- Evaluation Charts -->
     <h2>Evaluación por Áreas</h2>
 
     <div class="chart-grid">
       <div class="chart-card">
-        <h4 class="gradient-bg" style="color: white; padding: 0.5rem; border-radius: 0.25rem;">Derechos humanos</h4>
+        <h4 class="gradient-bg" style="color: white; padding: 0.5rem; border-radius: 0.25rem">
+          Derechos humanos
+        </h4>
         <div class="chart-wrapper">
           <canvas id="derechosChart"></canvas>
         </div>
-        <p class="gauge-comment"><strong>Comentarios:</strong> Buen desempeño en derechos humanos.</p>
+        <p class="gauge-comment">
+          <strong>Comentarios:</strong> Buen desempeño en derechos humanos.
+        </p>
       </div>
 
       <div class="chart-card">
-        <h4 class="gradient-estandares-laborales-bg" style="color: white; padding: 0.5rem; border-radius: 0.25rem;">
-          Estándares laborales</h4>
+        <h4 class="gradient-estandares-laborales-bg" style="color: white; padding: 0.5rem; border-radius: 0.25rem">
+          Estándares laborales
+        </h4>
         <div class="chart-wrapper">
           <canvas id="estandaresChart"></canvas>
         </div>
-        <p class="gauge-comment"><strong>Comentarios:</strong> Estándares laborales adecuados.</p>
+        <p class="gauge-comment">
+          <strong>Comentarios:</strong> Estándares laborales adecuados.
+        </p>
       </div>
 
       <div class="chart-card">
-        <h4 class="gradient-medio-ambiente-bg" style="color: white; padding: 0.5rem; border-radius: 0.25rem;">Medio
-          ambiente</h4>
+        <h4 class="gradient-medio-ambiente-bg" style="color: white; padding: 0.5rem; border-radius: 0.25rem">
+          Medio ambiente
+        </h4>
         <div class="chart-wrapper">
           <canvas id="medioAmbienteChart"></canvas>
         </div>
-        <p class="gauge-comment"><strong>Comentarios:</strong> Algunas áreas de mejora en medio ambiente.</p>
+        <p class="gauge-comment">
+          <strong>Comentarios:</strong> Algunas áreas de mejora en medio
+          ambiente.
+        </p>
       </div>
 
       <div class="chart-card">
-        <h4 class="gradient-politica-integridad-bg" style="color: white; padding: 0.5rem; border-radius: 0.25rem;">
-          Política de Integridad</h4>
+        <h4 class="gradient-politica-integridad-bg" style="color: white; padding: 0.5rem; border-radius: 0.25rem">
+          Política de Integridad
+        </h4>
         <div class="chart-wrapper">
           <canvas id="integridadChart"></canvas>
         </div>
-        <p class="gauge-comment"><strong>Comentarios:</strong> Alta integridad demostrada.</p>
+        <p class="gauge-comment">
+          <strong>Comentarios:</strong> Alta integridad demostrada.
+        </p>
       </div>
     </div>
 
@@ -107,9 +170,9 @@
             posee políticas al respecto</strong>
         </p>
 
-        <div style="display: flex; align-items: center; gap: 35rem;">
+        <div style="display: flex; align-items: center; gap: 35rem">
           <div>
-            <p style="margin-top: 1rem;"><strong>Puntos de mejora:</strong></p>
+            <p style="margin-top: 1rem"><strong>Puntos de mejora:</strong></p>
             <ul style="margin-left: 1.5rem">
               <li>Canal de denuncias</li>
               <li>Capacitaciones</li>
@@ -118,9 +181,7 @@
               <li>Mejora de proveedores</li>
             </ul>
           </div>
-          <div class="gauge-wrapper" style="max-width: 150px;">
-
-          </div>
+          <div class="gauge-wrapper" style="max-width: 150px"></div>
         </div>
 
         <div class="risk-level-bar">
@@ -128,7 +189,6 @@
           <div class="risk-box medium">Riesgo medio</div>
           <div class="risk-box high">Riesgo alto</div>
         </div>
-
       </div>
 
       <div class="score-card">
@@ -225,28 +285,6 @@
       </div>
     </div>
 
-    <!-- Supplier Classification -->
-    <div class="medal-section">
-      <h2>Clasificación de Proveedores</h2>
-      <p style="color: var(--gray); max-width: 800px; margin: 0 auto 1.5rem;">
-        La evaluación de proveedores se basa en tres niveles: <strong>Bronce</strong>, <strong>Plata</strong> y
-        <strong>Oro</strong>.
-        A continuación, se muestra el nivel obtenido.
-      </p>
-
-      <div class="conclusion-box">
-        <h2>Calificación General</h2>
-        <div class="medal-container">
-          <img src="https://app.linkingvalues.net/imgs/medals/Bronce.svg" alt="Proveedor aprobado" class="medal-img">
-        </div>
-        <div class="medal-message">
-          🎉 ¡Felicidades! La empresa ha alcanzado la clasificación
-          <strong>Proveedor aprobado</strong>
-          con un puntaje de <strong>75.00%</strong>. 🎉
-        </div>
-      </div>
-    </div>
-
     <!-- Company Details -->
     <h2>Nombre</h2>
     <table>
@@ -285,28 +323,40 @@
     </table>
 
     <!-- Public Profile -->
-    <h3 class="gradient-politica-integridad-bg">PERFIL PÚBLICO DE LA EMPRESA Y REPUTACIÓN</h3>
+    <h3 class="gradient-politica-integridad-bg">
+      PERFIL PÚBLICO DE LA EMPRESA Y REPUTACIÓN
+    </h3>
     <table>
       <tr>
-        <td colspan="2" style="background-color: #f8fafc;">
+        <td colspan="2" style="background-color: #f8fafc">
           <strong>Acerca de la Empresa</strong>
-          <p>Empresa dedicada al desarrollo de software con más de 10 años de trayectoria en el mercado local e
-            internacional.</p>
+          <p>
+            Empresa dedicada al desarrollo de software con más de 10 años de
+            trayectoria en el mercado local e internacional.
+          </p>
         </td>
       </tr>
       <tr>
-        <td>¿Existe información relevante relacionada con la empresa, incluyendo: sanciones, blacklists, lavado de
-          dinero?</td>
-        <td style="text-align: center;"><strong>No</strong></td>
+        <td>
+          ¿Existe información relevante relacionada con la empresa,
+          incluyendo: sanciones, blacklists, lavado de dinero?
+        </td>
+        <td style="text-align: center"><strong>No</strong></td>
       </tr>
       <tr>
-        <td>¿Acusaciones relacionadas con actividades ilegítimas? (ver info en hallazgo)</td>
-        <td style="text-align: center;"><strong>No</strong></td>
+        <td>
+          ¿Acusaciones relacionadas con actividades ilegítimas? (ver info en
+          hallazgo)
+        </td>
+        <td style="text-align: center"><strong>No</strong></td>
       </tr>
       <tr>
-        <td>¿Existe alguna información que indique que el Tercero ha usado su posición o sus conexiones políticas para
-          negocios ilegítimos? (ver info en hallazgo)</td>
-        <td style="text-align: center;"><strong>No</strong></td>
+        <td>
+          ¿Existe alguna información que indique que el Tercero ha usado su
+          posición o sus conexiones políticas para negocios ilegítimos? (ver
+          info en hallazgo)
+        </td>
+        <td style="text-align: center"><strong>No</strong></td>
       </tr>
     </table>
 
@@ -332,7 +382,10 @@
         <td>No</td>
       </tr>
       <tr>
-        <th>¿Existe información relevante asociada (sanciones, exposición política, lavado de activos)?</th>
+        <th>
+          ¿Existe información relevante asociada (sanciones, exposición
+          política, lavado de activos)?
+        </th>
         <td>No</td>
       </tr>
     </table>
@@ -356,7 +409,10 @@
         <td>No Aplica</td>
       </tr>
       <tr>
-        <th>¿Existe información relevante asociada (sanciones, exposición política, lavado de activos)?</th>
+        <th>
+          ¿Existe información relevante asociada (sanciones, exposición
+          política, lavado de activos)?
+        </th>
         <td>No</td>
       </tr>
     </table>
@@ -439,27 +495,47 @@
 
     <!-- Findings and Recommendations -->
     <h2>Hallazgos y Recomendaciones</h2>
-    <div style="background-color: #fff7ed; padding: 1.5rem; border-radius: 0.5rem; margin: 1.5rem 0;">
-      <p><strong>⚠️ Hallazgos:</strong> Hallazgos generales positivos, con áreas de mejora identificadas en protección
-        del medio ambiente.</p>
+    <div style="
+          background-color: #fff7ed;
+          padding: 1.5rem;
+          border-radius: 0.5rem;
+          margin: 1.5rem 0;
+        ">
+      <p>
+        <strong>⚠️ Hallazgos:</strong> Hallazgos generales positivos, con
+        áreas de mejora identificadas en protección del medio ambiente.
+      </p>
     </div>
-    <div style="background-color: #f0fdf4; padding: 1.5rem; border-radius: 0.5rem; margin: 1.5rem 0;">
-      <p><strong>💡 Recomendaciones:</strong> Se recomienda fortalecer las políticas de protección ambiental y realizar
-        capacitaciones al personal.</p>
+    <div style="
+          background-color: #f0fdf4;
+          padding: 1.5rem;
+          border-radius: 0.5rem;
+          margin: 1.5rem 0;
+        ">
+      <p>
+        <strong>💡 Recomendaciones:</strong> Se recomienda fortalecer las
+        políticas de protección ambiental y realizar capacitaciones al
+        personal.
+      </p>
     </div>
 
     <!-- Conclusion -->
     <div class="conclusion-box">
       <h2>Conclusión</h2>
       <p>
-        En conclusión, la empresa cumple con los estándares de debida diligencia con un desempeño general satisfactorio.
+        En conclusión, la empresa cumple con los estándares de debida
+        diligencia con un desempeño general satisfactorio.
       </p>
     </div>
 
     <!-- Action Buttons -->
     <div class="button-group">
-      <button class="button print-button" onclick="window.print()">Impresión del Reporte</button>
-      <button class="button linkedin-button" onclick="shareOnLinkedIn()">Compartir en LinkedIn</button>
+      <button class="button print-button" onclick="window.print()">
+        Impresión del Reporte
+      </button>
+      <button class="button linkedin-button" onclick="shareOnLinkedIn()">
+        Compartir en LinkedIn
+      </button>
     </div>
   </div>
 
