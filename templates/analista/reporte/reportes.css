@@ -222,7 +222,8 @@
     /* Chart Grid */
     .chart-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
+        ;
         gap: 2rem;
         margin: 2rem 0;
     }
@@ -412,6 +413,48 @@
 
         .chart-grid {
             page-break-inside: avoid;
+        }
+
+        /* ====> CAMBIO DE DAI <==== */
+        .bloque-portada {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            display: block !important;
+        }
+
+        header {
+            display: none !important;
+        }
+
+        .solo-impresion {
+            display: block !important;
+            page-break-before: avoid !important;
+            break-before: avoid !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            margin-top: 0 !important;
+        }
+
+        .medal-section {
+            break-inside: avoid;
+            page-break-inside: avoid;
+            break-before: auto;
+            page-break-before: auto;
+            break-after: auto;
+            page-break-after: auto;
+        }
+
+        .conclusion-box,
+        .medal-container,
+        .medal-message {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .gradient-politica-integridad-bg {
+            page-break-after: avoid;
+            /* Evita corte después del título */
+            break-after: avoid;
         }
     }
 
