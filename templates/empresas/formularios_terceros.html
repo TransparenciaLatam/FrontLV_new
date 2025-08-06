@@ -225,7 +225,7 @@
         transform: translateY(0);
       }
     }
-    
+
     /* Progress counter */
     .progress-counter {
       text-align: center;
@@ -236,37 +236,51 @@
 
 
     .progress-container {
-  width: 100%;
-  height: 10px;
-  background-color: #e0e0e0;
-  border-radius: 5px;
-  margin: 10px 0;
-  overflow: hidden;
-}
+      width: 100%;
+      height: 10px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
 
-.progress-bar {
-  height: 100%;
-  background-color: #007bff;
-  width: 0;
-  transition: width 0.3s ease;
-}
+    .progress-bar {
+      height: 100%;
+      background-color: #007bff;
+      width: 0;
+      transition: width 0.3s ease;
+    }
 
 
-.categoria-banner {
-  padding: 12px 20px;
-  border-top: 4px solid transparent;
-  margin-bottom: 20px;
-  border-radius: 8px;
-}
+    .categoria-banner {
+      padding: 12px 20px;
+      border-top: 4px solid transparent;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
 
+    /*boton volver*/
+    .ms-35rem {
+      margin-left: 35rem;
+    }
   </style>
 </head>
 
 <body>
-  <div class="form-container animate__animated animate__fadeIn">
-    <div class="categoria-banner" id="categoria-banner">
-    <h2 class="titulo-categoria" id="titulo-categoria"></h2>
+  <!-- Botón fuera del container -->
+  <div class="row align-items-start mt-4" style="margin-left: 0; margin-right: 0;"></div>
+  <div class="col-auto">
+    <a href="../../templates/empresas/terceros.html" class="btn btn-outline-primary ms-35rem">
+      <i class="fas fa-arrow-left me-2"></i>Volver al Dashboard
+    </a>
   </div>
+  </div>
+
+  <div class="form-container animate__animated animate__fadeIn">
+
+    <div class="categoria-banner" id="categoria-banner">
+      <h2 class="titulo-categoria" id="titulo-categoria"></h2>
+    </div>
     <div class="form-header">
       <h1><i class="fas fa-edit me-2"></i>Formulario Interactivo</h1>
       <p class="text-muted">Por favor complete todos los campos requeridos</p>
@@ -279,22 +293,35 @@
 
     <form id="responder-formulario" class="form-section" data-formulario-id="{{ formulario_id }}"
       enctype="multipart/form-data">
-     
+
 
     </form>
 
-          
-      <div class="form-navigation">
-        <button type="button" class="nav-btn btn btn-outline-primary" id="prev-btn" disabled>
-          <i class="fas fa-arrow-left me-2"></i>Anterior
-        </button>
-        <button type="button" class="nav-btn btn btn-primary" id="next-btn">
-          Siguiente<i class="fas fa-arrow-right ms-2"></i>
-        </button>
-        <button type="submit" class="nav-btn btn btn-success" id="submit-btn" style="display: none;">
-          Enviar<i class="fas fa-paper-plane ms-2"></i>
-        </button>
-      </div>
+
+    <div class="form-navigation">
+       <!-- Botón Anterior -->
+  <button type="button" class="nav-btn btn btn-outline-primary" id="prev-btn" disabled>
+    <i class="fas fa-arrow-left me-2"></i>Anterior
+  </button>
+
+  <!-- Botón Guardar (centrado) -->
+  <div class="flex-grow-1 d-flex justify-content-center">
+    <button type="button" class="nav-btn btn btn-outline-primary" id="save-btn">
+      <i class="fas fa-save me-2"></i>Guardar
+    </button>
+  </div>
+
+  <!-- Botón Siguiente -->
+  <button type="button" class="nav-btn btn btn-primary" id="next-btn">
+    Siguiente<i class="fas fa-arrow-right ms-2"></i>
+  </button>
+
+  <!-- Botón Enviar (oculto inicialmente) -->
+  <button type="submit" class="nav-btn btn btn-success" id="submit-btn" style="display: none;">
+    Enviar<i class="fas fa-paper-plane ms-2"></i>
+  </button>
+
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -302,7 +329,7 @@
     document.addEventListener('DOMContentLoaded', () => {
 
 
-            
+
       // Verificar acceso (ejemplo)
       function verificarAcceso() {
         const usuario = localStorage.getItem("usuarioLogueado");
@@ -311,12 +338,12 @@
           window.location.href = "../../index.html";
         }
       }
-      
+
       verificarAcceso();
 
-         // Cargar preguntas desde localStorage (ejemplo)
+      // Cargar preguntas desde localStorage (ejemplo)
       const data = localStorage.getItem('preguntas_categoria');
-      
+
       const categoria = sessionStorage.getItem("categoria_actual");
       const color = sessionStorage.getItem("color_categoria");
 
@@ -325,9 +352,9 @@
         const preguntas = JSON.parse(data);
 
         if (Array.isArray(preguntas)) {
-            renderizarPreguntasTerceros(preguntas, "responder-formulario");
+          renderizarPreguntasTerceros(preguntas, "responder-formulario");
         } else {
-            console.error("El JSON parseado no es un array:", preguntas);
+          console.error("El JSON parseado no es un array:", preguntas);
         }
       } catch (err) {
         console.error("Error al parsear JSON:", err);
@@ -400,62 +427,62 @@
 
 
 
-      
-     
+
+
 
 
       //fUNCIONES PARA LOS BOTONES
 
-    const grupos = Array.from(document.querySelectorAll('.grupo-preguntas'));
-    const nextBtn = document.getElementById('next-btn');
-    const prevBtn = document.getElementById('prev-btn');
-    const submitBtn = document.getElementById('submit-btn');
+      const grupos = Array.from(document.querySelectorAll('.grupo-preguntas'));
+      const nextBtn = document.getElementById('next-btn');
+      const prevBtn = document.getElementById('prev-btn');
+      const submitBtn = document.getElementById('submit-btn');
 
-    let currentGroup = 0;
-function mostrarGrupo(index) {
-  grupos.forEach((grupo, i) => {
-    grupo.style.display = i === index ? 'block' : 'none';
-  });
+      let currentGroup = 0;
+      function mostrarGrupo(index) {
+        grupos.forEach((grupo, i) => {
+          grupo.style.display = i === index ? 'block' : 'none';
+        });
 
-  // Actualizar botones
-  prevBtn.disabled = index === 0;
-  nextBtn.style.display = index === grupos.length - 1 ? 'none' : 'inline-block';
-  submitBtn.style.display = index === grupos.length - 1 ? 'inline-block' : 'none';
+        // Actualizar botones
+        prevBtn.disabled = index === 0;
+        nextBtn.style.display = index === grupos.length - 1 ? 'none' : 'inline-block';
+        submitBtn.style.display = index === grupos.length - 1 ? 'inline-block' : 'none';
 
-  // Actualizar contador
-  const progressCounter = document.getElementById('progress-counter');
-  if (progressCounter) {
-    progressCounter.textContent = `${index + 1}/${grupos.length}`;
-  }
+        // Actualizar contador
+        const progressCounter = document.getElementById('progress-counter');
+        if (progressCounter) {
+          progressCounter.textContent = `${index + 1}/${grupos.length}`;
+        }
 
-  // Actualizar barra de progreso
-  const progressBar = document.getElementById('form-progress');
-  if (progressBar) {
-    const porcentaje = ((index + 1) / grupos.length) * 100;
-    progressBar.style.width = `${porcentaje}%`;
-  }
-}
-    // Botón siguiente
-    nextBtn.addEventListener('click', () => {
-      if (currentGroup < grupos.length - 1) {
-        currentGroup++;
-        mostrarGrupo(currentGroup);
+        // Actualizar barra de progreso
+        const progressBar = document.getElementById('form-progress');
+        if (progressBar) {
+          const porcentaje = ((index + 1) / grupos.length) * 100;
+          progressBar.style.width = `${porcentaje}%`;
+        }
       }
-    });
+      // Botón siguiente
+      nextBtn.addEventListener('click', () => {
+        if (currentGroup < grupos.length - 1) {
+          currentGroup++;
+          mostrarGrupo(currentGroup);
+        }
+      });
 
-    // Botón anterior
-    prevBtn.addEventListener('click', () => {
-      if (currentGroup > 0) {
-        currentGroup--;
-        mostrarGrupo(currentGroup);
-      }
-    });
+      // Botón anterior
+      prevBtn.addEventListener('click', () => {
+        if (currentGroup > 0) {
+          currentGroup--;
+          mostrarGrupo(currentGroup);
+        }
+      });
 
-    // Mostrar el primer grupo al iniciar
-    mostrarGrupo(currentGroup);
+      // Mostrar el primer grupo al iniciar
+      mostrarGrupo(currentGroup);
 
 
-   })
+    })
   </script>
 </body>
 
