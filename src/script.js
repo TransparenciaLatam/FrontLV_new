@@ -1000,3 +1000,41 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+    // Boton ayuda
+    document.addEventListener('DOMContentLoaded', function () {
+      // Elementos del modal
+      const modal = document.getElementById('modalAyudaPersonalizado');
+      const btnAbrir = document.getElementById('botonAyuda');
+      const btnCerrar = document.querySelector('.cerrar-modal');
+      const btnCerrarModal = document.querySelector('.cerrar-modal-btn');
+
+      // Abrir modal
+      btnAbrir.addEventListener('click', function () {
+        modal.classList.add('mostrar');
+        document.body.style.overflow = 'hidden';
+      });
+
+      // Cerrar modal
+      function cerrarModal() {
+        modal.classList.remove('mostrar');
+        document.body.style.overflow = '';
+      }
+
+      btnCerrar.addEventListener('click', cerrarModal);
+      btnCerrarModal.addEventListener('click', cerrarModal);
+
+      // Cerrar al hacer clic fuera del contenido
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+          cerrarModal();
+        }
+      });
+
+      // Cerrar con tecla ESC
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('mostrar')) {
+          cerrarModal();
+        }
+      });
+    });
