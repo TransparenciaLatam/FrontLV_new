@@ -9,11 +9,11 @@
   --danger: #f72585;
   --gray: #6c757d;
   --gray-light: #e9ecef;
-  --general: #4cc9f0; /* Azul claro */
-  --anticorruption: #d7263d; /* Naranja */
-  --humanrights: #ebbf13; /* Morado */
-  --labor: #45c6c2; /* Rosa */
-  --environment: #8dc62a; /* Verde */
+  --general: #4cc9f0; 
+  --anticorruption: #d7263d; 
+  --humanrights: #ebbf13; 
+  --labor: #45c6c2; 
+  --environment: #8dc62a; 
 }
 
 * {

@@ -13,40 +13,6 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  
-  <style>
-
-      @media print {
-    .no-imprimir {
-      display: none !important;
-    }
-  }
-
-
-    .comentario-markdown {
-  padding: 1rem;
-  background-color: #f9f9f9;
-  border-top: 1px solid #ccc;
-  margin-top: 1rem;
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-.comentario-markdown h2 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.comentario-markdown ul {
-  padding-left: 1.2rem;
-  list-style-type: disc;
-}
-
-  .hidden {
-    display: none;
-  }
-  </style>
-
 </head>
 
 <body>
@@ -93,18 +59,13 @@
 
     <!-- Checking Evaluation -->
     <h2>Checking V</h2>
-    <p style="color: var(--gray)">
+    <p class="p-cheking">
       Situación de la empresa y de sus socios respecto a antecedentes de
       soborno y corrupción.
     </p>
-    <ul style="list-style: none; padding: 0; margin: 1rem 0">
-      <li style="
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5rem;
-            color: var(--success);
-          ">
-        <span id="checkingv_result"   style="margin-right: 0.5rem"></span> 
+    <ul class="ul-cheking">
+      <li class="li-cheking">
+        <span id="checkingv_result" style="margin-right: 0.5rem"></span>
       </li>
     </ul>
 
@@ -144,7 +105,7 @@
         <p class="gauge-comment">
           <strong>Comentarios:</strong> <span id="derechos_humanos_califiacion"></span>
         </p>
-        
+
       </div>
 
       <div class="chart-card">
@@ -166,10 +127,10 @@
         <div class="chart-wrapper">
           <canvas id="medioAmbienteChart"></canvas>
         </div>
-                <p class="gauge-comment">
+        <p class="gauge-comment">
           <strong>Comentarios:</strong> <span id="medio_ambiente_califiacion"></span>
         </p>
-       
+
       </div>
 
       <div class="chart-card">
@@ -179,7 +140,7 @@
         <div class="chart-wrapper">
           <canvas id="integridadChart"></canvas>
         </div>
-            <p class="gauge-comment">
+        <p class="gauge-comment">
           <strong>Comentarios:</strong> <span id="anticorrupcion_califiacion"></span>
         </p>
       </div>
@@ -196,7 +157,7 @@
           <span id="derechos_humanos_score" class="score-value "></span>
         </div>
         <div id="derechos_humanos_comentarios"></div>
-       
+
 
         <div class="risk-level-bar">
           <div class="risk-box low ">Riesgo bajo</div>
@@ -210,7 +171,7 @@
           <span class="score-title">Estándares laborales</span>
           <span id="estandares_laborales_score" class="score-value "></span>
         </div>
-       
+
         <div id="estandares_laborales_comentarios"></div>
         <div class="risk-level-bar">
           <div class="risk-box low ">Riesgo bajo</div>
@@ -224,7 +185,7 @@
           <span class="score-title">Protección del medio ambiente</span>
           <span id="medio_ambiente_score" class="score-value"></span>
         </div>
-       <div id="medio_ambiente_comentarios"></div>
+        <div id="medio_ambiente_comentarios"></div>
 
         <div class="risk-level-bar">
           <div class="risk-box low">Riesgo bajo</div>
@@ -247,42 +208,42 @@
       </div>
     </div>
 
-   <!-- Company Details -->
-<h2>Nombre</h2>
-<table>
-  <tr>
-    <th>NOMBRE</th>
-    <td id="company_full_name"></td>
-  </tr>
-  <tr>
-    <th>PAÍS</th>
-    <td id="company_country_table"></td>
-  </tr>
-  <tr>
-    <th>FORMA JURÍDICA</th>
-    <td id="company_legal_form"></td>
-  </tr>
-  <tr>
-    <th>NÚMERO DE IDENTIFICACIÓN TIPO NIT</th>
-    <td id="company_nit_number"></td>
-  </tr>
-  <tr>
-    <th>ACTIVIDAD PRINCIPAL DECLARADA</th>
-    <td id="company_main_activity"></td>
-  </tr>
-  <tr>
-    <th>DIRECCIÓN</th>
-    <td id="company_address"></td>
-  </tr>
-  <tr>
-    <th>FECHA DE INICIO DE ACTIVIDADES</th>
-    <td id="company_activity_start_date"></td>
-  </tr>
-  <tr>
-    <th>WEB</th>
-    <td id="company_web"></td>
-  </tr>
-</table>
+    <!-- Company Details -->
+    <h2>Nombre</h2>
+    <table>
+      <tr>
+        <th>NOMBRE</th>
+        <td id="company_full_name"></td>
+      </tr>
+      <tr>
+        <th>PAÍS</th>
+        <td id="company_country_table"></td>
+      </tr>
+      <tr>
+        <th>FORMA JURÍDICA</th>
+        <td id="company_legal_form"></td>
+      </tr>
+      <tr>
+        <th>NÚMERO DE IDENTIFICACIÓN TIPO NIT</th>
+        <td id="company_nit_number"></td>
+      </tr>
+      <tr>
+        <th>ACTIVIDAD PRINCIPAL DECLARADA</th>
+        <td id="company_main_activity"></td>
+      </tr>
+      <tr>
+        <th>DIRECCIÓN</th>
+        <td id="company_address"></td>
+      </tr>
+      <tr>
+        <th>FECHA DE INICIO DE ACTIVIDADES</th>
+        <td id="company_activity_start_date"></td>
+      </tr>
+      <tr>
+        <th>WEB</th>
+        <td id="company_web"></td>
+      </tr>
+    </table>
 
 
     <!-- Public Profile -->
@@ -291,25 +252,25 @@
     </h3>
     <table>
       <tr>
-        <td colspan="2" >
+        <td colspan="2">
           <strong>Acerca de la Empresa</strong>
           <p>
-           <span id="about_company_description"></span>
+            <span id="about_company_description"></span>
           </p>
         </td>
       </tr>
-<tr id="row_socios" class="hidden">
-  <td colspan="2" >
-    <strong>Información sobre los Socios</strong>
-    <p><span id="socios_company_description"></span></p>
-  </td>
-</tr>
-<tr id="row_busqueda" class="hidden">
-  <td colspan="2">
-    <strong>Información sobre la Búsqueda</strong>
-    <p><span id="busqueda_company_description"></span></p>
-  </td>
-</tr>
+      <tr id="row_socios" class="hidden">
+        <td colspan="2">
+          <strong>Hallazgos</strong>
+          <p><span id="socios_company_description"></span></p>
+        </td>
+      </tr>
+      <tr id="row_busqueda" class="hidden">
+        <td colspan="2">
+          <strong>Información sobre la Búsqueda</strong>
+          <p><span id="busqueda_company_description"></span></p>
+        </td>
+      </tr>
       <tr>
         <td>
           ¿Existe información relevante relacionada con la empresa,
@@ -322,7 +283,8 @@
           ¿Acusaciones relacionadas con actividades ilegítimas? (ver info en
           hallazgo)
         </td>
-        <td style="text-align: center"><strong><span id="accusations_illegitimate_activities_answer"></span></strong></td>
+        <td style="text-align: center"><strong><span id="accusations_illegitimate_activities_answer"></span></strong>
+        </td>
       </tr>
       <tr>
         <td>
@@ -330,7 +292,8 @@
           posición o sus conexiones políticas para negocios ilegítimos? (ver
           info en hallazgo)
         </td>
-        <td style="text-align: center"><strong><span id="political_connections_illegitimate_activities_answer"></span></strong></td>
+        <td style="text-align: center"><strong><span
+              id="political_connections_illegitimate_activities_answer"></span></strong></td>
       </tr>
     </table>
 
@@ -393,81 +356,80 @@
 
 
 
-<!-- Sources -->
-<h2>LISTA DE FUENTES CONSULTADAS PARA ESTE INFORME</h2>
-<table>
-  <tr>
-    <th>Fuente</th>
-    <th>Detalles</th>
-  </tr>
-  <tr>
-    <td><strong>Buscadores</strong></td>
-    <td id="fuentes_buscadores"></td>
-  </tr>
-  <tr>
-    <td><strong>Sitio Web de la Compañía</strong></td>
-    <td id="fuentes_sitio_web"></td>
-  </tr>
-  <tr>
-    <td><strong>Redes</strong></td>
-    <td id="fuentes_redes"></td>
-  </tr>
-  <tr>
-    <td><strong>Blacklists Internacional</strong></td>
-    <td id="fuentes_blacklists_internacional"></td>
-  </tr>
-</table>
+    <!-- Sources -->
+    <h2>LISTA DE FUENTES CONSULTADAS PARA ESTE INFORME</h2>
+    <table>
+      <tr>
+        <th>Fuente</th>
+        <th>Detalles</th>
+      </tr>
+      <tr>
+        <td><strong>Buscadores</strong></td>
+        <td id="fuentes_buscadores"></td>
+      </tr>
+      <tr>
+        <td><strong>Sitio Web de la Compañía</strong></td>
+        <td id="fuentes_sitio_web"></td>
+      </tr>
+      <tr>
+        <td><strong>Redes</strong></td>
+        <td id="fuentes_redes"></td>
+      </tr>
+      <tr>
+        <td><strong>Blacklists Internacional</strong></td>
+        <td id="fuentes_blacklists_internacional"></td>
+      </tr>
+    </table>
 
-   <!-- Findings and Recommendations -->
-<div id="seccion-hallazgos-recomendaciones" style="display: none">
+    <!-- Findings and Recommendations -->
+    <div id="seccion-hallazgos-recomendaciones" style="display: none">
 
-  <!-- Financial Details -->
-  <div id="financieros_card" class="card" style="display: none;">
-    <h2 class="card-title">Detalles Financieros</h2>
-    <div id="contenedor_detalles_financieros"></div>
-  </div>
-
-
+      <!-- Financial Details -->
+      <div id="financieros_card" class="card" style="display: none;">
+        <h2 class="card-title">Detalles Financieros</h2>
+        <div id="contenedor_detalles_financieros"></div>
+      </div>
 
 
-  <h2>Hallazgos y Recomendaciones</h2>
 
-  <!-- Hallazgos -->
-  <div id="contenedor-hallazgos" style="
+
+      <h2>Hallazgos y Recomendaciones</h2>
+
+      <!-- Hallazgos -->
+      <div id="contenedor-hallazgos" style="
         display: none;
         background-color: #fff7ed;
         padding: 1.5rem;
         border-radius: 0.5rem;
         margin: 1.5rem 0;
       ">
-    <p>
-      <strong>⚠️ Hallazgos:</strong>
-      <span id="contenido-hallazgos"></span>
-    </p>
-  </div>
+        <p>
+          <strong>⚠️ Hallazgos:</strong>
+          <span id="contenido-hallazgos"></span>
+        </p>
+      </div>
 
-  <!-- Recomendaciones -->
-  <div id="contenedor-recomendaciones" style="
+      <!-- Recomendaciones -->
+      <div id="contenedor-recomendaciones" style="
         display: none;
         background-color: #f0fdf4;
         padding: 1.5rem;
         border-radius: 0.5rem;
         margin: 1.5rem 0;
       ">
-    <p>
-      <strong>💡 Recomendaciones:</strong>
-      <span id="contenido-recomendaciones"></span>
-    </p>
-  </div>
-</div>
+        <p>
+          <strong>💡 Recomendaciones:</strong>
+          <span id="contenido-recomendaciones"></span>
+        </p>
+      </div>
+    </div>
 
 
     <!-- Conclusion -->
     <div class="conclusion-box">
       <h2>Conclusión</h2>
       <p>
-        <span id="conclusion"
-          style="
+        <span id="conclusion" style="
         color: #000000;
         padding: 1.5rem;
         border-radius: 0.5rem;
@@ -477,9 +439,9 @@
       </p>
     </div>
 
-<script>window.gtranslateSettings = {"default_language":"es","languages":["es","en","fr","de"],"wrapper_selector":".gtranslate_wrapper","alt_flags":{"es":"argentina"}}</script>
-<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
-<div class="gtranslate_wrapper no-imprimir"></div>
+    <script>window.gtranslateSettings = { "default_language": "es", "languages": ["es", "en", "fr", "de"], "wrapper_selector": ".gtranslate_wrapper", "alt_flags": { "es": "argentina" } }</script>
+    <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+    <div class="gtranslate_wrapper no-imprimir"></div>
 
 
 
@@ -501,12 +463,12 @@
 
 
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const datosGuardados = localStorage.getItem("datosFormulario");
+    document.addEventListener("DOMContentLoaded", function () {
+      const datosGuardados = localStorage.getItem("datosFormulario");
 
-    if (datosGuardados) {
-      const datos = JSON.parse(datosGuardados);
-      console.log(datos)
+      if (datosGuardados) {
+        const datos = JSON.parse(datosGuardados);
+        console.log(datos)
 
 
 
@@ -515,23 +477,23 @@
 
 
 
-// CArgar primera seccion
-const nombreEmpresa = document.getElementById('company_name');
-if (nombreEmpresa) nombreEmpresa.textContent = datos.company_name;
+        // CArgar primera seccion
+        const nombreEmpresa = document.getElementById('company_name');
+        if (nombreEmpresa) nombreEmpresa.textContent = datos.company_name;
 
-const paisEmpresa = document.getElementById('company_country');
-if (paisEmpresa) paisEmpresa.textContent = datos.company_country;
+        const paisEmpresa = document.getElementById('company_country');
+        if (paisEmpresa) paisEmpresa.textContent = datos.company_country;
 
-const rubroEmpresa = document.getElementById('company_industry');
-if (rubroEmpresa) rubroEmpresa.textContent = datos.company_industry;
+        const rubroEmpresa = document.getElementById('company_industry');
+        if (rubroEmpresa) rubroEmpresa.textContent = datos.company_industry;
 
 
- // Fecha con formato
+        // Fecha con formato
 
-  const fechaEvaluacion = datos.evaluation_date
-    ? new Date(datos.evaluation_date).toLocaleDateString('es-AR')
-    : '';
-  document.getElementById('evaluation_date').textContent = fechaEvaluacion;
+        const fechaEvaluacion = datos.evaluation_date
+          ? new Date(datos.evaluation_date).toLocaleDateString('es-AR')
+          : '';
+        document.getElementById('evaluation_date').textContent = fechaEvaluacion;
 
 
 
@@ -540,44 +502,51 @@ if (rubroEmpresa) rubroEmpresa.textContent = datos.company_industry;
 
 
 
-//SEccion checking v
+        //SEccion checking v
 
 
-const resultadoCheckingV = "🚨 Existe información que compromete la reputación de la empresa o de los socios";
-mostrarCheckingV(datos.checkingv_result);
+        const resultadoCheckingV = "🚨 Existe información que compromete la reputación de la empresa o de los socios";
+        mostrarCheckingV(datos.checkingv_result);
 
+        function mostrarCheckingV(resultado) {
+          const spanResult = document.getElementById('checkingv_result');
+          if (!spanResult) return;
 
-function mostrarCheckingV(resultado) {
-  const spanResult = document.getElementById('checkingv_result');
-  if (!spanResult) return;
+          // Extraer emoji al inicio con regex (asumiendo que siempre está al principio)
+          const emojiMatch = resultado.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|\p{Emoji_Modifier_Base})/u);
 
-  // Extraer emoji al inicio con regex (asumiendo que siempre está al principio)
-  const emojiMatch = resultado.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|\p{Emoji_Modifier_Base})/u);
+          let emoji = '';
+          let texto = resultado;
 
-  let emoji = '';
-  let texto = resultado;
+          if (emojiMatch) {
+            emoji = emojiMatch[0];
+            texto = resultado.slice(emoji.length).trim();
+          }
 
-  if (emojiMatch) {
-    emoji = emojiMatch[0];
-    texto = resultado.slice(emoji.length).trim();
-  }
+          // Podés agregar estilos o un ícono aparte si querés
+          spanResult.textContent = ''; // limpiar antes
 
-  // Podés agregar estilos o un ícono aparte si querés
-  spanResult.textContent = ''; // limpiar antes
 
-  // Crear un span para el emoji y otro para el texto para estilizar
-  const spanEmoji = document.createElement('span');
-  spanEmoji.textContent = emoji;
-  spanEmoji.style.marginRight = '0.5rem';
+          // Crear un span para el emoji y otro para el texto para estilizar
+          const spanEmoji = document.createElement('span');
+          spanEmoji.textContent = emoji;
+          spanEmoji.style.marginRight = '0.5rem';
 
-  const spanTexto = document.createElement('span');
-  spanTexto.textContent = texto;
+          const spanTexto = document.createElement('span');
+          spanTexto.textContent = texto;
 
-  // Vaciar el span y agregar los dos
-  spanResult.appendChild(spanEmoji);
-  spanResult.appendChild(spanTexto);
-}
+          if (texto == "No existe información que comprometa la reputación de la empresa o de los socios") {
+            spanTexto.style.color = 'var(--success)';
+          } else if (texto == "Existe información relevante a considerar al respecto de la reputación de la empresa o de los socios") {
+            spanTexto.style.color = 'var(--warning)';
+          } else if (texto == "Existe información que compromete la reputación de la empresa o de los socios") {
+            spanTexto.style.color = 'var(--danger)';
+          }
 
+          // Vaciar el span y agregar los dos
+          spanResult.appendChild(spanEmoji);
+          spanResult.appendChild(spanTexto);
+        }
 
 
 
@@ -585,541 +554,542 @@ function mostrarCheckingV(resultado) {
 
 
 
-//Checking V
 
+        //Checking V
 
-    //const percentage = parseFloat(datos.percentage.textContent.replace('%', ''));
-    mostrarCalificacionFinal(datos.percentage);
 
-    function mostrarCalificacionFinal(percentage) {
-  const conclusionBox = document.querySelector('.conclusion-box');
-  const medalContainer = conclusionBox.querySelector('.medal-container');
-  const medalImg = medalContainer.querySelector('.medal-img');
-  const medalMessage = conclusionBox.querySelector('.medal-message');
+        //const percentage = parseFloat(datos.percentage.textContent.replace('%', ''));
+        mostrarCalificacionFinal(datos.percentage);
 
-  // Si no está aprobado
-  if (percentage < 60) {
-    medalContainer.style.display = 'none';
-    medalMessage.innerHTML = `❌ La empresa no ha alcanzado la calificación mínima. Obtuvo <strong>${percentage}%</strong>.`;
-    return;
-  }
+        function mostrarCalificacionFinal(percentage) {
+          const conclusionBox = document.querySelector('.conclusion-box');
+          const medalContainer = conclusionBox.querySelector('.medal-container');
+          const medalImg = medalContainer.querySelector('.medal-img');
+          const medalMessage = conclusionBox.querySelector('.medal-message');
 
-  // Aprobado: determinar medalla
-  let medalSrc = '';
-  let medalAlt = '';
-  let messageText = '';
-  let medalName = '';
+          // Si no está aprobado
+          if (percentage < 60) {
+            medalContainer.style.display = 'none';
+            medalMessage.innerHTML = `❌ La empresa no ha alcanzado la calificación mínima. Obtuvo <strong>${percentage}%</strong>.`;
+            return;
+          }
 
-  if (percentage < 80) {
-    medalSrc = '../../../static/medals/Bronce.svg';
-    medalAlt = 'Proveedor aprobado';
-    medalName = 'Proveedor aprobado';
-  } else if (percentage < 90) {
-    medalSrc = '../../../static/medals/Plata.svg';
-    medalAlt = 'Proveedor destacado';
-    medalName = 'Proveedor destacado';
-  } else {
-    medalSrc = '../../../static/medals/Oro.svg';
-    medalAlt = 'Proveedor TOP';
-    medalName = 'Proveedor TOP';
-  }
+          // Aprobado: determinar medalla
+          let medalSrc = '';
+          let medalAlt = '';
+          let messageText = '';
+          let medalName = '';
 
-  // Mostrar medalla
-  medalImg.src = medalSrc;
-  medalImg.alt = medalAlt;
-  medalContainer.style.display = 'block';
+          if (percentage < 80) {
+            medalSrc = '../../../static/medals/Bronce.svg';
+            medalAlt = 'Proveedor aprobado';
+            medalName = 'Proveedor aprobado';
+          } else if (percentage < 90) {
+            medalSrc = '../../../static/medals/Plata.svg';
+            medalAlt = 'Proveedor destacado';
+            medalName = 'Proveedor destacado';
+          } else {
+            medalSrc = '../../../static/medals/Oro.svg';
+            medalAlt = 'Proveedor TOP';
+            medalName = 'Proveedor TOP';
+          }
+
+          // Mostrar medalla
+          medalImg.src = medalSrc;
+          medalImg.alt = medalAlt;
+          medalContainer.style.display = 'block';
+
+          // Mensaje final
+          medalMessage.innerHTML = `🎉 ¡Felicidades! La empresa ha alcanzado la clasificación <strong>${medalName}</strong> con un puntaje de <strong>${percentage}%</strong>. 🎉`;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function obtenerClasificacion(puntuacion) {
+          if (puntuacion >= 90) {
+            return 'Excelente';
+          } else if (puntuacion >= 80) {
+            return 'Sobresaliente';
+          } else if (puntuacion >= 70) {
+            return 'Bueno';
+          } else if (puntuacion >= 60) {
+            return 'Aprobado';
+          } else {
+            return 'Desaprobado';
+          }
+        }
+
+        // Ejemplo de uso
+        //const puntaje = 85;//  ${datos.derechos_humanos_score}`,
+        //const clasificacion = obtenerClasificacion(puntaje);
+
+        const derechos_humanos_califiacion = document.getElementById('derechos_humanos_califiacion');
+        if (derechos_humanos_califiacion) {
+          derechos_humanos_califiacion.textContent = obtenerClasificacion(datos.derechos_humanos_score);
+        }
+        const estandares_laborales_califiacion = document.getElementById('estandares_laborales_califiacion');
+        if (estandares_laborales_califiacion) {
+          estandares_laborales_califiacion.textContent = obtenerClasificacion(datos.estandares_laborales_score);
+        }
+        const medio_ambiente_califiacion = document.getElementById('medio_ambiente_califiacion');
+        if (medio_ambiente_califiacion) {
+          medio_ambiente_califiacion.textContent = obtenerClasificacion(datos.medio_ambiente_score);
+        }
+        const anticorrupcion_califiacion = document.getElementById('anticorrupcion_califiacion');
+        if (anticorrupcion_califiacion) {
+          anticorrupcion_califiacion.textContent = obtenerClasificacion(datos.anticorrupcion_score);
+        }
+
+
+
+        // Plugin reutilizable para centrar texto
+        const centerTextPlugin = {
+          id: 'centerText',
+          beforeDraw: function (chart) {
+            const { width, height, ctx } = chart;
+            ctx.save();
+
+            const fontSize = 20;
+            ctx.font = `bold ${fontSize}px Arial`;
+            ctx.fillStyle = chart.config.options.plugins.centerText.color || '#000';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            const value = chart.config.options.plugins.centerText.text;
+            const x = width / 2;
+            const y = height / 1.50;
+
+            ctx.fillText(value, x, y);
+            ctx.restore();
+          }
+        };
+
+        //Derechos Humanos
+        new Chart(document.getElementById("derechosChart"), {
+          type: 'doughnut',
+          data: {
+            datasets: [{
+              data: [80, 20],
+              backgroundColor: [
+                '#ebbf13',
+                '#e5e7eb' // gris claro
+              ],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            rotation: -90,
+            circumference: 180,
+            cutout: '75%',
+            plugins: {
+              tooltip: { enabled: false },
+              legend: { display: false },
+              centerText: {
+                text: `${datos.derechos_humanos_score}%`,
+                color: '#ebbf13'
+              }
+            }
+          },
+          plugins: [centerTextPlugin]
+        });
+
+        // Estandares Laborales
+        new Chart(document.getElementById("estandaresChart"), {
+          type: 'doughnut',
+          data: {
+            datasets: [{
+              data: [70, 30],
+              backgroundColor: ['rgb(14, 165, 233)', '#e5e7eb'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            rotation: -90,
+            circumference: 180,
+            cutout: '75%',
+            plugins: {
+              tooltip: { enabled: false },
+              legend: { display: false },
+              centerText: {
+                text: `${datos.estandares_laborales_score}%`,
+                color: 'rgb(14, 165, 233)'
+              }
+            }
+          },
+          plugins: [centerTextPlugin]
+        });
+
+        // Medio Ambiente
+        new Chart(document.getElementById("medioAmbienteChart"), {
+          type: 'doughnut',
+          data: {
+            datasets: [{
+              data: [60, 40],
+              backgroundColor: ['rgb(16, 185, 129)', '#e5e7eb'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            rotation: -90,
+            circumference: 180,
+            cutout: '75%',
+            plugins: {
+              tooltip: { enabled: false },
+              legend: { display: false },
+              centerText: {
+                text: `${datos.medio_ambiente_score}%`,
+                color: 'rgb(16, 185, 129)'
+              }
+            }
+          },
+          plugins: [centerTextPlugin]
+        });
+
+        // Integridad
+        new Chart(document.getElementById("integridadChart"), {
+          type: 'doughnut',
+          data: {
+            datasets: [{
+              data: [90, 10],
+              backgroundColor: ['#d7263d', '#e5e7eb'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            rotation: -90,
+            circumference: 180,
+            cutout: '75%',
+            plugins: {
+              tooltip: { enabled: false },
+              legend: { display: false },
+              centerText: {
+                text: `${datos.anticorrupcion_score}%`,
+                color: '#d7263d'
+              }
+            }
+          },
+          plugins: [centerTextPlugin]
+        });
+
+
+
+
+
+
+
+
+
+
 
-  // Mensaje final
-  medalMessage.innerHTML = `🎉 ¡Felicidades! La empresa ha alcanzado la clasificación <strong>${medalName}</strong> con un puntaje de <strong>${percentage}%</strong>. 🎉`;
-}
 
 
 
+        //Comentarios
 
 
 
 
+        function actualizarPuntaje(puntaje, score_contenedor, contenedor) {
+          const scoreSpan = document.getElementById(score_contenedor);
+          risk = document.getElementById(contenedor)
+          const riskBoxes = {
+            low: risk.querySelector(".risk-box.low"),
+            medium: risk.querySelector(".risk-box.medium"),
+            high: risk.querySelector(".risk-box.high")
+          };
 
 
+          // Actualizar contenido del score
+          scoreSpan.textContent = `${puntaje}%`;
 
+          // Clasificar el puntaje
+          if (puntaje >= 80) {
+            scoreSpan.classList.add("score-good");
+            riskBoxes.low.classList.add("active");
+          } else if (puntaje >= 60) {
+            scoreSpan.classList.add("score-medium");
+            riskBoxes.medium.classList.add("active");
+          } else {
+            scoreSpan.classList.add("score-bad");
+            riskBoxes.high.classList.add("active");
+          }
+        }
 
 
 
 
+        function insertarComentariosMarkdown(texto, selectorElement) {
 
+          const html = marked.parse(texto); // convierte markdown a HTML
 
+          // Crear contenedor profesional para el contenido
+          const comentarioDiv = document.createElement('div');
+          comentarioDiv.className = 'comentario-markdown';
+          comentarioDiv.innerHTML = html;
 
-function obtenerClasificacion(puntuacion) {
-  if (puntuacion >= 90) {
-    return 'Excelente';
-  } else if (puntuacion >= 80) {
-    return 'Sobresaliente';
-  } else if (puntuacion >= 70) {
-    return 'Bueno';
-  } else if (puntuacion >= 60) {
-    return 'Aprobado';
-  } else {
-    return 'Desaprobado';
-  }
-}
+          // Ubicar dentro del div de la score-card
+          const element = document.getElementById(selectorElement);
+          if (element) {
+            element.appendChild(comentarioDiv); // lo podés insertar en otro lugar si preferís
+          }
+        }
 
-// Ejemplo de uso
-//const puntaje = 85;//  ${datos.derechos_humanos_score}`,
-//const clasificacion = obtenerClasificacion(puntaje);
 
-const derechos_humanos_califiacion = document.getElementById('derechos_humanos_califiacion');
-  if (derechos_humanos_califiacion) {
-    derechos_humanos_califiacion.textContent = obtenerClasificacion(datos.derechos_humanos_score);
-  }
-  const estandares_laborales_califiacion = document.getElementById('estandares_laborales_califiacion');
-if (estandares_laborales_califiacion) {
-    estandares_laborales_califiacion.textContent = obtenerClasificacion(datos.estandares_laborales_score);
-  }
-  const medio_ambiente_califiacion = document.getElementById('medio_ambiente_califiacion');
- if (medio_ambiente_califiacion) {
-    medio_ambiente_califiacion.textContent = obtenerClasificacion(datos.medio_ambiente_score);
-  }
-  const anticorrupcion_califiacion = document.getElementById('anticorrupcion_califiacion');
-if (anticorrupcion_califiacion) {
-    anticorrupcion_califiacion.textContent = obtenerClasificacion(datos.anticorrupcion_score);
-  }
 
+        actualizarPuntaje(datos.derechos_humanos_score, 'derechos_humanos_score', 'derechos_humanos_div')
+        actualizarPuntaje(datos.estandares_laborales_score, 'estandares_laborales_score', 'estandares_laborales_div')
+        actualizarPuntaje(datos.medio_ambiente_score, 'medio_ambiente_score', 'medio_ambiente_div')
+        actualizarPuntaje(datos.anticorrupcion_score, 'anticorrupcion_score', 'anticorrupcion_div')
 
+        insertarComentariosMarkdown(datos.derechos_humanos_comentarios, 'derechos_humanos_comentarios')
+        insertarComentariosMarkdown(datos.estandares_laborales_comentarios, 'estandares_laborales_comentarios')
+        insertarComentariosMarkdown(datos.medio_ambiente_comentarios, 'medio_ambiente_comentarios')
+        insertarComentariosMarkdown(datos.anticorrupcion_comentarios, 'anticorrupcion_comentarios')
 
- // Plugin reutilizable para centrar texto
-  const centerTextPlugin = {
-    id: 'centerText',
-    beforeDraw: function(chart) {
-      const { width, height, ctx } = chart;
-      ctx.save();
 
-      const fontSize = 20;
-      ctx.font = `bold ${fontSize}px Arial`;
-      ctx.fillStyle = chart.config.options.plugins.centerText.color || '#000';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
 
-      const value = chart.config.options.plugins.centerText.text;
-      const x = width / 2;
-      const y = height / 1.50;
 
-      ctx.fillText(value, x, y);
-      ctx.restore();
+
+
+
+
+
+
+
+        document.getElementById('company_full_name').textContent = datos.company_full_name || '';
+        document.getElementById('company_country_table').textContent = datos.company_country || '';
+        document.getElementById('company_legal_form').textContent = datos.company_legal_form || '';
+        document.getElementById('company_nit_number').textContent = datos.company_nit_number || '';
+        document.getElementById('company_main_activity').textContent = datos.company_main_activity || '';
+        document.getElementById('company_address').textContent = datos.company_address || '';
+
+        // Fecha con formato
+        const fechaInicio = datos.company_activity_start_date
+          ? new Date(datos.company_activity_start_date).toLocaleDateString('es-AR')
+          : '';
+        document.getElementById('company_activity_start_date').textContent = fechaInicio;
+
+        // Link en la web
+        const webTd = document.getElementById('company_web');
+        if (datos.web) {
+          webTd.innerHTML = `<a href="${datos.web}" target="_blank">${datos.web}</a>`;
+        } else {
+          webTd.textContent = '';
+        }
+
+
+
+
+
+
+
+
+        document.getElementById('about_company_description').textContent = datos.about_company_description || '';
+        document.getElementById('relevant_info_answer').textContent = datos.relevant_info_answer || 'No';
+        document.getElementById('accusations_illegitimate_activities_answer').textContent = datos.accusations_illegitimate_activities_answer || 'No';
+        document.getElementById('political_connections_illegitimate_activities_answer').textContent = datos.political_connections_illegitimate_activities_answer || 'No';
+
+
+
+
+
+
+
+        document.getElementById('fuentes_buscadores').textContent = datos.fuentes_buscadores || '';
+        document.getElementById('fuentes_sitio_web').textContent = datos.fuentes_sitio_web || '';
+        document.getElementById('fuentes_redes').textContent = datos.fuentes_redes || '';
+        document.getElementById('fuentes_blacklists_internacional').textContent = datos.fuentes_blacklists_internacional || '';
+
+
+
+
+
+
+        if (datos.socios_company_description && datos.socios_company_description.trim() !== "") {
+          document.getElementById('socios_company_description').textContent = datos.socios_company_description;
+          document.getElementById('row_socios').classList.remove('hidden');
+        }
+
+        if (datos.busqueda_company_description && datos.busqueda_company_description.trim() !== "") {
+          document.getElementById('busqueda_company_description').textContent = datos.busqueda_company_description;
+          document.getElementById('row_busqueda').classList.remove('hidden');
+        }
+
+
+
+
+
+
+
+
+        if (datos.financieros && datos.financieros.trim() !== "") {
+          document.getElementById("financieros_card").style.display = "block";
+          insertarComentariosMarkdown(datos.financieros, "financieros_contenido");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        const seccionHR = document.getElementById("seccion-hallazgos-recomendaciones");
+        let mostrarSeccion = false;
+
+
+        if (datos.detalles_financieros && datos.detalles_financieros.trim() !== "") {
+          document.getElementById("financieros_card").style.display = "block";
+          insertarComentariosMarkdown(datos.detalles_financieros, "contenedor_detalles_financieros");
+          mostrarSeccion = true;
+        }
+
+        if (datos.hallazgos && datos.hallazgos.trim() !== "") {
+          document.getElementById("contenedor-hallazgos").style.display = "block";
+          insertarComentariosMarkdown(datos.hallazgos, "contenido-hallazgos");
+          mostrarSeccion = true;
+        }
+
+        if (datos.recomendaciones && datos.recomendaciones.trim() !== "") {
+          document.getElementById("contenedor-recomendaciones").style.display = "block";
+          insertarComentariosMarkdown(datos.recomendaciones, "contenido-recomendaciones");
+          mostrarSeccion = true;
+        }
+
+        if (mostrarSeccion) {
+          seccionHR.style.display = "block";
+        }
+
+
+
+
+
+
+
+
+
+
+        insertarComentariosMarkdown(datos.conclusion, 'conclusion')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      }
+    })
+
+
+    // Confetti effect for medal
+    const medalRange = parseInt('75.00%');
+    if (medalRange >= 60) {
+      startConfetti();
     }
-  };
 
-  //Derechos Humanos
-  new Chart(document.getElementById("derechosChart"), {
-    type: 'doughnut',
-    data: {
-      datasets: [{
-        data: [80, 20],
-        backgroundColor: [
-          'rgb(249, 115, 22)', // naranja
-          '#e5e7eb' // gris claro
-        ],
-        borderWidth: 0
-      }]
-    },
-    options: {
-      rotation: -90,
-      circumference: 180,
-      cutout: '75%',
-      plugins: {
-        tooltip: { enabled: false },
-        legend: { display: false },
-        centerText: {
-          text: `${datos.derechos_humanos_score}%`,
-          color: 'rgb(249, 115, 22)'
-        }
+    function startConfetti() {
+      const duration = 5000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
       }
-    },
-    plugins: [centerTextPlugin]
-  });
 
-// Estandares Laborales
-  new Chart(document.getElementById("estandaresChart"), {
-    type: 'doughnut',
-    data: {
-      datasets: [{
-        data: [70, 30],
-        backgroundColor: ['rgb(14, 165, 233)', '#e5e7eb'],
-        borderWidth: 0
-      }]
-    },
-    options: {
-      rotation: -90,
-      circumference: 180,
-      cutout: '75%',
-      plugins: {
-        tooltip: { enabled: false },
-        legend: { display: false },
-        centerText: {
-          text: `${datos.estandares_laborales_score}%`,
-          color: 'rgb(14, 165, 233)'
+      const interval = setInterval(function () {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
         }
-      }
-    },
-    plugins: [centerTextPlugin]
-  });
 
-  // Medio Ambiente
-  new Chart(document.getElementById("medioAmbienteChart"), {
-    type: 'doughnut',
-    data: {
-      datasets: [{
-        data: [60, 40],
-        backgroundColor: ['rgb(16, 185, 129)', '#e5e7eb'],
-        borderWidth: 0
-      }]
-    },
-    options: {
-      rotation: -90,
-      circumference: 180,
-      cutout: '75%',
-      plugins: {
-        tooltip: { enabled: false },
-        legend: { display: false },
-        centerText: {
-          text: `${datos.medio_ambiente_score}%`,
-          color: 'rgb(16, 185, 129)'
-        }
-      }
-    },
-    plugins: [centerTextPlugin]
-  });
-
-  // Integridad
-  new Chart(document.getElementById("integridadChart"), {
-    type: 'doughnut',
-    data: {
-      datasets: [{
-        data: [90, 10],
-        backgroundColor: ['rgb(139, 92, 246)', '#e5e7eb'],
-        borderWidth: 0
-      }]
-    },
-    options: {
-      rotation: -90,
-      circumference: 180,
-      cutout: '75%',
-      plugins: {
-        tooltip: { enabled: false },
-        legend: { display: false },
-        centerText: {
-          text: `${datos.anticorrupcion_score}%`,
-          color: 'rgb(139, 92, 246)'
-        }
-      }
-    },
-    plugins: [centerTextPlugin]
-  });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //Comentarios
-
-
-
-
-function actualizarPuntaje(puntaje,score_contenedor,contenedor) {
-  const scoreSpan = document.getElementById(score_contenedor);
-  risk = document.getElementById(contenedor)
-  const riskBoxes = {
-    low: risk.querySelector(".risk-box.low"),
-    medium: risk.querySelector(".risk-box.medium"),
-    high: risk.querySelector(".risk-box.high")
-  };
-
-
-  // Actualizar contenido del score
-  scoreSpan.textContent = `${puntaje}%`;
-
-  // Clasificar el puntaje
-  if (puntaje >= 80) {
-    scoreSpan.classList.add("score-good");
-    riskBoxes.low.classList.add("active");
-  } else if (puntaje >= 60) {
-    scoreSpan.classList.add("score-medium");
-    riskBoxes.medium.classList.add("active");
-  } else {
-    scoreSpan.classList.add("score-bad");
-    riskBoxes.high.classList.add("active");
-  }
-}
-
-
-
-
-function insertarComentariosMarkdown(texto, selectorElement) {
-  
-  const html = marked.parse(texto); // convierte markdown a HTML
-
-  // Crear contenedor profesional para el contenido
-  const comentarioDiv = document.createElement('div');
-  comentarioDiv.className = 'comentario-markdown';
-  comentarioDiv.innerHTML = html;
-
-  // Ubicar dentro del div de la score-card
-  const element = document.getElementById(selectorElement);
-  if (element) {
-    element.appendChild(comentarioDiv); // lo podés insertar en otro lugar si preferís
-  }
-}
-
-
-
-actualizarPuntaje(datos.derechos_humanos_score,'derechos_humanos_score','derechos_humanos_div')
-actualizarPuntaje(datos.estandares_laborales_score,'estandares_laborales_score','estandares_laborales_div')
-actualizarPuntaje(datos.medio_ambiente_score,'medio_ambiente_score','medio_ambiente_div')
-actualizarPuntaje(datos.anticorrupcion_score,'anticorrupcion_score','anticorrupcion_div')
-
-insertarComentariosMarkdown(datos.derechos_humanos_comentarios, 'derechos_humanos_comentarios')
-insertarComentariosMarkdown(datos.estandares_laborales_comentarios, 'estandares_laborales_comentarios')
-insertarComentariosMarkdown(datos.medio_ambiente_comentarios, 'medio_ambiente_comentarios')
-insertarComentariosMarkdown(datos.anticorrupcion_comentarios, 'anticorrupcion_comentarios')
-
-
-
-
-
-
-
-
-
-
-
- document.getElementById('company_full_name').textContent = datos.company_full_name || '';
-  document.getElementById('company_country_table').textContent = datos.company_country || '';
-  document.getElementById('company_legal_form').textContent = datos.company_legal_form || '';
-  document.getElementById('company_nit_number').textContent = datos.company_nit_number || '';
-  document.getElementById('company_main_activity').textContent = datos.company_main_activity || '';
-  document.getElementById('company_address').textContent = datos.company_address || '';
-
-  // Fecha con formato
-  const fechaInicio = datos.company_activity_start_date
-    ? new Date(datos.company_activity_start_date).toLocaleDateString('es-AR')
-    : '';
-  document.getElementById('company_activity_start_date').textContent = fechaInicio;
-
-  // Link en la web
-  const webTd = document.getElementById('company_web');
-  if (datos.web) {
-    webTd.innerHTML = `<a href="${datos.web}" target="_blank">${datos.web}</a>`;
-  } else {
-    webTd.textContent = '';
-  }
-
-
-
-
-
-
-
-
-  document.getElementById('about_company_description').textContent = datos.about_company_description || '';
-  document.getElementById('relevant_info_answer').textContent = datos.relevant_info_answer || 'No';
-  document.getElementById('accusations_illegitimate_activities_answer').textContent = datos.accusations_illegitimate_activities_answer || 'No';
-  document.getElementById('political_connections_illegitimate_activities_answer').textContent = datos.political_connections_illegitimate_activities_answer || 'No';
-
-
-
-
-
-
-
-document.getElementById('fuentes_buscadores').textContent = datos.fuentes_buscadores || '';
-document.getElementById('fuentes_sitio_web').textContent = datos.fuentes_sitio_web || '';
-document.getElementById('fuentes_redes').textContent = datos.fuentes_redes || '';
-document.getElementById('fuentes_blacklists_internacional').textContent = datos.fuentes_blacklists_internacional || '';
-
-
-
-
-
-
-if (datos.socios_company_description && datos.socios_company_description.trim() !== "") {
-  document.getElementById('socios_company_description').textContent = datos.socios_company_description;
-  document.getElementById('row_socios').classList.remove('hidden');
-}
-
-if (datos.busqueda_company_description && datos.busqueda_company_description.trim() !== "") {
-  document.getElementById('busqueda_company_description').textContent = datos.busqueda_company_description;
-  document.getElementById('row_busqueda').classList.remove('hidden');
-}
-
-
-
-
-
-
-
-
-  if (datos.financieros && datos.financieros.trim() !== "") {
-  document.getElementById("financieros_card").style.display = "block";
-  insertarComentariosMarkdown(datos.financieros, "financieros_contenido");
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  const seccionHR = document.getElementById("seccion-hallazgos-recomendaciones");
-let mostrarSeccion = false;
-
-
-if (datos.detalles_financieros && datos.detalles_financieros.trim() !== "") {
-  document.getElementById("financieros_card").style.display = "block";
-  insertarComentariosMarkdown(datos.detalles_financieros, "contenedor_detalles_financieros");
-  mostrarSeccion = true;
-}
-
-if (datos.hallazgos && datos.hallazgos.trim() !== "") {
-  document.getElementById("contenedor-hallazgos").style.display = "block";
-  insertarComentariosMarkdown(datos.hallazgos, "contenido-hallazgos");
-  mostrarSeccion = true;
-}
-
-if (datos.recomendaciones && datos.recomendaciones.trim() !== "") {
-  document.getElementById("contenedor-recomendaciones").style.display = "block";
-  insertarComentariosMarkdown(datos.recomendaciones, "contenido-recomendaciones");
-  mostrarSeccion = true;
-}
-
-if (mostrarSeccion) {
-  seccionHR.style.display = "block";
-}
-
-
-
-
-
-
-
-
-
-
-insertarComentariosMarkdown(datos.conclusion, 'conclusion')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-  })
-
-
-  // Confetti effect for medal
-  const medalRange = parseInt('75.00%');
-  if (medalRange >= 60) {
-    startConfetti();
-  }
-
-  function startConfetti() {
-    const duration = 5000;
-    const animationEnd = Date.now() + duration;
-    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-
-    function randomInRange(min, max) {
-      return Math.random() * (max - min) + min;
+        const particleCount = 50 * (timeLeft / duration);
+        confetti(Object.assign({}, defaults, {
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+        }));
+        confetti(Object.assign({}, defaults, {
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+        }));
+      }, 250);
     }
 
-    const interval = setInterval(function() {
-      const timeLeft = animationEnd - Date.now();
-
-      if (timeLeft <= 0) {
-        return clearInterval(interval);
-      }
-
-      const particleCount = 50 * (timeLeft / duration);
-      confetti(Object.assign({}, defaults, {
-        particleCount,
-        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
-      }));
-      confetti(Object.assign({}, defaults, {
-        particleCount,
-        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
-      }));
-    }, 250);
-  }
 
 
 
-
-  function shareOnLinkedIn() {
-    const postText = encodeURIComponent("I completed a Due Diligence Report! Check out the findings. #DueDiligence #BusinessEthics #Compliance");
-    const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${window.location.href}&text=${postText}`;
-    window.open(linkedInUrl, '_blank');
-  }
+    function shareOnLinkedIn() {
+      const postText = encodeURIComponent("I completed a Due Diligence Report! Check out the findings. #DueDiligence #BusinessEthics #Compliance");
+      const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${window.location.href}&text=${postText}`;
+      window.open(linkedInUrl, '_blank');
+    }
 
   </script>
 </body>

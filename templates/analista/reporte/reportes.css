@@ -9,6 +9,10 @@
   --light: #f8fafc;
   --gray: #64748b;
   --gray-light: #e2e8f0;
+  --anticorruption: #d7263d;
+  --humanrights: #ebbf13;
+  --labor: #45c6c2;
+  --environment: #8dc62a;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --border-radius: 12px;
@@ -263,8 +267,8 @@ table th {
 }
 
 .medal-img {
-  width: 120px;
-  height: 120px;
+  width: 180px;
+  height: 150px;
   object-fit: contain;
   animation: bounceIn 1s ease-out;
 }
@@ -455,15 +459,19 @@ footer p {
     /* Evita corte después del título */
     break-after: avoid;
   }
+  .no-imprimir {
+        display: none !important;
+  
+  }
 }
 
 /* Category gradients */
 .gradient-bg {
-  background: linear-gradient(135deg, #f97316, #f59e0b);
+  background: linear-gradient(135deg,#ebbf13, #f7f25a);
 }
 
 .gradient-politica-integridad-bg {
-  background: linear-gradient(135deg, #8b5cf6, #d946ef);
+  background: linear-gradient(135deg, #d7263d, #ff8787);
 }
 
 .gradient-medio-ambiente-bg {
@@ -686,8 +694,48 @@ tr:hover td {
   color: #e63946;
 }
 
+/*Cheking V*/
+.p-cheking {
+  color: var(--gray)
+}
+
+.container .ul-cheking {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0
+}
+
+.container .li-cheking {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.comentario-markdown {
+      padding: 1rem;
+      border-top: 1px solid #ccc;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .comentario-markdown h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .comentario-markdown ul {
+      padding-left: 1.2rem;
+      list-style-type: disc;
+    }
+
+    .hidden {
+      display: none;
+    }
+
 /*Impimir*/
 @media print {
+
   table,
   tr,
   td,
@@ -815,6 +863,7 @@ tr:hover td {
   .card {
     padding: 0px;
   }
+
   .text-card-dh {
     flex-direction: column;
     align-items: flex-start;
