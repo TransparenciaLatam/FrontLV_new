@@ -475,11 +475,11 @@ footer p {
 }
 
 .gradient-medio-ambiente-bg {
-  background: linear-gradient(135deg, #10b981, #84cc16);
+  background: linear-gradient(135deg, #10b981, #97c357);
 }
 
 .gradient-estandares-laborales-bg {
-  background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+  background: linear-gradient(135deg,#3b82f6, #0ea5e9 );
 }
 
 /* Icons */
