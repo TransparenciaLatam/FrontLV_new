@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
+ <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Due Diligence Evaluation Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,11 +10,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
   <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    // backend
-    // const backendUrl = "https://spare-lori-comunicaciontransparencia-c8581775.koyeb.app";
-    const backendUrl = "http://127.0.0.1:8000";
-  </script>
+  
+
   <style>
     /* Modern Reset and Base Styles - No changes from previous version */
     body {
@@ -335,6 +332,8 @@
 
   </style>
 </head>
+
+
 <body>
 <div class="container">
   <h1>Dashboard para Evaluación de Debida Diligencia</h1>
@@ -348,13 +347,8 @@
   </div>
 
   <!-- Fill Form Button -->
-  <button id="fillFormButton" type="button">Llenar Formulario de Prueba con lenguaje actual</button>
+  <button id="fillFormButton" type="button">Llenar Formulario</button>
   <div style="text-align: center; margin-top: 20px;">
-    <label style="font-weight: bold;">
-      Idioma del Reporte:
-      <input type="checkbox" id="langToggle" />
-      <span id="langLabel">Español</span>
-    </label>
   </div>
 
 
@@ -416,12 +410,12 @@
   <div class="section">
     <h2>2. Comentarios y Perfil Público</h2>
     <div class="input-group">
-      <label for="comment_paragraph_1_text">Comentario Párrafo 1 (Socios):</label>
-      <textarea id="comment_paragraph_1_text"></textarea>
+      <label for="socios_company_description">Comentario Párrafo 1 (Socios):</label>
+      <textarea id="socios_company_description"></textarea>
     </div>
     <div class="input-group">
-      <label for="comment_paragraph_2_text">Comentario Párrafo 2 (Búsquedas):</label>
-      <textarea id="comment_paragraph_2_text"></textarea>
+      <label for="busqueda_company_description">Comentario Párrafo 2 (Búsquedas):</label>
+      <textarea id="busqueda_company_description"></textarea>
     </div>
     <div class="input-group">
       <label for="about_company_description">Acerca de la Empresa - Descripción General:</label>
@@ -450,16 +444,16 @@
     </div>
   </div>
 
-  <!-- Section 3: Evaluación ABAC -->
+  <!-- Section 3: Checking V -->
   <div class="section">
-    <h2>3. Evaluación ABAC</h2>
+    <h2>3. Checking V</h2>
     <p>Situación de la empresa y de sus socios respecto a antecedentes de soborno y corrupción.</p>
     <br><br>
-    <label>Selecciona la opción que corresponde (ABAC Result):</label>
+    <label>Selecciona la opción que corresponde:</label>
     <div>
-      <input type="radio" name="abac_result" value="✅ No existe información que comprometa la reputación de la empresa o de los socios" id="abac_result_no_compromise"> <label for="abac_result_no_compromise">No existe información que comprometa la reputación de la empresa o de los socios</label><br>
-      <input type="radio" name="abac_result" value="⚠️ Existe información relevante a considerar al respecto de la reputación de la empresa o de los socios" id="abac_result_relevant_info"> <label for="abac_result_relevant_info">Existe información relevante a considerar al respecto de la reputación de la empresa o de los socios</label><br>
-      <input type="radio" name="abac_result" value="🚨 Existe información que compromete la reputación de la empresa o de los socios" id="abac_result_compromise"> <label for="abac_result_compromise">Existe información que compromete la reputación de la empresa o de los socios</label>
+      <input type="radio" name="checkingv_result" value="✅ No existe información que comprometa la reputación de la empresa o de los socios" id="checkingv_result_no_compromise"> <label for="checkingv_result_no_compromise">No existe información que comprometa la reputación de la empresa o de los socios</label><br>
+      <input type="radio" name="checkingv_result" value="⚠️ Existe información relevante a considerar al respecto de la reputación de la empresa o de los socios" id="checkingv_result_relevant_info"> <label for="checkingv_result_relevant_info">Existe información relevante a considerar al respecto de la reputación de la empresa o de los socios</label><br>
+      <input type="radio" name="checkingv_result" value="🚨 Existe información que compromete la reputación de la empresa o de los socios" id="checkingv_result_compromise"> <label for="checkingv_result_compromise">Existe información que compromete la reputación de la empresa o de los socios</label>
     </div>
   </div>
 
@@ -509,25 +503,10 @@
     </div>
   </div>
 
-  <!-- Section 4: Puntuación y Medalla -->
-  <div class="section">
-    <h2>4. Puntuación y Medalla</h2>
-    <label for="percentage">Selecciona el porcentaje general de desempeño:</label>
-    <input type="range" id="percentage" min="0" max="100" value="50">
-    <span id="percentageValue">50%</span>
-    <br><br>
-    <div id="medalDisplay" class="medal-display">
-      <img id="medalImage" src="imgs/medals/Bronce.svg" alt="Medal">
-      <div>
-        <h3 id="medalTitle" data-medal-title="Proveedor aprobado">Proveedor aprobado</h3>
-        <p id="medalRange" data-medal-range="Puntaje: 65% - 80%">Puntaje: 65% - 80%</p>
-      </div>
-    </div>
-  </div>
 
-  <!-- Section 5: Evaluación por Ejes -->
+  <!-- Section 4: Evaluación por Ejes -->
   <div class="section">
-    <h2>5. Evaluación de los Ejes</h2>
+    <h2>4. Evaluación de los Ejes</h2>
     <h3>Derechos Humanos</h3>
     <div class="input-group">
       <label for="derechos_humanos_score">Puntaje:</label>
@@ -550,191 +529,156 @@
       <textarea id="estandares_laborales_comentarios" maxlength="300"></textarea>
     </div>
 
-    <h3>Protección del Medio Ambiente</h3>
+    <h3>Medio Ambiente</h3>
     <div class="input-group">
-      <label for="proteccion_medio_ambiente_score">Puntaje:</label>
-      <input type="range" id="proteccion_medio_ambiente_score" min="0" max="100" value="50">
-      <span id="proteccion_medio_ambiente_scoreValue">50</span>
+      <label for="medio_ambiente_score">Puntaje:</label>
+      <input type="range" id="medio_ambiente_score" min="0" max="100" value="50">
+      <span id="medio_ambiente_scoreValue">50</span>
     </div>
     <div class="input-group">
-      <label for="proteccion_medio_ambiente_comentarios">Comentarios sobre Protección del Medio Ambiente:</label>
-      <textarea id="proteccion_medio_ambiente_comentarios" maxlength="300"></textarea>
+      <label for="medio_ambiente_comentarios">Comentarios sobre Protección del Medio Ambiente:</label>
+      <textarea id="medio_ambiente_comentarios" maxlength="300"></textarea>
     </div>
 
-    <h3>Integridad</h3>
+    <h3>Anticorrupcion</h3>
     <div class="input-group">
-      <label for="integridad_score">Puntaje:</label>
-      <input type="range" id="integridad_score" min="0" max="100" value="50">
-      <span id="integridad_scoreValue">50</span>
+      <label for="anticorrupcion_score">Puntaje:</label>
+      <input type="range" id="anticorrupcion_score" min="0" max="100" value="50">
+      <span id="anticorrupcion_scoreValue">50</span>
     </div>
     <div class="input-group">
-      <label for="integridad_comentarios">Comentarios sobre Integridad:</label>
-      <textarea id="integridad_comentarios" maxlength="300"></textarea>
+      <label for="anticorrupcion">Comentarios sobre anticorrupcion:</label>
+      <textarea id="anticorrupcion_comentarios" maxlength="300"></textarea>
     </div>
   </div>
 
-  <!-- Section 6: Hallazgos y Recomendaciones -->
+
+
+
+    <!-- Section 5: Puntuación y Medalla -->
   <div class="section">
-    <h2>6. Puntos de mejora</h2>
+    <h2>5. Puntuación y Medalla</h2>
+    <label for="percentage">Selecciona el porcentaje general de desempeño:</label>
+    <input type="range" id="percentage" min="0" max="100" value="50">
+    <p id="disapprovalMessage" style="color: red; display: none;">Proveedor no aprobado</p>
+    <span id="percentageValue">50%</span>
+    <br><br>
+    <div id="medalDisplay" class="medal-display">
+      <img id="medalImage" src="../static/medals/Bronce.svg" alt="Medal">
+      <div>
+        <h3 id="medalTitle" data-medal-title="Proveedor aprobado">Proveedor aprobado</h3>
+        <p id="medalRange" data-medal-range="Puntaje: 65% - 80%">Puntaje: 65% - 80%</p>
+      </div>
+    </div>
+  </div>
+
+
+
+    <!-- Section 6: Detalles Financieros -->
+  <div class="section">
+    <h2>6. Detalles Financieros</h2>
+    <div class="input-group">
+      <label for="detalles_financieros">Describa los detalles financieros:</label>
+      <textarea id="detalles_financieros"></textarea>
+    </div>
+  </div>
+
+
+  <!-- Section 7: Hallazgos -->
+  <div class="section">
+    <h2>7. Hallazgos</h2>
+    <div class="input-group">
+      <label for="hallazgos">Describa los hallazgos:</label>
+      <textarea id="hallazgos"></textarea>
+    </div>
+  </div>
+  <!-- Section 8: Hallazgos y Recomendaciones -->
+  <div class="section">
+    <h2>8. Puntos de mejora</h2>
     <div class="input-group">
       <label for="recomendaciones">Describe las recomendaciones propuestas:</label>
       <textarea id="recomendaciones"></textarea>
     </div>
   </div>
 
-  <!-- Section 7: Conclusión -->
+
+
+   <!-- Section 9: fuentes -->
   <div class="section">
-    <h2>7. Conclusión</h2>
+    <h2>9. Fuentes consultadas</h2>
+    <div class="input-group">
+      <label for="fuentes_buscadores">Buscadores:</label>
+      <input type="text" id="fuentes_buscadores" placeholder="buscadores">
+    </div>
+    <div class="input-group">
+      <label for="fuentes_sitio_web">Sitio Web de la Compañía:</label>
+      <input type="text" id="fuentes_sitio_web" placeholder="sitio web">
+    </div>
+    <div class="input-group">
+      <label for="fuentes_redes">Redes:</label>
+      <input type="text" id="fuentes_redes" placeholder="redes">
+    </div>
+    <div class="input-group">
+      <label for="fuentes_blacklists_internacional">Blacklists Internacional:</label>
+      <input type="text" id="fuentes_blacklists_internacional" placeholder="Blacklists Internacional">
+    </div>
+    
+  </div>
+
+  <!-- Section 10: Conclusión -->
+  <div class="section">
+    <h2>10. Conclusión</h2>
     <div class="input-group">
       <label for="conclusion">Escribe la conclusión:</label>
       <textarea id="conclusion" placeholder="Escribe aquí la conclusión..."></textarea>
     </div>
   </div>
-
-  <script>
-          function verificarAcceso() {
-        const usuario = localStorage.getItem("usuarioLogueado");
-        if (!usuario || usuario != 'admin') {
-          alert("No tienes acceso. Iniciá sesión.");
-          window.location.href = "../../index.html";
-        }
-      }
-
-      verificarAcceso(); // ejecutar al inicio de cada página privada
-
-
-
-    let reportLanguage = 'es'; // Default language
-    let selected_report = 'THEREPORTSPANISH.html'; // Default report
-    const fillFormButton = document.getElementById('fillFormButton'); // Get the button element
-
-    const langToggle = document.getElementById('langToggle');
-    const langLabel = document.getElementById('langLabel');
-
-    // Function to update button text
-    function updateFillFormButtonText() {
-      if (reportLanguage === 'es') {
-        fillFormButton.textContent = 'Llenar Formulario de Prueba (Español)';
-      } else {
-        fillFormButton.textContent = 'Fill Test Form (English)';
-      }
-    }
-
-    // Language switch logic
-    langToggle.addEventListener('change', function () {
-      reportLanguage = this.checked ? 'en' : 'es';
-      selected_report = reportLanguage === 'en'
-        ? 'THEREPORTENGLISH.html'
-        : 'THEREPORTSPANISH.html';
-
-      langLabel.textContent = this.checked ? 'Inglés' : 'Español';
-      updateFillFormButtonText();
-    });
-
-    // Set initial button text
-    updateFillFormButtonText();
-
-    function switchFormLanguage() {
-      const currentLanguage = document.getElementById('form-section').getAttribute('data-language');
-      const newLanguage = currentLanguage === 'es' ? 'en' : 'es';
-      document.getElementById('form-section').setAttribute('data-language', newLanguage);
-      document.getElementById('switchFormLanguageButton').textContent = newLanguage === 'es' ? 'Switch to English' : 'Cambiar a Español';
-    }
-
-    // Initialize EasyMDE instances - CORRECTED INITIALIZATION AND MAXLENGTH
-    const easyMDE_derechos_humanos = new EasyMDE({ element: document.getElementById("derechos_humanos_comentarios")});
-    const easyMDE_estandares_laborales = new EasyMDE({ element: document.getElementById("estandares_laborales_comentarios")});
-    const easyMDE_proteccion_medio_ambiente = new EasyMDE({ element: document.getElementById("proteccion_medio_ambiente_comentarios")});
-    const easyMDE_integridad = new EasyMDE({ element: document.getElementById("integridad_comentarios")});
-    const easyMDE_recomendaciones = new EasyMDE({ element: document.getElementById("recomendaciones")}); // Initialize here!
-    const easyMDE_conclusion = new EasyMDE({ element: document.getElementById("conclusion")}); // Initialize here!
-    const maxLength = Infinity; // Define your character limit
-
-    // Function to enforce character limit on an EasyMDE instance
-    function enforceMaxLength(easyMDEInstance, limit) {
-      easyMDEInstance.codemirror.on("change", function(cm, changeObj) {
-        let currentText = cm.getValue();
-        if (currentText.length > limit) {
-          // Revert the change, effectively truncating the input
-          cm.setValue(currentText.substring(0, limit));
-        }
-      });
-    }
-
-    enforceMaxLength(easyMDE_derechos_humanos, maxLength);
-    enforceMaxLength(easyMDE_estandares_laborales, maxLength);
-    enforceMaxLength(easyMDE_proteccion_medio_ambiente, maxLength);
-    enforceMaxLength(easyMDE_integridad, maxLength);
-  </script>
-
   <!-- Generate Report Button -->
-  <button  class="btn-blue" onclick="generarReporte()">Generar Reporte</button>
+  <button  class="btn-blue" onclick="recolectarDatosFormulario()">Generar Reporte</button>
 </div>
 
+
+
+
+</body>
+
 <script>
-  // Medal Logic and Percentage Slider Update - No changes from previous version
-  const percentageInput = document.getElementById('percentage');
-  const percentageValue = document.getElementById('percentageValue');
-  const medalDisplay = document.getElementById('medalDisplay');
-  const medalImage = document.getElementById('medalImage');
-  const medalTitle = document.getElementById('medalTitle');
-  const medalRange = document.getElementById('medalRange');
-  let medalColor = "#111111"; // Default color bronze
 
-  percentageInput.addEventListener('input', () => {
-    const percentage = parseInt(percentageInput.value);
-    percentageValue.textContent = `${percentage}%`;
 
-    if (percentage < 60) {
-      medalDisplay.style.display = 'none';
-    } else {
-      medalDisplay.style.display = 'flex';
-      let medal = "Bronce";
-      medalColor = "#111111";
-      let medalRangeText = "65% - 80%";
-      let medalImageSrc = "imgs/medals/Bronce.svg";
-      let medalTitleText = "Proveedor aprobado";
+      function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
-      if (percentage >= 80 && percentage < 90) {
-        medal = "Plata";
-        medalColor = "#111111";
-        medalRangeText = "80% - 90%";
-        medalImageSrc = "imgs/medals/Plata.svg";
-        medalTitleText = "Proveedor destacado";
-      } else if (percentage >= 90) {
-        medal = "Oro";
-        medalColor = "#111111";
-        medalRangeText = "90% - 100%";
-        medalImageSrc = "imgs/medals/Oro.svg";
-        medalTitleText = "Proveedor TOP";
-      }
 
-      medalImage.src = medalImageSrc;
-      medalTitle.textContent = medalTitleText;
-      medalTitle.dataset.medalTitle = medalTitleText;
-      medalRange.textContent = `Puntaje: ${medalRangeText}`;
-      medalRange.dataset.medalRange = medalRangeText;
-    }
+
+
+  // Add event listener to the "Fill Form" button
+  document.getElementById('fillFormButton').addEventListener('click', function() {
+   
+      fillFormForTest();
+
   });
 
-  // Update individual axis slider values in real-time - No changes from previous version
-  const derechosHumanosScoreInput = document.getElementById('derechos_humanos_score');
-  const derechosHumanosScoreValue = document.getElementById('derechos_humanos_scoreValue');
-  derechosHumanosScoreInput.addEventListener('input', () => { derechosHumanosScoreValue.textContent = derechosHumanosScoreInput.value; });
-
-  const estandaresLaboralesScoreInput = document.getElementById('estandares_laborales_score');
-  const estandaresLaboralesScoreValue = document.getElementById('estandares_laborales_scoreValue');
-  estandaresLaboralesScoreInput.addEventListener('input', () => { estandaresLaboralesScoreValue.textContent = estandaresLaboralesScoreInput.value; });
-
-  const proteccionMedioAmbienteScoreInput = document.getElementById('proteccion_medio_ambiente_score');
-  const proteccionMedioAmbienteScoreValue = document.getElementById('proteccion_medio_ambiente_scoreValue');
-  proteccionMedioAmbienteScoreInput.addEventListener('input', () => { proteccionMedioAmbienteScoreValue.textContent = proteccionMedioAmbienteScoreInput.value; });
-
-  const integridadScoreInput = document.getElementById('integridad_score');
-  const integridadScoreValue = document.getElementById('integridad_scoreValue');
-  integridadScoreInput.addEventListener('input', () => { integridadScoreValue.textContent = integridadScoreInput.value; });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   let partnerCount = 1;
 
   function addPartnerSection() { // No changes from previous version
@@ -791,305 +735,270 @@
   }
 
 
-  function generateReport() {
-    // Section 0 - No changes from previous version
-    const company_name = document.getElementById('company_name').value;
-    const company_country = document.getElementById('company_country').value;
-    const company_industry = document.getElementById('company_industry').value;
-    const evaluation_date = document.getElementById('evaluation_date').value;
 
-    // Section 1 - No changes from previous version
-    const company_full_name = document.getElementById('company_full_name').value;
-    const company_legal_form = document.getElementById('company_legal_form').value;
-    const company_nit_number = document.getElementById('company_nit_number').value;
-    const company_main_activity = document.getElementById('company_main_activity').value;
-    const company_address = document.getElementById('company_address').value;
-    const company_activity_start_date = document.getElementById('company_activity_start_date').value;
-    const web = document.getElementById('web').value;
 
-    // Section 2 - No changes from previous version
-    const comment_paragraph_1_text = document.getElementById('comment_paragraph_1_text').value;
-    const comment_paragraph_2_text = document.getElementById('comment_paragraph_2_text').value;
-    const about_company_description = document.getElementById('about_company_description').value;
-    const relevant_info_answer = document.getElementById('relevant_info_answer').value;
-    const accusations_illegitimate_activities_answer = document.getElementById('accusations_illegitimate_activities_answer').value;
-    const political_connections_illegitimate_activities_answer = document.getElementById('political_connections_illegitimate_activities_answer').value;
 
-    // Section 3 - No changes from previous version
-    const abac_result = document.querySelector('input[name="abac_result"]:checked').value;
 
-    // Section 3.1 (Socios) - No changes from previous version
-    const partners = [];
-    const partnerSections = document.querySelectorAll('.partner-section');
-    partnerSections.forEach(section => {
-      const index = section.dataset.partnerIndex;
-      partners.push({
-        partner_name: document.getElementById(`partner_name_${index}`).value,
-        partner_full_name: document.getElementById(`partner_full_name_${index}`).value,
-        partner_position: document.getElementById(`partner_position_${index}`).value,
-        partner_id_number: document.getElementById(`partner_id_number_${index}`).value,
-        partner_is_pep_answer: document.getElementById(`partner_is_pep_answer_${index}`).value,
-        partner_relevant_info_answer: document.getElementById(`partner_relevant_info_answer_${index}`).value,
-      });
-    });
 
-    // Section 4 - No changes from previous version
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Medal Logic and Percentage Slider Update - No changes from previous version
+  const percentageInput = document.getElementById('percentage');
+  const percentageValue = document.getElementById('percentageValue');
+  const medalDisplay = document.getElementById('medalDisplay');
+  const medalImage = document.getElementById('medalImage');
+  const medalTitle = document.getElementById('medalTitle');
+  const medalRange = document.getElementById('medalRange');
+  let medalColor = "#111111"; // Default color bronze
+  const disapprovalMessage = document.getElementById('disapprovalMessage');
+
+
+  percentageInput.addEventListener('input', () => {
     const percentage = parseInt(percentageInput.value);
-    const medal_title_text = medalTitle.dataset.medalTitle;
-    const aggregated_score = (
-      parseInt(document.getElementById('derechos_humanos_scoreValue').textContent) +
-      parseInt(document.getElementById('estandares_laborales_scoreValue').textContent) +
-      parseInt(document.getElementById('proteccion_medio_ambiente_scoreValue').textContent) +
-      parseInt(document.getElementById('integridad_scoreValue').textContent)
-    ) / 4;
+    percentageValue.textContent = `${percentage}%`;
 
-    const medal_range_text = `${aggregated_score.toFixed(2)}%`;
-    const medal_html_content = `<img src="${medalImage.src}" alt="${medalTitle.textContent}" style="width: 250px;">`;
-    const medalColorVal = medalColor;
-
-    // Section 5 - **UPDATED to get values from EasyMDE instances**
-    const derechos_humanos_score = parseInt(document.getElementById('derechos_humanos_score').value);
-    const derechos_humanos_comentarios = marked.parse(easyMDE_derechos_humanos.value());
-
-    const estandares_laborales_score = parseInt(document.getElementById('estandares_laborales_score').value);
-    const estandares_laborales_comentarios = marked.parse(easyMDE_estandares_laborales.value());
-
-    const proteccion_medio_ambiente_score = parseInt(document.getElementById('proteccion_medio_ambiente_score').value);
-    const proteccion_medio_ambiente_comentarios = marked.parse(easyMDE_proteccion_medio_ambiente.value());
-
-    const integridad_score = parseInt(document.getElementById('integridad_score').value);
-    const integridad_comentarios = marked.parse(easyMDE_integridad.value());
-
-    const recomendaciones = marked.parse(easyMDE_recomendaciones.value());
-
-    // Section 7 - No changes from previous version
-    const conclusion = marked.parse(easyMDE_conclusion.value());
-
-    // Determine ABAC color dynamically - No changes from previous version
-    let abacColor = '';
-    if (abac_result === "No existe información que comprometa la reputación de la empresa o de los socios") {
-      abacColor = '#77dd77';
-    } else if (abac_result === "Existe información relevante a considerar al respecto de la reputación de la empresa o de los socios") {
-      abacColor = '#ffff80';
-    } else if (abac_result === "Existe información que compromete la reputación de la empresa o de los socios") {
-      abacColor = '#ff6961';
+    if (percentage < 60) {
+      medalDisplay.style.display = 'none';
+      disapprovalMessage.style.display = 'block';
     } else {
-      abacColor = '#ffffff';
+      disapprovalMessage.style.display = 'none';
+      medalDisplay.style.display = 'flex';
+      let medal = "Bronce";
+      medalColor = "#111111";
+      let medalRangeText = "65% - 80%";
+      let medalImageSrc = "../static/medals/Bronce.svg";
+      let medalTitleText = "Proveedor aprobado";
+
+      if (percentage >= 80 && percentage < 90) {
+        medal = "Plata";
+        medalColor = "#111111";
+        medalRangeText = "80% - 90%";
+        medalImageSrc = "../static/medals/Plata.svg";
+        medalTitleText = "Proveedor destacado";
+      } else if (percentage >= 90) {
+        medal = "Oro";
+        medalColor = "#111111";
+        medalRangeText = "90% - 100%";
+        medalImageSrc = "../static/medals/Oro.svg";
+        medalTitleText = "Proveedor TOP";
+      }
+
+      medalImage.src = medalImageSrc;
+      medalTitle.textContent = medalTitleText;
+      medalTitle.dataset.medalTitle = medalTitleText;
+      medalRange.textContent = `Puntaje: ${medalRangeText}`;
+      medalRange.dataset.medalRange = medalRangeText;
+    }
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Update individual axis slider values in real-time - No changes from previous version
+  const derechosHumanosScoreInput = document.getElementById('derechos_humanos_score');
+  const derechosHumanosScoreValue = document.getElementById('derechos_humanos_scoreValue');
+  derechosHumanosScoreInput.addEventListener('input', () => { derechosHumanosScoreValue.textContent = derechosHumanosScoreInput.value; });
+
+  const estandaresLaboralesScoreInput = document.getElementById('estandares_laborales_score');
+  const estandaresLaboralesScoreValue = document.getElementById('estandares_laborales_scoreValue');
+  estandaresLaboralesScoreInput.addEventListener('input', () => { estandaresLaboralesScoreValue.textContent = estandaresLaboralesScoreInput.value; });
+
+  const medioAmbienteScoreInput = document.getElementById('medio_ambiente_score');
+  const medioAmbienteScoreValue = document.getElementById('medio_ambiente_scoreValue');
+  medioAmbienteScoreInput.addEventListener('input', () => { medioAmbienteScoreValue.textContent = medioAmbienteScoreInput.value; });
+
+  const anticorrupcionScoreInput = document.getElementById('anticorrupcion_score');
+  const anticorrupcionScoreValue = document.getElementById('anticorrupcion_scoreValue');
+  anticorrupcionScoreInput.addEventListener('input', () => { anticorrupcionScoreValue.textContent = anticorrupcionScoreInput.value; });
+
+
+
+
+
+
+
+
+
+
+
+
+
+      // Initialize EasyMDE instances - CORRECTED INITIALIZATION AND MAXLENGTH
+    const easyMDE_derechos_humanos = new EasyMDE({ element: document.getElementById("derechos_humanos_comentarios")});
+    const easyMDE_estandares_laborales = new EasyMDE({ element: document.getElementById("estandares_laborales_comentarios")});
+    const easyMDE_medio_ambiente = new EasyMDE({ element: document.getElementById("medio_ambiente_comentarios")});
+    const easyMDE_anticorrupcion = new EasyMDE({ element: document.getElementById("anticorrupcion_comentarios")});
+    const easyMDE_detalles_financieros = new EasyMDE({ element: document.getElementById("detalles_financieros")}); // Initialize here!
+    const easyMDE_hallazgos = new EasyMDE({ element: document.getElementById("hallazgos")}); // Initialize here!
+    const easyMDE_recomendaciones = new EasyMDE({ element: document.getElementById("recomendaciones")}); // Initialize here!
+    const easyMDE_conclusion = new EasyMDE({ element: document.getElementById("conclusion")}); // Initialize here!
+    const maxLength = Infinity; // Define your character limit
+
+    // Function to enforce character limit on an EasyMDE instance
+    function enforceMaxLength(easyMDEInstance, limit) {
+      easyMDEInstance.codemirror.on("change", function(cm, changeObj) {
+        let currentText = cm.getValue();
+        if (currentText.length > limit) {
+          // Revert the change, effectively truncating the input
+          cm.setValue(currentText.substring(0, limit));
+        }
+      });
     }
 
+    enforceMaxLength(easyMDE_derechos_humanos, maxLength);
+    enforceMaxLength(easyMDE_estandares_laborales, maxLength);
+    enforceMaxLength(easyMDE_medio_ambiente, maxLength);
+    enforceMaxLength(easyMDE_anticorrupcion, maxLength);
+    enforceMaxLength(easyMDE_detalles_financieros, maxLength);
+    enforceMaxLength(easyMDE_hallazgos, maxLength);
+    enforceMaxLength(easyMDE_recomendaciones, maxLength);
+    enforceMaxLength(easyMDE_conclusion, maxLength);
 
-    // Fetch the template - No changes from previous version
-    fetch(selected_report)
-      .then(response => response.text())
-      .then(template => {
-        let updatedHtml = template;
 
-        // Section 0 - No changes from previous version
-        updatedHtml = updatedHtml.replace(/\{\{ company_name \}\}/g, company_name);
-        updatedHtml = updatedHtml.replace(/\{\{ company_country \}\}/g, company_country);
-        updatedHtml = updatedHtml.replace(/\{\{ company_industry \}\}/g, company_industry);
-        updatedHtml = updatedHtml.replace(/\{\{ evaluation_date \}\}/g, evaluation_date);
 
-        // Section 1 - No changes from previous version
-        updatedHtml = updatedHtml.replace(/\{\{ company_full_name \}\}/g, company_full_name);
-        updatedHtml = updatedHtml.replace(/\{\{ company_legal_form \}\}/g, company_legal_form);
-        updatedHtml = updatedHtml.replace(/\{\{ company_nit_number \}\}/g, company_nit_number);
-        updatedHtml = updatedHtml.replace(/\{\{ company_main_activity \}\}/g, company_main_activity);
-        updatedHtml = updatedHtml.replace(/\{\{ company_address \}\}/g, company_address);
-        updatedHtml = updatedHtml.replace(/\{\{ company_activity_start_date \}\}/g, company_activity_start_date);
-        updatedHtml = updatedHtml.replace(/\{\{ web \}\}/g, web);
 
-        // Section 2 - No changes from previous version
-        updatedHtml = updatedHtml.replace(/\{\{ comment_paragraph_1_text \}\}/g, comment_paragraph_1_text);
-        updatedHtml = updatedHtml.replace(/\{\{ comment_paragraph_2_text \}\}/g, comment_paragraph_2_text);
-        updatedHtml = updatedHtml.replace(/\{\{ about_company_description \}\}/g, about_company_description);
-        updatedHtml = updatedHtml.replace(/\{\{ relevant_info_answer \}\}/g, relevant_info_answer);
-        updatedHtml = updatedHtml.replace(/\{\{ accusations_illegitimate_activities_answer \}\}/g, accusations_illegitimate_activities_answer);
-        updatedHtml = updatedHtml.replace(/\{\{ political_connections_illegitimate_answer \}\}/g, political_connections_illegitimate_activities_answer);
 
-        // Section 3 - No changes from previous version
-        updatedHtml = updatedHtml.replace(/\{\{ abac_result \}\}/g, abac_result);
 
-        // Section 3.1 (Partners) - No changes from previous version
-        let partnersHtml = '';
-        partners.forEach(partner => {
-          // Normalize answers
-          const isPep = partner.partner_is_pep_answer.trim().toUpperCase();
-          const hasInfo = partner.partner_relevant_info_answer.trim().toUpperCase();
 
-          let colorClass = '';
-          if (isPep === 'NO' && hasInfo === 'NO') {
-            colorClass = 'status-green';
-          } else if (isPep === 'SÍ' && hasInfo === 'NO') {
-            colorClass = 'status-yellow';
-          } else if (isPep === 'NO' && hasInfo === 'SÍ') {
-            colorClass = 'status-yellow';
-          } else if (isPep === 'SÍ' && hasInfo === 'SÍ') {
-            colorClass = 'status-red';
-          }
 
-          const labels = reportLanguage === 'en'
-            ? {
-              name: "Name",
-              fullName: "Full Name",
-              position: "Position",
-              idNumber: "ID Number",
-              isPep: "Is Politically Exposed Person (PEP)?",
-              hasInfo: "Relevant information (sanctions, political exposure, money laundering)?"
+
+
+
+
+
+
+
+function recolectarDatosFormulario() {
+    const datos = {};
+    
+    // Seleccionar todos los campos de entrada (input, select, textarea)
+    const campos = document.querySelectorAll('input, select, textarea');
+
+    campos.forEach(campo => {
+        const nombre = campo.name || campo.id;
+
+        // Ignorar campos sin nombre ni id
+        if (!nombre) return;
+
+        // Manejo especial para distintos tipos de input
+        if (campo.type === 'checkbox') {
+            datos[nombre] = campo.checked;
+        } else if (campo.type === 'radio') {
+            // Solo tomar el radio seleccionado
+            if (campo.checked) {
+                datos[nombre] = campo.value;
             }
-            : {
-              name: "Nombre",
-              fullName: "Nombre Completo",
-              position: "Cargo",
-              idNumber: "Número de Identificación",
-              isPep: "¿Es Persona Políticamente Expuesta (PEP)?",
-              hasInfo: "¿Existe información relevante asociada (sanciones, exposición política, lavado de activos)?"
-            };
-
-          partnersHtml += `
-    <h3 class="${colorClass}">${partner.partner_name}</h3>
-    <table border="1" cellspacing="0" cellpadding="10" style="width: 98%;">
-      <tr>
-        <th>${labels.fullName}</th>
-        <td>${partner.partner_full_name}</td>
-      </tr>
-      <tr>
-        <th>${labels.position}</th>
-        <td>${partner.partner_position}</td>
-      </tr>
-      <tr>
-        <th>${labels.idNumber}</th>
-        <td>${partner.partner_id_number}</td>
-      </tr>
-      <tr>
-        <th>${labels.isPep}</th>
-        <td>${partner.partner_is_pep_answer}</td>
-      </tr>
-      <tr>
-        <th>${labels.hasInfo}</th>
-        <td>${partner.partner_relevant_info_answer}</td>
-      </tr>
-    </table>
-  `;
-        });
-        updatedHtml = updatedHtml.replace('<!-- Socios Placeholder -->', partnersHtml);
-
-        // Section 4 (Conditional Medal Container and Message) - No changes from previous version
-        let medalSectionHTML = `
-        <div id="medal-container"  style="position: relative; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
-          {{ medal_html|safe }}
-        </div>
-      `;
-
-        let messageSectionHTML = '';
-
-        if (reportLanguage === 'es') {
-          messageSectionHTML = `
-    <p id="medalmessage" class="text-focus-in">
-      🎉 ¡Felicidades! La empresa ha alcanzado la clasificación
-      <strong style="color: {{ medal_color }};">{{ medal }}</strong>
-      con un puntaje de <strong>{{ medal_range }}</strong>. 🎉
-    </p>
-  `;
         } else {
-          messageSectionHTML = `
-    <p id="medalmessage" class="text-focus-in">
-      🎉 Congratulations! The company has achieved the
-      <strong style="color: {{ medal_color }};">{{ medal }}</strong> rating
-      with a score of <strong>{{ medal_range }}</strong>. 🎉
-    </p>
-  `;
+            datos[nombre] = campo.value;
         }
+    });
 
-        if (percentage < 60) {
-          medalSectionHTML = ''; // No medal section for scores below 60
-          messageSectionHTML = `
-        <p id="medalmessage" class="text-focus-in">
-          Tu puntaje Rating V es <strong>{{ medal_range }}</strong>
-        </p>
-      `;
-          messageSectionHTML = messageSectionHTML.replace(/\{\{ medal_range \}\}/g, medal_range_text);
-        } else {
-          medalSectionHTML = medalSectionHTML.replace(/\{\{ medal_html\|safe \}\}/g, medal_html_content);
-          messageSectionHTML = messageSectionHTML.replace(/\{\{ medal \}\}/g, medal_title_text);
-        }
-        updatedHtml = updatedHtml.replace('<!-- Medal Container Placeholder -->', medalSectionHTML);
-        updatedHtml = updatedHtml.replace('<!-- Message Container Placeholder -->', messageSectionHTML);
-        updatedHtml = updatedHtml.replace(/\{\{ percentage \}\}/g, percentage);
-        updatedHtml = updatedHtml.replace(/\{\{ medal \}\}/g, medal_title_text);
-        updatedHtml = updatedHtml.replace(/\{\{ medal_color \}\}/g, medalColorVal);
-        updatedHtml = updatedHtml.replace(/\{\{ medal_range \}\}/g, medal_range_text);
+    // Sobrescribir el valor del textarea con el contenido real de EasyMDE
+    datos["derechos_humanos_comentarios"] = easyMDE_derechos_humanos.value();
+    datos["estandares_laborales_comentarios"] = easyMDE_estandares_laborales.value();
+    datos["medio_ambiente_comentarios"] = easyMDE_medio_ambiente.value();
+    datos["anticorrupcion_comentarios"] = easyMDE_anticorrupcion.value();
+    datos["detalles_financieros"] = easyMDE_detalles_financieros.value();
+    datos["hallazgos"] = easyMDE_hallazgos.value();
+    datos["recomendaciones"] = easyMDE_recomendaciones.value();
+    datos["conclusion"] = easyMDE_conclusion.value();
+
+    localStorage.removeItem("datosFormulario");
+    localStorage.setItem("datosFormulario", JSON.stringify(datos));
+    //window.location.href = "../templates/analista/reporte/reporte_final.html";
+    window.open("reporte/reporte_final.html", "_blank");
+}
 
 
-        // Section 5 - No changes from previous version
-        updatedHtml = updatedHtml.replace(/\{\{ derechos_humanos_score \}\}/g, derechos_humanos_score);
-        updatedHtml = updatedHtml.replace(/\{\{ derechos_humanos_comentarios \}\}/g, derechos_humanos_comentarios);
-        updatedHtml = updatedHtml.replace(/\{\{ estandares_laborales_score \}\}/g, estandares_laborales_score);
-        updatedHtml = updatedHtml.replace(/\{\{ estandares_laborales_comentarios \}\}/g, estandares_laborales_comentarios);
-        updatedHtml = updatedHtml.replace(/\{\{ proteccion_medio_ambiente_score \}\}/g, proteccion_medio_ambiente_score);
-        updatedHtml = updatedHtml.replace(/\{\{ proteccion_medio_ambiente_comentarios \}\}/g, proteccion_medio_ambiente_comentarios);
-        updatedHtml = updatedHtml.replace(/\{\{ integridad_score \}\}/g, integridad_score);
-        updatedHtml = updatedHtml.replace(/\{\{ integridad_comentarios \}\}/g, integridad_comentarios);
-
-        // Section 6 - No changes from previous version
-        updatedHtml = updatedHtml.replace(/\{\{ recomendaciones \}\}/g, recomendaciones);
-
-        // Section 7 - No changes from previous version
-        updatedHtml = updatedHtml.replace(/\{\{ conclusion \}\}/g, conclusion);
-
-        // ABAC Color - No changes from previous version
-        updatedHtml = updatedHtml.replace(/<span style="display: inline-block; width: 14px; height: 14px; background-color: #ffffff; border-radius: 50%; margin-right: 10px;"><\/span> i want to edit this dynamically\s*<span style="color: black; background-color: #77dd77; padding: 4px 8px; border-radius: 4px;">/,
-          `<span style="display: inline-block; width: 14px; height: 14px; background-color: ${abacColor}; border-radius: 50%; margin-right: 10px;"></span> <span style="color: black; background-color: ${abacColor}; padding: 4px 8px; border-radius: 4px;">`);
 
 
-        // Download - No changes from previous version
-        const blob = new Blob([updatedHtml], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'reporte_actualizado.html';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
 
-        // Get selected client and report filename - No changes from previous version
-        const selectedClient = localStorage.getItem('selectedclient') || 'default';
-        const reportFilename = `report_${company_name.replace(/\s+/g, '_')}_${new Date().toISOString()}.html`;
-        const storagePath = `reports/${selectedClient}/${reportFilename}`;
 
-        // Send report to backend for saving - No changes from previous version
-        fetch(`${backendUrl}/upload-report`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            filename: storagePath,
-            htmlContent: updatedHtml,
-          }),
-        })
-          .then(response => {
-            if (response.ok) {
-              alert('Report saved to Supabase successfully!');
-            } else {
-              console.error('Error saving report to Supabase:', response.statusText);
-              alert('Error saving report. See console for details.');
-            }
-          })
-          .catch(error => {
-            console.error('Fetch error:', error);
-            alert('Failed to save report. Check console for errors.');
-          });
-      });
-  }
 
-  /**
-   * Comprehensive form filler for due diligence reports
-   * This function populates all form fields with realistic test data
-   * that represents a complete due diligence evaluation
-   */
-  function fillFormForTest() {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function fillFormForTest() {
     // Track start time for performance monitoring
     const startTime = performance.now();
     console.log("Starting form population process...");
@@ -1108,29 +1017,20 @@
       document.getElementById('company_main_activity').value = 'Enterprise Software Development and IT Consulting Services';
       document.getElementById('company_address').value = 'Av. Libertador 4980, Piso 15, C1426BWX, Buenos Aires, Argentina';
       document.getElementById('company_activity_start_date').value = '2008-03-22';
-      document.getElementById('web').value = 'https://www.Kandira Tech Labs.com.ar';
+      document.getElementById('web').value = 'https://www.KandiraTechLabs.com.ar';
 
-      // Additional company data fields (if present)
-      if (document.getElementById('company_employees')) {
-        document.getElementById('company_employees').value = '87';
-      }
-      if (document.getElementById('company_annual_revenue')) {
-        document.getElementById('company_annual_revenue').value = '5,200,000';
-      }
-      if (document.getElementById('company_currency')) {
-        document.getElementById('company_currency').value = 'USD';
-      }
+
 
       // SECTION 2: Due diligence commentary
-      document.getElementById('comment_paragraph_1_text').value = 'Se ha realizado una verificación exhaustiva de la estructura societaria, encontrando que todos los socios tienen antecedentes comerciales verificables y sin alertas en los sistemas de riesgo. La empresa cuenta con más de 15 años de experiencia en el sector tecnológico argentino y ha mantenido relaciones comerciales estables con múltiples empresas del Fortune 500.';
-      document.getElementById('comment_paragraph_2_text').value = 'Se completaron búsquedas en bases de datos especializadas, incluyendo World-Check, Refinitiv, y registros públicos nacionales. Se consultaron listas OFAC, ONU, y UE para sanciones internacionales. Adicionalmente, se analizaron reportes financieros auditados de los últimos 3 ejercicios fiscales y se verificaron los antecedentes de los directores principales a través de fuentes públicas y privadas.';
+      document.getElementById('socios_company_description').value = 'Se ha realizado una verificación exhaustiva de la estructura societaria, encontrando que todos los socios tienen antecedentes comerciales verificables y sin alertas en los sistemas de riesgo. La empresa cuenta con más de 15 años de experiencia en el sector tecnológico argentino y ha mantenido relaciones comerciales estables con múltiples empresas del Fortune 500.';
+      document.getElementById('busqueda_company_description').value = 'Se completaron búsquedas en bases de datos especializadas, incluyendo World-Check, Refinitiv, y registros públicos nacionales. Se consultaron listas OFAC, ONU, y UE para sanciones internacionales. Adicionalmente, se analizaron reportes financieros auditados de los últimos 3 ejercicios fiscales y se verificaron los antecedentes de los directores principales a través de fuentes públicas y privadas.';
       document.getElementById('about_company_description').value = 'Kandira Tech Labs S.A. es una empresa líder en el desarrollo de software empresarial y servicios de consultoría IT, especializada en soluciones para los sectores financiero, agroindustrial y de telecomunicaciones. Fundada en 2008, ha experimentado un crecimiento sostenido, alcanzando una plantilla actual de 87 empleados y operaciones en Argentina, Chile y Uruguay. La empresa ha desarrollado un portfolio diversificado de productos propios y mantiene alianzas estratégicas con Microsoft, Oracle y AWS. Sus principales clientes incluyen entidades bancarias de primer nivel, empresas del agro y proveedores de servicios de telecomunicaciones en la región. TechSolutions cuenta con certificaciones ISO 9001, ISO 27001 y CMMI Nivel 3.';
       document.getElementById('relevant_info_answer').value = 'No';
       document.getElementById('accusations_illegitimate_activities_answer').value = 'No';
       document.getElementById('political_connections_illegitimate_activities_answer').value = 'No';
 
       // SECTION 3: Anti-bribery and corruption (ABAC) assessment
-      document.getElementById('abac_result_no_compromise').checked = true;
+      document.getElementById('checkingv_result_compromise').checked = true;
 
       // SECTION 3.1: Key stakeholders and partners information
       // Partner 1
@@ -1164,6 +1064,24 @@
         document.getElementById('partner_is_pep_answer_3').value = 'Sí';
         document.getElementById('partner_relevant_info_answer_3').value = 'Sí';
       }
+
+
+
+      
+  const fuentes_buscadores = "Google, Inglés y Español";
+const fuentes_sitio_web = "https://www.testcompany.com";
+const fuentes_redes = "Linkedin, Youtube, Instagram, Facebook, grok.com";
+const fuentes_blacklists_internacional = "Basel Open Intelligence";
+
+
+document.getElementById('fuentes_buscadores').value = fuentes_buscadores;
+document.getElementById('fuentes_sitio_web').value = fuentes_sitio_web ;
+document.getElementById('fuentes_redes').value = fuentes_redes;
+document.getElementById('fuentes_blacklists_internacional').value = fuentes_blacklists_internacional ;
+
+
+
+
 
       // SECTION 4: Overall compliance score
       document.getElementById('percentage').value = 82;
@@ -1240,11 +1158,11 @@ La empresa cuenta con certificación Great Place to Work y mantiene índices de 
       }
 
       // Environmental Protection
-      document.getElementById('proteccion_medio_ambiente_score').value = 72;
+      document.getElementById('medio_ambiente_score').value = 72;
       if (typeof proteccionMedioAmbienteScoreInput !== 'undefined') {
         proteccionMedioAmbienteScoreInput.dispatchEvent(new Event('input'));
       } else {
-        document.getElementById('proteccion_medio_ambiente_score').dispatchEvent(new Event('input'));
+        document.getElementById('medio_ambiente_score').dispatchEvent(new Event('input'));
       }
 
       const environmentContent = `## Evaluación de Protección del Medio Ambiente
@@ -1265,22 +1183,22 @@ El consumo energético ha disminuido un 15% en los últimos 2 años, y el 40% de
 - Falta de estrategia clara para reducción de emisiones de alcance 3
 - Limitado seguimiento al impacto ambiental de sus servicios de data center`;
 
-      if (typeof easyMDE_proteccion_medio_ambiente !== 'undefined') {
-        easyMDE_proteccion_medio_ambiente.value(environmentContent);
-      } else if (document.querySelector('.EasyMDEContainer [data-field="proteccion_medio_ambiente"]')) {
-        const editor = document.querySelector('.EasyMDEContainer [data-field="proteccion_medio_ambiente"]').closest('.EasyMDEContainer').querySelector('.CodeMirror').CodeMirror;
+      if (typeof easyMDE_medio_ambiente !== 'undefined') {
+        easyMDE_medio_ambiente.value(environmentContent);
+      } else if (document.querySelector('.EasyMDEContainer [data-field="medio_ambiente"]')) {
+        const editor = document.querySelector('.EasyMDEContainer [data-field="medio_ambiente"]').closest('.EasyMDEContainer').querySelector('.CodeMirror').CodeMirror;
         editor.setValue(environmentContent);
       }
 
       // Integrity and Anti-corruption
-      document.getElementById('integridad_score').value = 92;
-      if (typeof integridadScoreInput !== 'undefined') {
-        integridadScoreInput.dispatchEvent(new Event('input'));
+      document.getElementById('anticorrupcion_score').value = 92;
+      if (typeof anticorrupcionScoreInput !== 'undefined') {
+        anticorrupcionScoreInput.dispatchEvent(new Event('input'));
       } else {
-        document.getElementById('integridad_score').dispatchEvent(new Event('input'));
+        document.getElementById('anticorrupcion_score').dispatchEvent(new Event('input'));
       }
 
-      const integrityContent = `## Evaluación de Integridad y Anticorrupción
+      const anticorrupcionContent = `## Evaluación de Integridad y Anticorrupción
 
 **Puntuación: 92/100 - Excelente**
 
@@ -1296,11 +1214,11 @@ La empresa no registra incidentes de corrupción, soborno o violaciones éticas 
 
 La compañía se encuentra en proceso de certificación ISO 37001 (Sistema de Gestión Antisoborno), con implementación prevista para el próximo trimestre.`;
 
-      if (typeof easyMDE_integridad !== 'undefined') {
-        easyMDE_integridad.value(integrityContent);
-      } else if (document.querySelector('.EasyMDEContainer [data-field="integridad"]')) {
-        const editor = document.querySelector('.EasyMDEContainer [data-field="integridad"]').closest('.EasyMDEContainer').querySelector('.CodeMirror').CodeMirror;
-        editor.setValue(integrityContent);
+      if (typeof easyMDE_anticorrupcion !== 'undefined') {
+        easyMDE_anticorrupcion.value(anticorrupcionContent);
+      } else if (document.querySelector('.EasyMDEContainer [data-field="anticorrupcion"]')) {
+        const editor = document.querySelector('.EasyMDEContainer [data-field="anticorrupcion"]').closest('.EasyMDEContainer').querySelector('.CodeMirror').CodeMirror;
+        editor.setValue(anticorrupcionContent);
       }
 
 // document.getElementById('recomendaciones').value = // REMOVE THIS LINE
@@ -1324,7 +1242,7 @@ La compañía se encuentra en proceso de certificación ISO 37001 (Sistema de Ge
 
       // SECTION 7: Conclusion and Overall Assessment
       easyMDE_conclusion.value(
-        `### Conclusión y Evaluación General
+        `## Conclusión y Evaluación General
 
 Kandira Tech Labs S.A. demuestra un **desempeño general satisfactorio (82/100)** en los ámbitos evaluados, con fortalezas notables en:
 
@@ -1370,305 +1288,7 @@ El compromiso demostrado por la dirección para abordar las áreas de mejora ide
   }
 
 
-  /**
-   * Comprehensive form filler for due diligence reports in English
-   * This function populates all form fields with realistic test data in English
-   * that represents a complete due diligence evaluation
-   */
-  function fillFormForTestEnglish() {
-    // Track start time for performance monitoring
-    const startTime = performance.now();
-    console.log("Starting form population process in English...");
 
-    try {
-      // SECTION 0: Basic company identification
-      document.getElementById('company_name').value = 'Kandira Tech Labs S.A.';
-      document.getElementById('company_country').value = 'Argentina';
-      document.getElementById('company_industry').value = 'Technology & Software Development';
-      document.getElementById('evaluation_date').value = formatDate(new Date());
-
-      // SECTION 1: Detailed company information
-      document.getElementById('company_full_name').value = 'Kandira Tech Labs Sociedad Anónima';
-      document.getElementById('company_legal_form').value = 'Sociedad Anónima';
-      document.getElementById('company_nit_number').value = '30-71234567-9';
-      document.getElementById('company_main_activity').value = 'Enterprise Software Development and IT Consulting Services';
-      document.getElementById('company_address').value = 'Av. Libertador 4980, Piso 15, C1426BWX, Buenos Aires, Argentina';
-      document.getElementById('company_activity_start_date').value = '2008-03-22';
-      document.getElementById('web').value = 'https://www.techsolutions-arg.com.ar';
-
-      // Additional company data fields (if present)
-      if (document.getElementById('company_employees')) {
-        document.getElementById('company_employees').value = '87';
-      }
-      if (document.getElementById('company_annual_revenue')) {
-        document.getElementById('company_annual_revenue').value = '5,200,000';
-      }
-      if (document.getElementById('company_currency')) {
-        document.getElementById('company_currency').value = 'USD';
-      }
-
-      // SECTION 2: Due diligence commentary - ENGLISH TRANSLATION
-      document.getElementById('comment_paragraph_1_text').value = 'An exhaustive verification of the corporate structure has been carried out, finding that all partners have verifiable business backgrounds and no alerts in risk systems. The company has more than 15 years of experience in the Argentine technology sector and has maintained stable commercial relationships with multiple Fortune 500 companies.';
-      document.getElementById('comment_paragraph_2_text').value = 'Searches in specialized databases, including World-Check, Refinitiv, and national public records, were completed. OFAC, UN, and EU lists for international sanctions were consulted. Additionally, audited financial reports for the last 3 fiscal years were analyzed and the backgrounds of the main directors were verified through public and private sources.';
-      document.getElementById('about_company_description').value = 'Kandira Tech Labs S.A. is a leading company in the development of enterprise software and IT consulting services, specializing in solutions for the financial, agribusiness, and telecommunications sectors. Founded in 2008, it has experienced sustained growth, reaching a current workforce of 87 employees and operations in Argentina, Chile, and Uruguay. The company has developed a diversified portfolio of proprietary products and maintains strategic alliances with Microsoft, Oracle, and AWS. Its main clients include top-tier banking entities, agribusiness companies, and telecommunications service providers in the region. TechSolutions is certified with ISO 9001, ISO 27001, and CMMI Level 3.';
-      document.getElementById('relevant_info_answer').value = 'No';
-      document.getElementById('accusations_illegitimate_activities_answer').value = 'No';
-      document.getElementById('political_connections_illegitimate_activities_answer').value = 'No';
-
-      // SECTION 3: Anti-bribery and corruption (ABAC) assessment
-      document.getElementById('abac_result_no_compromise').checked = true;
-
-      // SECTION 3.1: Key stakeholders and partners information
-      // Partner 1
-      document.getElementById('partner_name_1').value = 'Ricardo Fernández';
-      document.getElementById('partner_full_name_1').value = 'Ricardo Alberto Fernández Quintana';
-      document.getElementById('partner_position_1').value = 'CEO & Chairman of the Board';
-      document.getElementById('partner_id_number_1').value = '24567890';
-      document.getElementById('partner_is_pep_answer_1').value = 'No';
-      document.getElementById('partner_relevant_info_answer_1').value = 'No';
-
-      // Add and populate Partner 2
-      if (typeof partnerCount !== 'undefined' && partnerCount < 2) {
-        addPartnerSection();
-      }
-      document.getElementById('partner_name_2').value = 'María Eugenia Vázquez';
-      document.getElementById('partner_full_name_2').value = 'María Eugenia Vázquez Lombardi';
-      document.getElementById('partner_position_2').value = 'CFO & Financial Director';
-      document.getElementById('partner_id_number_2').value = '26789012';
-      document.getElementById('partner_is_pep_answer_2').value = 'Sí';
-      document.getElementById('partner_relevant_info_answer_2').value = 'No';
-
-      // Add and populate Partner 3
-      if (typeof partnerCount !== 'undefined' && partnerCount < 3) {
-        addPartnerSection();
-      }
-      if (document.getElementById('partner_name_3')) {
-        document.getElementById('partner_name_3').value = 'Carlos Méndez';
-        document.getElementById('partner_full_name_3').value = 'Carlos Eduardo Méndez García';
-        document.getElementById('partner_position_3').value = 'CTO & Technology Director';
-        document.getElementById('partner_id_number_3').value = '23456123';
-        document.getElementById('partner_is_pep_answer_3').value = 'Sí';
-        document.getElementById('partner_relevant_info_answer_3').value = 'Sí';
-      }
-
-      // SECTION 4: Overall compliance score
-      document.getElementById('percentage').value = 82;
-      // Trigger event to update visual indicators
-      if (typeof percentageInput !== 'undefined') {
-        percentageInput.dispatchEvent(new Event('input'));
-      } else {
-        const event = new Event('input', { bubbles: true });
-        document.getElementById('percentage').dispatchEvent(event);
-      }
-
-      // SECTION 5: ESG performance indicators with detailed commentary - ENGLISH TRANSLATION
-      // Human Rights
-      document.getElementById('derechos_humanos_score').value = 85;
-      if (typeof derechosHumanosScoreInput !== 'undefined') {
-        derechosHumanosScoreInput.dispatchEvent(new Event('input'));
-      } else {
-        document.getElementById('derechos_humanos_score').dispatchEvent(new Event('input'));
-      }
-
-      const humanRightsContent = `## Human Rights Evaluation
-
-**Score: 85/100 - Outstanding**
-
-The company demonstrates a strong commitment to human rights through:
-
-* Comprehensive human rights policy documented and publicly available
-* Effective complaint mechanisms with whistleblower protection
-* Mandatory annual training for all employees
-* Periodic human rights impact assessments
-
-The absence of lawsuits or accusations related to human rights violations in the last 5 years was verified. The company has implemented a diversity and inclusion program that includes measurable objectives and annual progress reports.
-
-**Area for improvement:** Expand monitoring programs to second-tier suppliers.`;
-
-      // Set EasyMDE content - handle both direct setting and API methods
-      if (typeof easyMDE_derechos_humanos !== 'undefined') {
-        easyMDE_derechos_humanos.value(humanRightsContent);
-      } else if (document.querySelector('.EasyMDEContainer [data-field="derechos_humanos"]')) {
-        const editor = document.querySelector('.EasyMDEContainer [data-field="derechos_humanos"]').closest('.EasyMDEContainer').querySelector('.CodeMirror').CodeMirror;
-        editor.setValue(humanRightsContent);
-      }
-
-      // Labor Standards
-      document.getElementById('estandares_laborales_score').value = 78;
-      if (typeof estandaresLaboralesScoreInput !== 'undefined') {
-        estandaresLaboralesScoreInput.dispatchEvent(new Event('input'));
-      } else {
-        document.getElementById('estandares_laborales_score').dispatchEvent(new Event('input'));
-      }
-
-      const laborStandardsContent = `## Labor Standards Evaluation
-
-**Score: 78/100 - Good**
-
-Kandira Tech Labs shows general compliance with labor standards:
-
-* Formal contracts for all employees with benefits exceeding legal requirements
-* Documented equitable remuneration policy
-* Verified compliance with working hours and overtime compensation
-* Professional development and continuous training program
-
-The company has Great Place to Work certification and maintains turnover rates below the sector average (12% vs. 18% industry average).
-
-**Areas for improvement:**
-- Implement an action plan to reduce the gender pay gap (currently 9%)
-- Strengthen worker collective bargaining mechanisms`;
-
-      if (typeof easyMDE_estandares_laborales !== 'undefined') {
-        easyMDE_estandares_laborales.value(laborStandardsContent);
-      } else if (document.querySelector('.EasyMDEContainer [data-field="estandares_laborales"]')) {
-        const editor = document.querySelector('.EasyMDEContainer [data-field="estandares_laborales"]').closest('.EasyMDEContainer').querySelector('.CodeMirror').CodeMirror;
-        editor.setValue(laborStandardsContent);
-      }
-
-      // Environmental Protection
-      document.getElementById('proteccion_medio_ambiente_score').value = 72;
-      if (typeof proteccionMedioAmbienteScoreInput !== 'undefined') {
-        proteccionMedioAmbienteScoreInput.dispatchEvent(new Event('input'));
-      } else {
-        document.getElementById('proteccion_medio_ambiente_score').dispatchEvent(new Event('input'));
-      }
-
-      const environmentContent = `## Environmental Protection Evaluation
-
-**Score: 72/100 - Satisfactory with areas for improvement**
-
-The company has implemented the following environmental practices:
-
-* Carbon footprint measurement since 2020 with reduction targets set
-* Energy efficiency program in its main offices
-* Waste reduction and recycling policy
-* Paperless office initiative partially implemented
-
-Energy consumption has decreased by 15% in the last 2 years, and 40% of the energy used comes from renewable sources through certificates.
-
-**Deficiencies identified:**
-- Absence of a formally certified environmental management system
-- Lack of a clear strategy for reducing scope 3 emissions
-- Limited monitoring of the environmental impact of its data center services`;
-
-      if (typeof easyMDE_proteccion_medio_ambiente !== 'undefined') {
-        easyMDE_proteccion_medio_ambiente.value(environmentContent);
-      } else if (document.querySelector('.EasyMDEContainer [data-field="proteccion_medio_ambiente"]')) {
-        const editor = document.querySelector('.EasyMDEContainer [data-field="proteccion_medio_ambiente"]').closest('.EasyMDEContainer').querySelector('.CodeMirror').CodeMirror;
-        editor.setValue(environmentContent);
-      }
-
-      // Integrity and Anti-corruption
-      document.getElementById('integridad_score').value = 92;
-      if (typeof integridadScoreInput !== 'undefined') {
-        integridadScoreInput.dispatchEvent(new Event('input'));
-      } else {
-        document.getElementById('integridad_score').dispatchEvent(new Event('input'));
-      }
-
-      const integrityContent = `## Integrity and Anti-corruption Evaluation
-
-**Score: 92/100 - Excellent**
-
-Kandira Tech Labs demonstrates an exceptional commitment to corporate integrity:
-
-* Robust and documented anti-corruption program with annual review
-* Comprehensive code of ethics with certification processes for employees
-* Anonymous complaint channel managed by an independent third party
-* Extensive due diligence for business partners and key suppliers
-* Mandatory anti-corruption training for all employees
-
-The company has no record of corruption, bribery, or ethical violations in its history. Internal and external audits of the compliance program have not identified significant deficiencies.
-
-The company is in the process of ISO 37001 certification (Anti-Bribery Management System), with implementation scheduled for the next quarter.`;
-
-      if (typeof easyMDE_integridad !== 'undefined') {
-        easyMDE_integridad.value(integrityContent);
-      } else if (document.querySelector('.EasyMDEContainer [data-field="integridad"]')) {
-        const editor = document.querySelector('.EasyMDEContainer [data-field="integridad"]').closest('.EasyMDEContainer').querySelector('.CodeMirror').CodeMirror;
-        editor.setValue(integrityContent);
-      }
-
-
-      easyMDE_recomendaciones.value( // USE THIS INSTEAD - ENGLISH TRANSLATION
-        `Based on the evaluation findings, it is recommended:
-
-1. HIGH PRIORITY:
-   - Implement a formal environmental management system and seek ISO 14001 certification within 12 months
-   - Develop and implement a specific action plan to reduce the gender pay gap, with quantifiable goals and defined deadlines
-   - Complete ISO 37001 certification (Anti-Bribery Management System) currently in progress
-
-2. MEDIUM PRIORITY:
-   - Extend the due diligence program to second-tier suppliers, focusing on human rights and labor practices
-   - Develop a comprehensive strategy for measuring and reducing scope 3 emissions
-   - Strengthen worker collective bargaining mechanisms through the implementation of advisory committees
-
-3. LOW PRIORITY:
-   - Consider participating in sectoral sustainability initiatives such as the United Nations Global Compact
-   - Improve public transparency by publishing an annual sustainability report following GRI standards`
-      );
-
-      // SECTION 7: Conclusion and Overall Assessment - ENGLISH TRANSLATION
-      easyMDE_conclusion.value(
-        `### Conclusion and Overall Assessment
-
-Kandira Tech Labs S.A. demonstrates **satisfactory overall performance (82/100)** in the areas evaluated, with notable strengths in:
-
-- Corporate integrity
-- Human rights
-
-The main **areas for improvement** are in:
-
-- Environmental management
-
----
-
-The company **meets the minimum required standards** to establish a business relationship, classifying as a **LOW RISK supplier** according to our evaluation methodology.
-
-The commitment demonstrated by management to address the identified areas for improvement, together with the company's positive track record in the market, support a **favorable recommendation** for:
-
-- The establishment or continuation of business relationships
-- Subject to monitoring the priority recommendations detailed in this report
-
----
-
-🔄 **A re-evaluation in 24 months is recommended**, or earlier if significant changes occur in:
-
-- The structure
-- The ownership
-- The operating context of the company`
-      );
-
-      // Log success and execution time
-      const endTime = performance.now();
-      console.log(`Form successfully populated in English in ${(endTime - startTime).toFixed(2)}ms`);
-
-      // Optional: Scroll to top of form after population
-      document.getElementById('form-container')?.scrollIntoView({ behavior: 'smooth' });
-
-      // Show success message to user
-      showNotification('Form populated with test data successfully in English', 'success');
-
-    } catch (error) {
-      console.error('Error populating form in English:', error);
-      showNotification('Error populating form in English. See console for details.', 'error');
-    }
-  }
-
-
-  /**
-   * Helper function to format date as YYYY-MM-DD
-   */
-  function formatDate(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
-
-  /**
-   * Helper function to show notification to user
-   */
   function showNotification(message, type = 'info') {
     // Use existing notification system if available
     if (typeof showToast === 'function') {
@@ -1680,29 +1300,17 @@ The commitment demonstrated by management to address the identified areas for im
     alert(message);
   }
 
-  // Add event listener to the "Fill Form" button
-  document.getElementById('fillFormButton').addEventListener('click', function() {
-    if (reportLanguage === 'es') {
-      fillFormForTest();
-    } else {
-      fillFormForTestEnglish();
-    }
-  });
 
 
 
 
 
-  function generarReporte(){
-
-
-    window.location.href = "reporte/reporte.html";
 
 
 
-  }
+
+
+
 
 </script>
-
-</body>
 </html>
