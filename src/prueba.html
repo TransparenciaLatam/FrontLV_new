@@ -1,69 +1,822 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Formulario de Carga</title>
+ <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Due Diligence Evaluation Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  
+
+  <style>
+    /* Modern Reset and Base Styles - No changes from previous version */
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1, h2, h3 {
+      color: #2c3e50;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 1em;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 0.5em;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.8em;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 0.5em;
+      margin-bottom: 1.5em;
+    }
+
+    h3 {
+      font-size: 1.4em;
+      margin-bottom: 0.8em;
+    }
+
+    .container {
+      width: 95%;
+      max-width: 1200px;
+      padding: 30px;
+      background-color: #fff;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      border-radius: 10px;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    .input-group input[type="text"],
+    .input-group input[type="date"],
+    .input-group textarea,
+    .input-group select {
+      width: calc(100% - 20px);
+      padding: 12px 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1em;
+      color: #444;
+      background-color: #fefefe;
+      transition: border-color 0.3s ease;
+    }
+
+    .input-group input[type="text"]:focus,
+    .input-group input[type="date"]:focus,
+    .input-group textarea:focus,
+    .input-group select:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    }
+
+    .input-group textarea {
+      height: 120px;
+      resize: vertical;
+      max-width: calc(100% - 20px); /* Ensure textarea respects container width */
+    }
+
+    .input-group select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+      background-repeat: no-repeat;
+      background-position-x: 100%;
+      background-position-y: 10px;
+      padding-right: 30px;
+    }
+
+    .medal-display {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      padding: 20px;
+      background-color: #f0f0f0;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .medal-display img {
+      width: 80px;
+      height: auto;
+    }
+
+    .medal-display div h3 {
+      margin-bottom: 5px;
+      font-size: 1.6em;
+    }
+
+    .medal-display div p {
+      color: #777;
+      font-size: 1.1em;
+      margin: 0;
+    }
+
+    .partner-section {
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .partner-section h3 {
+      margin-top: 0;
+      color: #3498db;
+    }
+
+    .remove-partner-button,
+    .add-partner-button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .add-partner-button {
+      background-color: #2ecc71;
+      margin-left: 10px;
+    }
+
+    .remove-partner-button:hover,
+    .add-partner-button:hover {
+      opacity: 0.9;
+    }
+
+    button[onclick="generateReport()"],
+    #fillFormButton {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.2em;
+      transition: background-color 0.3s ease;
+      display: block;
+      margin: 30px auto;
+      max-width: 300px;
+    }
+
+    button[onclick="generateReport()"]:hover,
+    #fillFormButton:hover {
+      background-color: #2980b9;
+    }
+
+    .CodeMirror .cm-spell-error {
+      background: transparent !important;
+      text-decoration: none !important;
+      /*display: none !important;*/
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 15px;
+      border-radius: 5px;
+      background: #d3d3d3;
+      outline: none;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #007bff;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #007bff;
+      cursor: pointer;
+    }
+
+    #percentageValue,
+    [id$="scoreValue"] {
+      font-weight: bold;
+      color: #007bff;
+      margin-left: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        width: 98%;
+      }
+      h1 {
+        font-size: 2em;
+      }
+      h2 {
+        font-size: 1.5em;
+      }
+      .medal-display {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+      }
+      .medal-display img {
+        width: 60px;
+      }
+    }
+
+    .tercero-card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .tercero-card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 20px;
+      width: 300px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .tercero-card:hover {
+      transform: scale(1.03);
+    }
+
+    .tercero-card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #3498db;
+    }
+
+    .tercero-card p {
+      margin: 5px 0;
+      color: #555;
+    }
+
+    .tercero-card .progress-bar {
+      background-color: #f0f0f0;
+      border-radius: 5px;
+      height: 10px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .tercero-card .progress {
+      background-color: #2ecc71;
+      height: 100%;
+      border-radius: 5px;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .btn-blue {
+  background-color: #007BFF; /* azul brillante */
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-blue:hover {
+  background-color: #0056b3; /* azul más oscuro al pasar el mouse */
+}
+
+  </style>
 </head>
+
+
 <body>
-  <h2>Cargar un archivo</h2>
-  <form id="formArchivo" enctype="multipart/form-data">
-    <label for="archivo">Seleccione un archivo:</label>
-    <input type="file" id="archivo" name="archivo" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xlsx" required />
+<div class="container">
+  <h1>Dashboard para Evaluación de Debida Diligencia</h1>
+  <h2 style="text-align: center">
+    Bienvenido, Analista.
+  </h2>
+
+  <!-- Terceros Cards Container -->
+  <div id="terceros-container" class="tercero-card-container">
+    <!-- Tercero cards will be inserted here by JavaScript -->
+  </div>
+
+  <!-- Fill Form Button -->
+  <button id="fillFormButton" type="button">Llenar Formulario</button>
+  <div style="text-align: center; margin-top: 20px;">
+  </div>
+
+
+  <!-- Section 0: Company and Report Information -->
+  <div class="section" id="form-section">
+    <h2>0. Información de la Empresa y Reporte</h2>
+    <div class="input-group">
+      <label for="company_name">Nombre de la Empresa:</label>
+      <input type="text" id="company_name" placeholder="Nombre de la Empresa">
+    </div>
+    <div class="input-group">
+      <label for="company_country">País de la Empresa:</label>
+      <input type="text" id="company_country" placeholder="País">
+    </div>
+    <div class="input-group">
+      <label for="company_industry">Rubro de la Empresa:</label>
+      <input type="text" id="company_industry" placeholder="Rubro">
+    </div>
+    <div class="input-group">
+      <label for="evaluation_date">Fecha de Evaluación:</label>
+      <input type="date" id="evaluation_date">
+    </div>
+  </div>
+
+  <!-- Section 1: General Information -->
+  <div class="section">
+    <h2>1. Información General de la Empresa</h2>
+    <div class="input-group">
+      <label for="company_full_name">Nombre Completo de la Empresa:</label>
+      <input type="text" id="company_full_name" placeholder="Nombre Completo">
+    </div>
+    <div class="input-group">
+      <label for="company_legal_form">Forma Jurídica:</label>
+      <input type="text" id="company_legal_form" placeholder="Forma Jurídica">
+    </div>
+    <div class="input-group">
+      <label for="company_nit_number">Número de Identificación (NIT):</label>
+      <input type="text" id="company_nit_number" placeholder="NIT">
+    </div>
+    <div class="input-group">
+      <label for="company_main_activity">Actividad Principal Declarada:</label>
+      <input type="text" id="company_main_activity" placeholder="Actividad Principal">
+    </div>
+    <div class="input-group">
+      <label for="company_address">Dirección:</label>
+      <input type="text" id="company_address" placeholder="Dirección">
+    </div>
+    <div class="input-group">
+      <label for="company_activity_start_date">Fecha de Inicio de Actividades:</label>
+      <input type="date" id="company_activity_start_date">
+    </div>
+    <div class="input-group">
+      <label for="web">Sitio Web de la Compañía:</label>
+      <input type="text" id="web" placeholder="https://www.ejemplo.com">
+    </div>
+  </div>
+
+  <!-- Section 2: Comentarios y Perfil Público -->
+  <div class="section">
+    <h2>2. Comentarios y Perfil Público</h2>
+    <div class="input-group">
+      <label for="socios_company_description">Comentario Párrafo 1 (Socios):</label>
+      <textarea id="socios_company_description"></textarea>
+    </div>
+    <div class="input-group">
+      <label for="busqueda_company_description">Comentario Párrafo 2 (Búsquedas):</label>
+      <textarea id="busqueda_company_description"></textarea>
+    </div>
+    <div class="input-group">
+      <label for="about_company_description">Acerca de la Empresa - Descripción General:</label>
+      <textarea id="about_company_description"></textarea>
+    </div>
+    <div class="input-group">
+      <label for="relevant_info_answer">¿Existe información relevante (sanciones, blacklists, lavado de dinero)?</label>
+      <select id="relevant_info_answer">
+        <option value="Sí">Sí</option>
+        <option value="No">No</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label for="accusations_illegitimate_activities_answer">¿Acusaciones relacionadas con actividades ilegítimas?</label>
+      <select id="accusations_illegitimate_activities_answer">
+        <option value="Sí">Sí</option>
+        <option value="No">No</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label for="political_connections_illegitimate_answer">¿Conexiones políticas para negocios ilegítimos?</label>
+      <select id="political_connections_illegitimate_activities_answer">
+        <option value="Sí">Sí</option>
+        <option value="No">No</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Section 3: Checking V -->
+  <div class="section">
+    <h2>3. Checking V</h2>
+    <p>Situación de la empresa y de sus socios respecto a antecedentes de soborno y corrupción.</p>
     <br><br>
-    <button type="submit">Subir</button>
-  </form>
+    <label>Selecciona la opción que corresponde:</label>
+    <div>
+      <input type="radio" name="checkingv_result" value="✅ No existe información que comprometa la reputación de la empresa o de los socios" id="checkingv_result_no_compromise"> <label for="checkingv_result_no_compromise">No existe información que comprometa la reputación de la empresa o de los socios</label><br>
+      <input type="radio" name="checkingv_result" value="⚠️ Existe información relevante a considerar al respecto de la reputación de la empresa o de los socios" id="checkingv_result_relevant_info"> <label for="checkingv_result_relevant_info">Existe información relevante a considerar al respecto de la reputación de la empresa o de los socios</label><br>
+      <input type="radio" name="checkingv_result" value="🚨 Existe información que compromete la reputación de la empresa o de los socios" id="checkingv_result_compromise"> <label for="checkingv_result_compromise">Existe información que compromete la reputación de la empresa o de los socios</label>
+    </div>
+  </div>
 
-  <div id="mensaje"></div>
+  <!-- Section 3.1: Datos de los Socios -->
+  <div class="section">
+    <h2>3.1. Datos de los Socios</h2>
+    <div id="partners-container">
+      <!-- Initial Partner Section -->
+      <div class="partner-section" id="partner-section-1" data-partner-index="1">
+        <h3>Socio 1</h3>
+        <div class="input-group">
+          <label for="partner_name_1">Nombre del Socio:</label>
+          <input type="text" id="partner_name_1" class="partner-name" placeholder="Nombre del Socio">
+        </div>
+        <div class="input-group">
+          <label for="partner_full_name_1">Nombre Completo del Socio:</label>
+          <input type="text" id="partner_full_name_1" class="partner-full-name" placeholder="Nombre Completo del Socio">
+        </div>
+        <div class="input-group">
+          <label for="partner_position_1">Cargo del Socio:</label>
+          <input type="text" id="partner_position_1" class="partner-position" placeholder="Cargo del Socio">
+        </div>
+        <div class="input-group">
+          <label for="partner_id_number_1">Número de Identificación del Socio:</label>
+          <input type="text" id="partner_id_number_1" class="partner-id-number" placeholder="Número de Identificación">
+        </div>
+        <div class="input-group">
+          <label for="partner_is_pep_answer_1">¿Es Persona Políticamente Expuesta (PEP)?</label>
+          <select id="partner_is_pep_answer_1" class="partner-is-pep-answer">
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+            <option value="No Aplica">No Aplica</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="partner_relevant_info_answer_1">¿Existe información relevante asociada al socio (sanciones, exposición política, lavado de activos)?</label>
+          <select id="partner_relevant_info_answer_1" class="partner-relevant-info-answer">
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <button type="button" class="remove-partner-button" onclick="removePartnerSection(1)">Eliminar Socio</button>
+      </div>
+    </div>
+    <div>
+      <button type="button" class="add-partner-button" onclick="addPartnerSection()">Agregar Socio</button>
+    </div>
+  </div>
 
-  <script>
 
-//Funciones para controlar carga de archivos
-document.addEventListener("DOMContentLoaded", () => {
-  const inputArchivo = document.getElementById("archivo");
+  <!-- Section 4: Evaluación por Ejes -->
+  <div class="section">
+    <h2>4. Evaluación de los Ejes</h2>
+    <h3>Derechos Humanos</h3>
+    <div class="input-group">
+      <label for="derechos_humanos_score">Puntaje:</label>
+      <input type="range" id="derechos_humanos_score" min="0" max="100" value="50">
+      <span id="derechos_humanos_scoreValue">50</span>
+    </div>
+    <div class="input-group">
+      <label for="derechos_humanos_comentarios">Comentarios sobre Derechos Humanos:</label>
+      <textarea id="derechos_humanos_comentarios" maxlength="300"></textarea>
+    </div>
 
-  inputArchivo.addEventListener("change", async (event) => {
-    const archivo = event.target.files[0];
-    if (!archivo) return;
+    <h3>Estándares Laborales</h3>
+    <div class="input-group">
+      <label for="estandares_laborales_score">Puntaje:</label>
+      <input type="range" id="estandares_laborales_score" min="0" max="100" value="50">
+      <span id="estandares_laborales_scoreValue">50</span>
+    </div>
+    <div class="input-group">
+      <label for="estandares_laborales_comentarios">Comentarios sobre Estándares Laborales:</label>
+      <textarea id="estandares_laborales_comentarios" maxlength="300"></textarea>
+    </div>
 
-    // Validación frontend
-    const tiposPermitidos = [
-      "image/jpeg",
-      "image/png",
-      "application/pdf",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"        // .xlsx
-    ];
+    <h3>Medio Ambiente</h3>
+    <div class="input-group">
+      <label for="medio_ambiente_score">Puntaje:</label>
+      <input type="range" id="medio_ambiente_score" min="0" max="100" value="50">
+      <span id="medio_ambiente_scoreValue">50</span>
+    </div>
+    <div class="input-group">
+      <label for="medio_ambiente_comentarios">Comentarios sobre Protección del Medio Ambiente:</label>
+      <textarea id="medio_ambiente_comentarios" maxlength="300"></textarea>
+    </div>
 
-    if (archivo.size > 10 * 1024 * 1024) {
-      alert("El archivo supera los 10MB.");
-      return;
+    <h3>Anticorrupcion</h3>
+    <div class="input-group">
+      <label for="anticorrupcion_score">Puntaje:</label>
+      <input type="range" id="anticorrupcion_score" min="0" max="100" value="50">
+      <span id="anticorrupcion_scoreValue">50</span>
+    </div>
+    <div class="input-group">
+      <label for="anticorrupcion">Comentarios sobre anticorrupcion:</label>
+      <textarea id="anticorrupcion_comentarios" maxlength="300"></textarea>
+    </div>
+  </div>
+
+
+
+
+    <!-- Section 5: Puntuación y Medalla -->
+  <div class="section">
+    <h2>5. Puntuación y Medalla</h2>
+    <label for="percentage">Selecciona el porcentaje general de desempeño:</label>
+    <input type="range" id="percentage" min="0" max="100" value="50">
+    <p id="disapprovalMessage" style="color: red; display: none;">Proveedor no aprobado</p>
+    <span id="percentageValue">50%</span>
+    <br><br>
+    <div id="medalDisplay" class="medal-display">
+      <img id="medalImage" src="../static/medals/Bronce.svg" alt="Medal">
+      <div>
+        <h3 id="medalTitle" data-medal-title="Proveedor aprobado">Proveedor aprobado</h3>
+        <p id="medalRange" data-medal-range="Puntaje: 65% - 80%">Puntaje: 65% - 80%</p>
+      </div>
+    </div>
+  </div>
+
+
+
+    <!-- Section 6: Detalles Financieros -->
+  <div class="section">
+    <h2>6. Detalles Financieros</h2>
+    <div class="input-group">
+      <label for="detalles_financieros">Describa los detalles financieros:</label>
+      <textarea id="detalles_financieros"></textarea>
+    </div>
+  </div>
+
+
+  <!-- Section 7: Hallazgos -->
+  <div class="section">
+    <h2>7. Hallazgos</h2>
+    <div class="input-group">
+      <label for="hallazgos">Describa los hallazgos:</label>
+      <textarea id="hallazgos"></textarea>
+    </div>
+  </div>
+  <!-- Section 8: Hallazgos y Recomendaciones -->
+  <div class="section">
+    <h2>8. Puntos de mejora</h2>
+    <div class="input-group">
+      <label for="recomendaciones">Describe las recomendaciones propuestas:</label>
+      <textarea id="recomendaciones"></textarea>
+    </div>
+  </div>
+
+
+
+   <!-- Section 9: fuentes -->
+  <div class="section">
+    <h2>9. Fuentes consultadas</h2>
+    <div class="input-group">
+      <label for="fuentes_buscadores">Buscadores:</label>
+      <input type="text" id="fuentes_buscadores" placeholder="buscadores">
+    </div>
+    <div class="input-group">
+      <label for="fuentes_sitio_web">Sitio Web de la Compañía:</label>
+      <input type="text" id="fuentes_sitio_web" placeholder="sitio web">
+    </div>
+    <div class="input-group">
+      <label for="fuentes_redes">Redes:</label>
+      <input type="text" id="fuentes_redes" placeholder="redes">
+    </div>
+    <div class="input-group">
+      <label for="fuentes_blacklists_internacional">Blacklists Internacional:</label>
+      <input type="text" id="fuentes_blacklists_internacional" placeholder="Blacklists Internacional">
+    </div>
+    
+  </div>
+
+  <!-- Section 10: Conclusión -->
+  <div class="section">
+    <h2>10. Conclusión</h2>
+    <div class="input-group">
+      <label for="conclusion">Escribe la conclusión:</label>
+      <textarea id="conclusion" placeholder="Escribe aquí la conclusión..."></textarea>
+    </div>
+  </div>
+  <!-- Generate Report Button -->
+  <button  class="btn-blue" onclick="recolectarDatosFormulario()">Generar Reporte</button>
+</div>
+
+
+
+
+</body>
+
+<script>
+
+
+      function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+
+
+
+  // Add event listener to the "Fill Form" button
+  document.getElementById('fillFormButton').addEventListener('click', function() {
+   
+      fillFormForTest();
+
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  let partnerCount = 1;
+
+  function addPartnerSection() { // No changes from previous version
+    partnerCount++;
+    const partnersContainer = document.getElementById('partners-container');
+    const newPartnerSection = document.createElement('div');
+    newPartnerSection.classList.add('partner-section');
+    newPartnerSection.id = `partner-section-${partnerCount}`;
+    newPartnerSection.dataset.partnerIndex = partnerCount;
+
+    newPartnerSection.innerHTML = `
+        <h3>Socio ${partnerCount}</h3>
+        <div class="input-group">
+          <label for="partner_name_${partnerCount}">Nombre del Socio:</label>
+          <input type="text" id="partner_name_${partnerCount}" class="partner-name" placeholder="Nombre del Socio">
+        </div>
+        <div class="input-group">
+          <label for="partner_full_name_${partnerCount}">Nombre Completo del Socio:</label>
+          <input type="text" id="partner_full_name_${partnerCount}" class="partner-full-name" placeholder="Nombre Completo del Socio">
+        </div>
+        <div class="input-group">
+          <label for="partner_position_${partnerCount}">Cargo del Socio:</label>
+          <input type="text" id="partner_position_${partnerCount}" class="partner-position" placeholder="Cargo del Socio">
+        </div>
+        <div class="input-group">
+          <label for="partner_id_number_${partnerCount}">Número de Identificación del Socio:</label>
+          <input type="text" id="partner_id_number_${partnerCount}" class="partner-id-number" placeholder="Número de Identificación">
+        </div>
+        <div class="input-group">
+          <label for="partner_is_pep_answer_${partnerCount}">¿Es Persona Políticamente Expuesta (PEP)?</label>
+          <select id="partner_is_pep_answer_${partnerCount}" class="partner-is-pep-answer">
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+            <option value="No Aplica">No Aplica</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="partner_relevant_info_answer_${partnerCount}">¿Existe información relevante asociada al socio (sanciones, exposición política, lavado de activos)?</label>
+          <select id="partner_relevant_info_answer_${partnerCount}" class="partner-relevant-info-answer">
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <button type="button" class="remove-partner-button" onclick="removePartnerSection(${partnerCount})">Eliminar Socio</button>
+      `;
+    partnersContainer.appendChild(newPartnerSection);
+  }
+
+  function removePartnerSection(index) { // No changes from previous version
+    const partnerSection = document.getElementById(`partner-section-${index}`);
+    if (partnerSection) {
+      partnerSection.remove();
     }
+  }
 
-    if (!tiposPermitidos.includes(archivo.type)) {
-      alert("Tipo de archivo no permitido.");
-      return;
-    }
 
-    // Enviar archivo al backend para revisión
-    const formData = new FormData();
-    formData.append("archivo", archivo);
 
-    const res = await fetch("http://localhost:8000/validar-archivo", {
-      method: "POST",
-      body: formData
-    });
 
-    const data = await res.json();
 
-    if (res.ok && data.aprobado) {
-      alert("Archivo validado correctamente.");
-      // Podrías guardar el archivo en una variable para enviarlo luego
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Medal Logic and Percentage Slider Update - No changes from previous version
+  const percentageInput = document.getElementById('percentage');
+  const percentageValue = document.getElementById('percentageValue');
+  const medalDisplay = document.getElementById('medalDisplay');
+  const medalImage = document.getElementById('medalImage');
+  const medalTitle = document.getElementById('medalTitle');
+  const medalRange = document.getElementById('medalRange');
+  let medalColor = "#111111"; // Default color bronze
+  const disapprovalMessage = document.getElementById('disapprovalMessage');
+
+
+  percentageInput.addEventListener('input', () => {
+    const percentage = parseInt(percentageInput.value);
+    percentageValue.textContent = `${percentage}%`;
+
+    if (percentage < 60) {
+      medalDisplay.style.display = 'none';
+      disapprovalMessage.style.display = 'block';
     } else {
-      alert(`Archivo rechazado: ${data.detalle || "Motivo desconocido"}`);
-      inputArchivo.value = ""; // Limpiar input
+      disapprovalMessage.style.display = 'none';
+      medalDisplay.style.display = 'flex';
+      let medal = "Bronce";
+      medalColor = "#111111";
+      let medalRangeText = "65% - 80%";
+      let medalImageSrc = "../static/medals/Bronce.svg";
+      let medalTitleText = "Proveedor aprobado";
+
+      if (percentage >= 80 && percentage < 90) {
+        medal = "Plata";
+        medalColor = "#111111";
+        medalRangeText = "80% - 90%";
+        medalImageSrc = "../static/medals/Plata.svg";
+        medalTitleText = "Proveedor destacado";
+      } else if (percentage >= 90) {
+        medal = "Oro";
+        medalColor = "#111111";
+        medalRangeText = "90% - 100%";
+        medalImageSrc = "../static/medals/Oro.svg";
+        medalTitleText = "Proveedor TOP";
+      }
+
+      medalImage.src = medalImageSrc;
+      medalTitle.textContent = medalTitleText;
+      medalTitle.dataset.medalTitle = medalTitleText;
+      medalRange.textContent = `Puntaje: ${medalRangeText}`;
+      medalRange.dataset.medalRange = medalRangeText;
     }
   });
-});
 
 
 
@@ -87,60 +840,477 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  const inputArchivo = document.getElementById("archivoExcel");
-  inputArchivo.addEventListener("change", async (event) => {
 
 
-  const archivo = inputArchivo.files[0];
 
-  if (!archivo) {
-    alert("Por favor, seleccioná un archivo.");
-    return;
-  }
 
-  // Validaciones
-  if (archivo.size > 10 * 1024 * 1024) {
-    alert("El archivo supera los 10MB.");
-    inputArchivo.value = "";
-    return;
-  }
 
-  if (archivo.type !== "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
-    alert("Solo se permite un archivo .xlsx (Excel).");
-    inputArchivo.value = "";
-    return;
-  }
 
-  // Enviar archivo al backend
-  const formData = new FormData();
-  formData.append("archivo", archivo);
 
-  try {
-    const res = await fetch("http://localhost:8000/validar-archivo", {
-      method: "POST",
-      body: formData
+
+
+
+
+
+
+
+
+    // Update individual axis slider values in real-time - No changes from previous version
+  const derechosHumanosScoreInput = document.getElementById('derechos_humanos_score');
+  const derechosHumanosScoreValue = document.getElementById('derechos_humanos_scoreValue');
+  derechosHumanosScoreInput.addEventListener('input', () => { derechosHumanosScoreValue.textContent = derechosHumanosScoreInput.value; });
+
+  const estandaresLaboralesScoreInput = document.getElementById('estandares_laborales_score');
+  const estandaresLaboralesScoreValue = document.getElementById('estandares_laborales_scoreValue');
+  estandaresLaboralesScoreInput.addEventListener('input', () => { estandaresLaboralesScoreValue.textContent = estandaresLaboralesScoreInput.value; });
+
+  const medioAmbienteScoreInput = document.getElementById('medio_ambiente_score');
+  const medioAmbienteScoreValue = document.getElementById('medio_ambiente_scoreValue');
+  medioAmbienteScoreInput.addEventListener('input', () => { medioAmbienteScoreValue.textContent = medioAmbienteScoreInput.value; });
+
+  const anticorrupcionScoreInput = document.getElementById('anticorrupcion_score');
+  const anticorrupcionScoreValue = document.getElementById('anticorrupcion_scoreValue');
+  anticorrupcionScoreInput.addEventListener('input', () => { anticorrupcionScoreValue.textContent = anticorrupcionScoreInput.value; });
+
+
+
+
+
+
+
+
+
+
+
+
+
+      // Initialize EasyMDE instances - CORRECTED INITIALIZATION AND MAXLENGTH
+    const easyMDE_derechos_humanos = new EasyMDE({ element: document.getElementById("derechos_humanos_comentarios")});
+    const easyMDE_estandares_laborales = new EasyMDE({ element: document.getElementById("estandares_laborales_comentarios")});
+    const easyMDE_medio_ambiente = new EasyMDE({ element: document.getElementById("medio_ambiente_comentarios")});
+    const easyMDE_anticorrupcion = new EasyMDE({ element: document.getElementById("anticorrupcion_comentarios")});
+    const easyMDE_detalles_financieros = new EasyMDE({ element: document.getElementById("detalles_financieros")}); // Initialize here!
+    const easyMDE_hallazgos = new EasyMDE({ element: document.getElementById("hallazgos")}); // Initialize here!
+    const easyMDE_recomendaciones = new EasyMDE({ element: document.getElementById("recomendaciones")}); // Initialize here!
+    const easyMDE_conclusion = new EasyMDE({ element: document.getElementById("conclusion")}); // Initialize here!
+    const maxLength = Infinity; // Define your character limit
+
+    // Function to enforce character limit on an EasyMDE instance
+    function enforceMaxLength(easyMDEInstance, limit) {
+      easyMDEInstance.codemirror.on("change", function(cm, changeObj) {
+        let currentText = cm.getValue();
+        if (currentText.length > limit) {
+          // Revert the change, effectively truncating the input
+          cm.setValue(currentText.substring(0, limit));
+        }
+      });
+    }
+
+    enforceMaxLength(easyMDE_derechos_humanos, maxLength);
+    enforceMaxLength(easyMDE_estandares_laborales, maxLength);
+    enforceMaxLength(easyMDE_medio_ambiente, maxLength);
+    enforceMaxLength(easyMDE_anticorrupcion, maxLength);
+    enforceMaxLength(easyMDE_detalles_financieros, maxLength);
+    enforceMaxLength(easyMDE_hallazgos, maxLength);
+    enforceMaxLength(easyMDE_recomendaciones, maxLength);
+    enforceMaxLength(easyMDE_conclusion, maxLength);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function recolectarDatosFormulario() {
+    const datos = {};
+    
+    // Seleccionar todos los campos de entrada (input, select, textarea)
+    const campos = document.querySelectorAll('input, select, textarea');
+
+    campos.forEach(campo => {
+        const nombre = campo.name || campo.id;
+
+        // Ignorar campos sin nombre ni id
+        if (!nombre) return;
+
+        // Manejo especial para distintos tipos de input
+        if (campo.type === 'checkbox') {
+            datos[nombre] = campo.checked;
+        } else if (campo.type === 'radio') {
+            // Solo tomar el radio seleccionado
+            if (campo.checked) {
+                datos[nombre] = campo.value;
+            }
+        } else {
+            datos[nombre] = campo.value;
+        }
     });
 
-    const data = await res.json();
+    // Sobrescribir el valor del textarea con el contenido real de EasyMDE
+    datos["derechos_humanos_comentarios"] = easyMDE_derechos_humanos.value();
+    datos["estandares_laborales_comentarios"] = easyMDE_estandares_laborales.value();
+    datos["medio_ambiente_comentarios"] = easyMDE_medio_ambiente.value();
+    datos["anticorrupcion_comentarios"] = easyMDE_anticorrupcion.value();
+    datos["detalles_financieros"] = easyMDE_detalles_financieros.value();
+    datos["hallazgos"] = easyMDE_hallazgos.value();
+    datos["recomendaciones"] = easyMDE_recomendaciones.value();
+    datos["conclusion"] = easyMDE_conclusion.value();
 
-    if (res.ok && data.aprobado) {
-      alert("Archivo Excel validado correctamente.");
-      // Aquí podrías continuar con la carga de datos o cerrar el modal
-      cerrarModalExcel(); // o lo que desees
-    } else {
-      alert(`Archivo rechazado: ${data.detalle || "Motivo desconocido"}`);
-      inputArchivo.value = "";
+    localStorage.removeItem("datosFormulario");
+    localStorage.setItem("datosFormulario", JSON.stringify(datos));
+    //window.location.href = "../templates/analista/reporte/reporte_final.html";
+    window.open("../templates/analista/reporte/reporte_final.html", "_blank");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function fillFormForTest() {
+    // Track start time for performance monitoring
+    const startTime = performance.now();
+    console.log("Starting form population process...");
+
+    try {
+      // SECTION 0: Basic company identification
+      document.getElementById('company_name').value = 'Kandira Tech Labs S.A.';
+      document.getElementById('company_country').value = 'Argentina';
+      document.getElementById('company_industry').value = 'Technology & Software Development';
+      document.getElementById('evaluation_date').value = formatDate(new Date());
+
+      // SECTION 1: Detailed company information
+      document.getElementById('company_full_name').value = 'Kandira Tech Labs Sociedad Anónima';
+      document.getElementById('company_legal_form').value = 'Sociedad Anónima';
+      document.getElementById('company_nit_number').value = '30-71234567-9';
+      document.getElementById('company_main_activity').value = 'Enterprise Software Development and IT Consulting Services';
+      document.getElementById('company_address').value = 'Av. Libertador 4980, Piso 15, C1426BWX, Buenos Aires, Argentina';
+      document.getElementById('company_activity_start_date').value = '2008-03-22';
+      document.getElementById('web').value = 'https://www.KandiraTechLabs.com.ar';
+
+
+
+      // SECTION 2: Due diligence commentary
+      document.getElementById('socios_company_description').value = 'Se ha realizado una verificación exhaustiva de la estructura societaria, encontrando que todos los socios tienen antecedentes comerciales verificables y sin alertas en los sistemas de riesgo. La empresa cuenta con más de 15 años de experiencia en el sector tecnológico argentino y ha mantenido relaciones comerciales estables con múltiples empresas del Fortune 500.';
+      document.getElementById('busqueda_company_description').value = 'Se completaron búsquedas en bases de datos especializadas, incluyendo World-Check, Refinitiv, y registros públicos nacionales. Se consultaron listas OFAC, ONU, y UE para sanciones internacionales. Adicionalmente, se analizaron reportes financieros auditados de los últimos 3 ejercicios fiscales y se verificaron los antecedentes de los directores principales a través de fuentes públicas y privadas.';
+      document.getElementById('about_company_description').value = 'Kandira Tech Labs S.A. es una empresa líder en el desarrollo de software empresarial y servicios de consultoría IT, especializada en soluciones para los sectores financiero, agroindustrial y de telecomunicaciones. Fundada en 2008, ha experimentado un crecimiento sostenido, alcanzando una plantilla actual de 87 empleados y operaciones en Argentina, Chile y Uruguay. La empresa ha desarrollado un portfolio diversificado de productos propios y mantiene alianzas estratégicas con Microsoft, Oracle y AWS. Sus principales clientes incluyen entidades bancarias de primer nivel, empresas del agro y proveedores de servicios de telecomunicaciones en la región. TechSolutions cuenta con certificaciones ISO 9001, ISO 27001 y CMMI Nivel 3.';
+      document.getElementById('relevant_info_answer').value = 'No';
+      document.getElementById('accusations_illegitimate_activities_answer').value = 'No';
+      document.getElementById('political_connections_illegitimate_activities_answer').value = 'No';
+
+      // SECTION 3: Anti-bribery and corruption (ABAC) assessment
+      document.getElementById('checkingv_result_compromise').checked = true;
+
+      // SECTION 3.1: Key stakeholders and partners information
+      // Partner 1
+      document.getElementById('partner_name_1').value = 'Ricardo Fernández';
+      document.getElementById('partner_full_name_1').value = 'Ricardo Alberto Fernández Quintana';
+      document.getElementById('partner_position_1').value = 'CEO & Presidente del Directorio';
+      document.getElementById('partner_id_number_1').value = '24567890';
+      document.getElementById('partner_is_pep_answer_1').value = 'No';
+      document.getElementById('partner_relevant_info_answer_1').value = 'No';
+
+      // Add and populate Partner 2
+      if (typeof partnerCount !== 'undefined' && partnerCount < 2) {
+        addPartnerSection();
+      }
+      document.getElementById('partner_name_2').value = 'María Eugenia Vázquez';
+      document.getElementById('partner_full_name_2').value = 'María Eugenia Vázquez Lombardi';
+      document.getElementById('partner_position_2').value = 'CFO & Directora Financiera';
+      document.getElementById('partner_id_number_2').value = '26789012';
+      document.getElementById('partner_is_pep_answer_2').value = 'Sí';
+      document.getElementById('partner_relevant_info_answer_2').value = 'No';
+
+      // Add and populate Partner 3
+      if (typeof partnerCount !== 'undefined' && partnerCount < 3) {
+        addPartnerSection();
+      }
+      if (document.getElementById('partner_name_3')) {
+        document.getElementById('partner_name_3').value = 'Carlos Méndez';
+        document.getElementById('partner_full_name_3').value = 'Carlos Eduardo Méndez García';
+        document.getElementById('partner_position_3').value = 'CTO & Director de Tecnología';
+        document.getElementById('partner_id_number_3').value = '23456123';
+        document.getElementById('partner_is_pep_answer_3').value = 'Sí';
+        document.getElementById('partner_relevant_info_answer_3').value = 'Sí';
+      }
+
+
+
+      
+  const fuentes_buscadores = "Google, Inglés y Español";
+const fuentes_sitio_web = "https://www.testcompany.com";
+const fuentes_redes = "Linkedin, Youtube, Instagram, Facebook, grok.com";
+const fuentes_blacklists_internacional = "Basel Open Intelligence";
+
+
+document.getElementById('fuentes_buscadores').value = fuentes_buscadores;
+document.getElementById('fuentes_sitio_web').value = fuentes_sitio_web ;
+document.getElementById('fuentes_redes').value = fuentes_redes;
+document.getElementById('fuentes_blacklists_internacional').value = fuentes_blacklists_internacional ;
+
+
+
+
+
+      // SECTION 4: Overall compliance score
+      document.getElementById('percentage').value = 82;
+      // Trigger event to update visual indicators
+      if (typeof percentageInput !== 'undefined') {
+        percentageInput.dispatchEvent(new Event('input'));
+      } else {
+        const event = new Event('input', { bubbles: true });
+        document.getElementById('percentage').dispatchEvent(event);
+      }
+
+      // SECTION 5: ESG performance indicators with detailed commentary
+      // Human Rights
+      document.getElementById('derechos_humanos_score').value = 85;
+      if (typeof derechosHumanosScoreInput !== 'undefined') {
+        derechosHumanosScoreInput.dispatchEvent(new Event('input'));
+      } else {
+        document.getElementById('derechos_humanos_score').dispatchEvent(new Event('input'));
+      }
+
+      const humanRightsContent = `## Evaluación de Derechos Humanos
+
+**Puntuación: 85/100 - Sobresaliente**
+
+La empresa demuestra un compromiso sólido con los derechos humanos a través de:
+
+* Política integral de derechos humanos documentada y públicamente disponible
+* Mecanismos efectivos de denuncia con protección para denunciantes
+* Capacitación obligatoria anual para todos los empleados
+* Evaluaciones periódicas de impacto en derechos humanos
+
+Se verificó la ausencia de demandas o acusaciones relacionadas con violaciones de derechos humanos en los últimos 5 años. La empresa ha implementado un programa de diversidad e inclusión que incluye objetivos medibles y reportes de progreso anuales.
+
+**Área de mejora:** Ampliar los programas de monitoreo a proveedores de segundo nivel.`;
+
+      // Set EasyMDE content - handle both direct setting and API methods
+      if (typeof easyMDE_derechos_humanos !== 'undefined') {
+        easyMDE_derechos_humanos.value(humanRightsContent);
+      } else if (document.querySelector('.EasyMDEContainer [data-field="derechos_humanos"]')) {
+        const editor = document.querySelector('.EasyMDEContainer [data-field="derechos_humanos"]').closest('.EasyMDEContainer').querySelector('.CodeMirror').CodeMirror;
+        editor.setValue(humanRightsContent);
+      }
+
+      // Labor Standards
+      document.getElementById('estandares_laborales_score').value = 78;
+      if (typeof estandaresLaboralesScoreInput !== 'undefined') {
+        estandaresLaboralesScoreInput.dispatchEvent(new Event('input'));
+      } else {
+        document.getElementById('estandares_laborales_score').dispatchEvent(new Event('input'));
+      }
+
+      const laborStandardsContent = `## Evaluación de Estándares Laborales
+
+**Puntuación: 78/100 - Bueno**
+
+Kandira Tech Labs muestra cumplimiento general con estándares laborales:
+
+* Contratos formales para todos los empleados con beneficios superiores a los requeridos por ley
+* Política de remuneración equitativa documentada
+* Cumplimiento verificado de jornadas laborales y compensación de horas extra
+* Programa de desarrollo profesional y capacitación continua
+
+La empresa cuenta con certificación Great Place to Work y mantiene índices de rotación por debajo del promedio del sector (12% vs. 18% promedio de la industria).
+
+**Áreas de mejora:**
+- Implementar un plan de acción para reducir la brecha salarial de género (actualmente 9%)
+- Fortalecer los mecanismos de representación colectiva de los trabajadores`;
+
+      if (typeof easyMDE_estandares_laborales !== 'undefined') {
+        easyMDE_estandares_laborales.value(laborStandardsContent);
+      } else if (document.querySelector('.EasyMDEContainer [data-field="estandares_laborales"]')) {
+        const editor = document.querySelector('.EasyMDEContainer [data-field="estandares_laborales"]').closest('.EasyMDEContainer').querySelector('.CodeMirror').CodeMirror;
+        editor.setValue(laborStandardsContent);
+      }
+
+      // Environmental Protection
+      document.getElementById('medio_ambiente_score').value = 72;
+      if (typeof proteccionMedioAmbienteScoreInput !== 'undefined') {
+        proteccionMedioAmbienteScoreInput.dispatchEvent(new Event('input'));
+      } else {
+        document.getElementById('medio_ambiente_score').dispatchEvent(new Event('input'));
+      }
+
+      const environmentContent = `## Evaluación de Protección del Medio Ambiente
+
+**Puntuación: 72/100 - Satisfactorio con áreas de mejora**
+
+La empresa ha implementado las siguientes prácticas ambientales:
+
+* Medición de huella de carbono desde 2020 con metas de reducción establecidas
+* Programa de eficiencia energética en sus oficinas principales
+* Política de reducción de residuos y reciclaje
+* Iniciativa de oficina sin papel parcialmente implementada
+
+El consumo energético ha disminuido un 15% en los últimos 2 años, y el 40% de la energía utilizada proviene de fuentes renovables mediante certificados.
+
+**Deficiencias identificadas:**
+- Ausencia de un sistema de gestión ambiental formalmente certificado
+- Falta de estrategia clara para reducción de emisiones de alcance 3
+- Limitado seguimiento al impacto ambiental de sus servicios de data center`;
+
+      if (typeof easyMDE_medio_ambiente !== 'undefined') {
+        easyMDE_medio_ambiente.value(environmentContent);
+      } else if (document.querySelector('.EasyMDEContainer [data-field="medio_ambiente"]')) {
+        const editor = document.querySelector('.EasyMDEContainer [data-field="medio_ambiente"]').closest('.EasyMDEContainer').querySelector('.CodeMirror').CodeMirror;
+        editor.setValue(environmentContent);
+      }
+
+      // Integrity and Anti-corruption
+      document.getElementById('anticorrupcion_score').value = 92;
+      if (typeof anticorrupcionScoreInput !== 'undefined') {
+        anticorrupcionScoreInput.dispatchEvent(new Event('input'));
+      } else {
+        document.getElementById('anticorrupcion_score').dispatchEvent(new Event('input'));
+      }
+
+      const anticorrupcionContent = `## Evaluación de Integridad y Anticorrupción
+
+**Puntuación: 92/100 - Excelente**
+
+Kandira Tech Labs demuestra un compromiso excepcional con la integridad corporativa:
+
+* Programa anticorrupción robusto y documentado con revisión anual
+* Código de ética integral con procesos de certificación para empleados
+* Canal de denuncias anónimo gestionado por tercero independiente
+* Due diligence extensivo para socios comerciales y proveedores clave
+* Capacitación anticorrupción obligatoria para todos los empleados de la empresa
+
+La empresa no registra incidentes de corrupción, soborno o violaciones éticas en su historial. Las auditorías internas y externas del programa de cumplimiento no han identificado deficiencias significativas.
+
+La compañía se encuentra en proceso de certificación ISO 37001 (Sistema de Gestión Antisoborno), con implementación prevista para el próximo trimestre.`;
+
+      if (typeof easyMDE_anticorrupcion !== 'undefined') {
+        easyMDE_anticorrupcion.value(anticorrupcionContent);
+      } else if (document.querySelector('.EasyMDEContainer [data-field="anticorrupcion"]')) {
+        const editor = document.querySelector('.EasyMDEContainer [data-field="anticorrupcion"]').closest('.EasyMDEContainer').querySelector('.CodeMirror').CodeMirror;
+        editor.setValue(anticorrupcionContent);
+      }
+
+// document.getElementById('recomendaciones').value = // REMOVE THIS LINE
+      easyMDE_recomendaciones.value( // USE THIS INSTEAD
+        `Basado en los hallazgos de la evaluación, se recomienda:
+
+1. PRIORIDAD ALTA:
+   - Implementar un sistema de gestión ambiental formal y buscar certificación ISO 14001 en un plazo de 12 meses
+   - Desarrollar e implementar un plan de acción específico para reducir la brecha salarial de género, con metas cuantificables y plazos definidos
+   - Completar la certificación ISO 37001 (Sistema de Gestión Antisoborno) actualmente en proceso
+
+2. PRIORIDAD MEDIA:
+   - Extender el programa de debida diligencia a proveedores de segundo nivel, con enfoque en derechos humanos y prácticas laborales
+   - Desarrollar una estrategia comprensiva para la medición y reducción de emisiones de alcance 3
+   - Fortalecer los mecanismos de representación colectiva de los trabajadores mediante la implementación de comités consultivos
+
+3. PRIORIDAD BAJA:
+   - Considerar la participación en iniciativas sectoriales de sostenibilidad como el Pacto Global de las Naciones Unidas
+   - Mejorar la transparencia pública mediante la publicación de un informe anual de sostenibilidad siguiendo estándares GRI`
+      );
+
+      // SECTION 7: Conclusion and Overall Assessment
+      easyMDE_conclusion.value(
+        `## Conclusión y Evaluación General
+
+Kandira Tech Labs S.A. demuestra un **desempeño general satisfactorio (82/100)** en los ámbitos evaluados, con fortalezas notables en:
+
+- Integridad corporativa
+- Derechos humanos
+
+Las principales **áreas de mejora** se encuentran en:
+
+- Gestión ambiental
+
+---
+
+La empresa **cumple con los estándares mínimos requeridos** para establecer una relación comercial, clasificándose como **proveedor de RIESGO BAJO** según nuestra metodología de evaluación.
+
+El compromiso demostrado por la dirección para abordar las áreas de mejora identificadas, junto con la trayectoria positiva de la empresa en el mercado, respaldan una **recomendación favorable** para:
+
+- El establecimiento o continuación de relaciones comerciales
+- Sujeto al seguimiento de las recomendaciones prioritarias detalladas en este informe
+
+---
+
+🔄 **Se recomienda una reevaluación en 24 meses**, o antes si se producen cambios significativos en:
+
+- La estructura
+- La propiedad
+- El contexto operativo de la empresa`
+      );
+
+      // Log success and execution time
+      const endTime = performance.now();
+      console.log(`Form successfully populated in ${(endTime - startTime).toFixed(2)}ms`);
+
+      // Optional: Scroll to top of form after population
+      document.getElementById('form-container')?.scrollIntoView({ behavior: 'smooth' });
+
+      // Show success message to user
+      showNotification('Form populated with test data successfully', 'success');
+
+    } catch (error) {
+      console.error('Error populating form:', error);
+      showNotification('Error populating form. See console for details.', 'error');
     }
-  } catch (error) {
-    alert("Error al validar el archivo.");
-    inputArchivo.value = "";
   }
 
-  })
+
+
+  function showNotification(message, type = 'info') {
+    // Use existing notification system if available
+    if (typeof showToast === 'function') {
+      showToast(message, type);
+      return;
+    }
+
+    // Otherwise create a simple alert
+    alert(message);
+  }
 
 
 
 
-  </script>
-</body>
+
+
+
+
+
+
+
+
+
+</script>
 </html>
