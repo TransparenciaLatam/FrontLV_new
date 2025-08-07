@@ -870,3 +870,16 @@ tr:hover td {
     gap: 1rem;
   }
 }
+
+
+ .verde {
+    background-color: #1aa179;
+  }
+
+  .rojo {
+    background-color: #d9534f;
+  }
+
+  .amarillo {
+    background-color: #e6a100;
+  }

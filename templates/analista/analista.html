@@ -462,7 +462,7 @@
     <h2>3.1. Datos de los Socios</h2>
     <div id="partners-container">
       <!-- Initial Partner Section -->
-      <div class="partner-section" id="partner-section-1" data-partner-index="1">
+      <div class="partner-section partners" id="1" data-partner-index="1">
         <h3>Socio 1</h3>
         <div class="input-group">
           <label for="partner_name_1">Nombre del Socio:</label>
@@ -690,40 +690,42 @@
     newPartnerSection.dataset.partnerIndex = partnerCount;
 
     newPartnerSection.innerHTML = `
-        <h3>Socio ${partnerCount}</h3>
-        <div class="input-group">
-          <label for="partner_name_${partnerCount}">Nombre del Socio:</label>
-          <input type="text" id="partner_name_${partnerCount}" class="partner-name" placeholder="Nombre del Socio">
-        </div>
-        <div class="input-group">
-          <label for="partner_full_name_${partnerCount}">Nombre Completo del Socio:</label>
-          <input type="text" id="partner_full_name_${partnerCount}" class="partner-full-name" placeholder="Nombre Completo del Socio">
-        </div>
-        <div class="input-group">
-          <label for="partner_position_${partnerCount}">Cargo del Socio:</label>
-          <input type="text" id="partner_position_${partnerCount}" class="partner-position" placeholder="Cargo del Socio">
-        </div>
-        <div class="input-group">
-          <label for="partner_id_number_${partnerCount}">Número de Identificación del Socio:</label>
-          <input type="text" id="partner_id_number_${partnerCount}" class="partner-id-number" placeholder="Número de Identificación">
-        </div>
-        <div class="input-group">
-          <label for="partner_is_pep_answer_${partnerCount}">¿Es Persona Políticamente Expuesta (PEP)?</label>
-          <select id="partner_is_pep_answer_${partnerCount}" class="partner-is-pep-answer">
-            <option value="Sí">Sí</option>
-            <option value="No">No</option>
-            <option value="No Aplica">No Aplica</option>
-          </select>
-        </div>
-        <div class="input-group">
-          <label for="partner_relevant_info_answer_${partnerCount}">¿Existe información relevante asociada al socio (sanciones, exposición política, lavado de activos)?</label>
-          <select id="partner_relevant_info_answer_${partnerCount}" class="partner-relevant-info-answer">
-            <option value="Sí">Sí</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-        <button type="button" class="remove-partner-button" onclick="removePartnerSection(${partnerCount})">Eliminar Socio</button>
-      `;
+      <div class="partners" id="${partnerCount}" >
+          <h3>Socio ${partnerCount}</h3>
+          <div class="input-group">
+            <label for="partner_name_${partnerCount}">Nombre del Socio:</label>
+            <input type="text" id="partner_name_${partnerCount}" class="partner-name" placeholder="Nombre del Socio">
+          </div>
+          <div class="input-group">
+            <label for="partner_full_name_${partnerCount}">Nombre Completo del Socio:</label>
+            <input type="text" id="partner_full_name_${partnerCount}" class="partner-full-name" placeholder="Nombre Completo del Socio">
+          </div>
+          <div class="input-group">
+            <label for="partner_position_${partnerCount}">Cargo del Socio:</label>
+            <input type="text" id="partner_position_${partnerCount}" class="partner-position" placeholder="Cargo del Socio">
+          </div>
+          <div class="input-group">
+            <label for="partner_id_number_${partnerCount}">Número de Identificación del Socio:</label>
+            <input type="text" id="partner_id_number_${partnerCount}" class="partner-id-number" placeholder="Número de Identificación">
+          </div>
+          <div class="input-group">
+            <label for="partner_is_pep_answer_${partnerCount}">¿Es Persona Políticamente Expuesta (PEP)?</label>
+            <select id="partner_is_pep_answer_${partnerCount}" class="partner-is-pep-answer">
+              <option value="Sí">Sí</option>
+              <option value="No">No</option>
+              <option value="No Aplica">No Aplica</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="partner_relevant_info_answer_${partnerCount}">¿Existe información relevante asociada al socio (sanciones, exposición política, lavado de activos)?</label>
+            <select id="partner_relevant_info_answer_${partnerCount}" class="partner-relevant-info-answer">
+              <option value="Sí">Sí</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <button type="button" class="remove-partner-button" onclick="removePartnerSection(${partnerCount})">Eliminar Socio</button>
+          </div>
+        `;
     partnersContainer.appendChild(newPartnerSection);
   }
 
@@ -963,7 +965,12 @@ function recolectarDatosFormulario() {
     datos["hallazgos"] = easyMDE_hallazgos.value();
     datos["recomendaciones"] = easyMDE_recomendaciones.value();
     datos["conclusion"] = easyMDE_conclusion.value();
+    // Ejemplo de uso
+    datos["socios"] =  obtenerSocios();
 
+
+
+    
     localStorage.removeItem("datosFormulario");
     localStorage.setItem("datosFormulario", JSON.stringify(datos));
     //window.location.href = "../templates/analista/reporte/reporte_final.html";
@@ -974,6 +981,28 @@ function recolectarDatosFormulario() {
 
 
 
+
+function obtenerSocios() {
+  const socios = [];
+  const sociosElements = document.querySelectorAll('.partners');
+
+  sociosElements.forEach(socio => {
+    const partnerId = socio.id;
+
+    const socioData = {
+      nombre: document.getElementById(`partner_name_${partnerId}`).value,
+      nombreCompleto: document.getElementById(`partner_full_name_${partnerId}`).value,
+      cargo: document.getElementById(`partner_position_${partnerId}`).value,
+      identificacion: document.getElementById(`partner_id_number_${partnerId}`).value,
+      esPEP: document.getElementById(`partner_is_pep_answer_${partnerId}`).value,
+      infoRelevante: document.getElementById(`partner_relevant_info_answer_${partnerId}`).value
+    };
+
+    socios.push(socioData);
+  });
+
+  return socios;
+}
 
 
 

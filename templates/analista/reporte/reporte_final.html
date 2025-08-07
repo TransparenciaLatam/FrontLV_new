@@ -13,6 +13,7 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 </head>
 
 <body>
@@ -300,59 +301,7 @@
     <!-- Partners Data -->
     <h2>Datos de los Socios / Autoridades</h2>
 
-    <h3 class="gradient-bg">Socio 1</h3>
-    <table>
-      <tr>
-        <th>Nombre</th>
-        <td>Juan Pérez</td>
-      </tr>
-      <tr>
-        <th>Cargo</th>
-        <td>CEO</td>
-      </tr>
-      <tr>
-        <th>Número de Identificación</th>
-        <td>12345678</td>
-      </tr>
-      <tr>
-        <th>¿Es Persona Políticamente Expuesta?</th>
-        <td>No</td>
-      </tr>
-      <tr>
-        <th>
-          ¿Existe información relevante asociada (sanciones, exposición
-          política, lavado de activos)?
-        </th>
-        <td>No</td>
-      </tr>
-    </table>
-
-    <h3 class="gradient-bg">Socio 2</h3>
-    <table>
-      <tr>
-        <th>Nombre</th>
-        <td>Maria Garcia</td>
-      </tr>
-      <tr>
-        <th>Cargo</th>
-        <td>CFO</td>
-      </tr>
-      <tr>
-        <th>Número de Identificación</th>
-        <td>98765432</td>
-      </tr>
-      <tr>
-        <th>¿Es Persona Políticamente Expuesta?</th>
-        <td>No Aplica</td>
-      </tr>
-      <tr>
-        <th>
-          ¿Existe información relevante asociada (sanciones, exposición
-          política, lavado de activos)?
-        </th>
-        <td>No</td>
-      </tr>
-    </table>
+    <div id="sociosContainer"></div>
 
 
 
@@ -789,7 +738,60 @@
 
 
 
+        //Socios
 
+
+       function mostrarSociosEnTabla(socios) {
+        const container = document.getElementById('sociosContainer');
+        container.innerHTML = '';
+
+        socios.forEach((socio, index) => {
+          // Determinar clase según las respuestas
+          let claseColor = 'amarillo'; // valor por defecto
+          if (socio.esPEP === 'Sí' && socio.infoRelevante === 'Sí') {
+            claseColor = 'rojo';
+          } else if (socio.esPEP === 'No' && socio.infoRelevante === 'No') {
+            claseColor = 'verde';
+          }
+
+          const socioHTML = `
+            <h3 class=" ${claseColor}">Socio ${index + 1}</h3>
+            <table>
+              <tr>
+                <th>Nombre</th>
+                <td>${socio.nombre}</td>
+              </tr>
+              <tr>
+                <th>Nombre Completo</th>
+                <td>${socio.nombreCompleto}</td>
+              </tr>
+              <tr>
+                <th>Cargo</th>
+                <td>${socio.cargo}</td>
+              </tr>
+              <tr>
+                <th>Número de Identificación</th>
+                <td>${socio.identificacion}</td>
+              </tr>
+              <tr>
+                <th>¿Es Persona Políticamente Expuesta?</th>
+                <td>${socio.esPEP}</td>
+              </tr>
+              <tr>
+                <th>¿Existe información relevante asociada (sanciones, exposición política, lavado de activos)?</th>
+                <td>${socio.infoRelevante}</td>
+              </tr>
+            </table>
+          `;
+
+          container.insertAdjacentHTML('beforeend', socioHTML);
+        });
+    }
+
+
+
+
+          mostrarSociosEnTabla(datos.socios);
 
 
 
