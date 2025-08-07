@@ -1,0 +1,294 @@
+/*ESTILOS PLANTILLA EMPRESAS*/
+
+/* Botones */
+.btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+  margin-bottom: 10px;
+  /* 👈 margen inferior agregado */
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #545b62;
+}
+
+.btn-outline {
+  border: 1px solid #007bff;
+  background-color: transparent;
+  color: #007bff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/* MODALES  */
+.modal-flotante {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.modal-flotante.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Estilos mejorados para modales y formularios */
+.modal-content-flotante {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+  margin: 20px;
+}
+
+.modal-content-flotante h3 {
+  color: #2c3e50;
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.modal-content-flotante label {
+  display: block;
+  margin: 15px 0 8px;
+  color: #34495e;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.modal-content-flotante input[type="text"],
+.modal-content-flotante input[type="email"],
+.modal-content-flotante input[type="file"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
+}
+
+.modal-content-flotante input[type="text"]:focus,
+.modal-content-flotante input[type="email"]:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  outline: none;
+}
+
+.modal-content-flotante .btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+.modal-content-flotante .btn-outline {
+  display: inline-block;
+  text-align: center;
+  padding: 10px 15px;
+}
+
+.file-input-container {
+  margin: 20px 0;
+}
+
+.file-input-container input[type="file"] {
+  padding: 10px;
+  background: #f8f9fa;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.file-input-container input[type="file"]::file-selector-button {
+  padding: 8px 12px;
+  background: #e9ecef;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.mensaje-exito {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.mensaje-exito:not(.hidden) {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.modal-text {
+  color: #7f8c8d;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.modal.active .modal-content-flotante {
+  transform: translateY(0);
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.close:hover {
+  color: #333;
+}
+
+td ul {
+  list-style-type: none;
+  /* opcional, saca los puntos */
+  padding-left: 0;
+  margin: 0;
+}
+
+td li {
+  display: block;
+  /* fuerza a que cada ítem esté en su propia línea */
+  margin-bottom: 4px;
+  /* opcional, espacio entre formularios */
+}
+
+.mensaje-exito {
+  color: green;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.menu-item {
+  cursor: pointer;
+}
+
+/*ESTILOS PLANTILLA TERCEROS*/
+.icono-softsquare {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+/* Card terceros estados */
+.topic-card {
+  position: relative;
+  padding-top: 2.5rem; /* espacio para el badge */
+}
+
+.topic-status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+.texto-ayuda-terceros {
+  font-size: 1.06rem;
+  margin-top: 1rem;
+}
+
+/* Estilos para el modal AYUDA EN AMBAS PLANTILLAS */
+.modal-personalizado {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-personalizado.mostrar {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-contenido {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+  margin: 20px;
+  line-height: 1.6rem;
+}
+
+.cerrar-modal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.cerrar-modal:hover {
+  color: #333;
+}
+
+.modal-acciones {
+  display: flex;
+  gap: 10px;
+  margin-top: 25px;
+  justify-content: flex-end;
+}

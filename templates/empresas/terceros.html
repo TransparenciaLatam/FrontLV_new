@@ -1,440 +1,331 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Proveedor</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../static/css/styles.css" />
+    <link rel="stylesheet" href="./css/empresas.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="dashboard">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <img
+            src="../../static/media/logoLv.png"
+            class="logo-grande"
+            width="150"
+            height="70"
+            alt="logo linking value"
+          />
+        </div>
+        <div class="sidebar-menu">
+          <p class="menu-title">Navegación</p>
+          <a href="#" class="menu-item active">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="#" class="menu-item">
+            <i class="fas fa-bell"></i>
+            <span>Notificaciones</span>
+          </a>
+          <a href="#" class="menu-item">
+            <i class="fas fa-cog"></i>
+            <span>Configuración</span>
+          </a>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Proveedor</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../../static/css/styles.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <style>
-    .icono-softsquare {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      display: inline-block;
-    }
-
-     /* Estilos para el modal personalizado */
-    .modal-personalizado {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .modal-personalizado.mostrar {
-      display: flex;
-      opacity: 1;
-    }
-
-    .modal-contenido {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 500px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-      position: relative;
-      margin: 20px;
-    }
-
-    .cerrar-modal {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      font-size: 24px;
-      cursor: pointer;
-      color: #666;
-    }
-
-    .cerrar-modal:hover {
-      color: #333;
-    }
-
-    .modal-acciones {
-      display: flex;
-      gap: 10px;
-      margin-top: 25px;
-      justify-content: flex-end;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="dashboard">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <img src="../../static/media/logoLv.png" class="logo-grande" width="150" height="70" alt="logo linking value" />
+          <p class="menu-title">Empresa</p>
+          <a href="#" class="menu-item">
+            <i class="fas fa-building"></i>
+            <span>Información</span>
+          </a>
+          <a href="#" class="menu-item" id="botonAyuda">
+            <i class="fas fa-question-circle"></i>
+            <span>Soporte</span>
+          </a>
+          <a id="logoutBtn" class="menu-item"
+            ><i class="fas fa-sign-out-alt"></i><span>Cerrar sesión</span></a
+          >
+        </div>
       </div>
-      <div class="sidebar-menu">
-        <p class="menu-title">Navegación</p>
-        <a href="#" class="menu-item active">
-          <i class="fas fa-home"></i>
-          <span>Dashboard</span>
-        </a>
-        <a href="#" class="menu-item">
-          <i class="fas fa-bell"></i>
-          <span>Notificaciones</span>
-        </a>
-        <a href="#" class="menu-item">
-          <i class="fas fa-cog"></i>
-          <span>Configuración</span>
-        </a>
 
-        <p class="menu-title">Empresa</p>
-        <a href="#" class="menu-item">
-          <i class="fas fa-building"></i>
-          <span>Información</span>
-        </a>
-        <a href="#" class="menu-item" id="botonAyuda">
-          <i class="fas fa-question-circle"></i>
-          <span>Soporte</span>
-        </a>
-        <a id="logoutBtn" class="menu-item"><i class="fas fa-sign-out-alt"></i><span>Cerrar sesión</span></a>
-      </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-      <!-- Header -->
-      <div class="header">
-        <h1>Dashboard de Proveedor</h1>
-        <div class="user-profile">
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" />
-          <div class="user-info">
-            <h4>Maria García</h4>
-            <p>Proveedor de Acme Corp</p>
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+          <h1>Dashboard de Proveedor</h1>
+          <div class="user-profile">
+            <div
+              id="avatar-iniciales"
+              class="company-logo"
+              style="border-radius: 50%"
+            >
+              Em
+            </div>
+            <div class="user-info">
+              <h4 id="nombre-tercero"></h4>
+              <!--  <=============================================================== CAMBIE-->
+              <p id="nombre-cliente"></p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Welcome Banner -->
-      <div class="welcome-banner">
-        <div class="welcome-text">
-          <h2>Formularios de Cumplimiento</h2>
-          <p>
-            Complete los formularios requeridos por su empresa cliente para
-            mantener su relación comercial activa.
-          </p>
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+          <div class="welcome-text">
+            <h2>Formularios de Cumplimiento</h2>
+            <p>
+              Complete los formularios requeridos por su empresa cliente para
+              mantener su relación comercial activa.
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div id="noFormMsg" style="display: none; text-align: center; margin-top: 2rem">
-        <p>Todavía no tiene su formulario disponible.</p>
-      </div>
+        <div
+          id="noFormMsg"
+          style="display: none; text-align: center; margin-top: 2rem"
+        >
+          <p>Todavía no tiene su formulario disponible.</p>
+        </div>
 
-      <!-- Topics Grid -->
-      <div class="topics-container">
-        <!-- Información General -->
-        <div class="topic-card general" style="display: none">
-          <div class="topic-header">
-            <div class="topic-icon">
-              <i class="fas fa-info-circle"></i>
+        <!-- Topics Grid -->
+        <div class="topics-container">
+          <!-- Información General -->
+          <div class="topic-card general" style="display: none">
+            <div class="topic-header">
+              <div class="topic-icon">
+                <i class="fas fa-info-circle"></i>
+              </div>
+              <div class="topic-info">
+                <h3>Información General</h3>
+                <p>Datos básicos de su empresa</p>
+              </div>
+              <div class="card">
+                <div class="topic-status">
+                  <span class="status-badge">Iniciar</span>
+                </div>
+              </div>
             </div>
-            <div class="topic-info">
-              <h3>Información General</h3>
-              <p>Datos básicos de su empresa</p>
+            <div class="progress-container">
+              <div class="progress-label">
+                <span>Progreso</span>
+                <span>0%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="topic-actions">
+              <button
+                onclick="traerFormulario('informacion general', this)"
+                class="btn btn-primary"
+              >
+                <i class="fas fa-edit"></i> Iniciar
+                <!-- iniciar/continuar/completado/ver  -->
+              </button>
+            </div>
+          </div>
+
+          <!-- Anticorrupción -->
+          <div class="topic-card anticorruption" style="display: none">
+            <div class="topic-header">
+              <div class="topic-icon">
+                <img
+                  src="../../static/icons/ico-anticorrupcion.svg"
+                  alt="Icono Anticorrupción"
+                  class="icono-softsquare icono-anticorrupcion"
+                />
+              </div>
+              <div class="topic-info">
+                <h3>Anticorrupción</h3>
+                <p>Políticas contra sobornos</p>
+              </div>
+              <div class="card">
+                <div class="topic-status">
+                  <span class="status-badge">Iniciar</span>
+                </div>
+              </div>
+            </div>
+            <div class="progress-container">
+              <div class="progress-label">
+                <span>Progreso</span>
+                <span>0%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="topic-actions">
+              <button
+                onclick="traerFormulario('anticorrupcion', this)"
+                class="btn btn-primary"
+              >
+                <i class="fas fa-edit"></i> Iniciar
+                <!-- iniciar/continuar/completado/ver  -->
+              </button>
+            </div>
+          </div>
+
+          <!-- Derechos Humanos -->
+          <div class="topic-card humanrights" style="display: none">
+            <div class="topic-header">
+              <div class="topic-icon">
+                <img
+                  src="../../static/icons/ico-derechoshumanos.svg"
+                  alt="Icono Derechos Humanos"
+                  class="icono-softsquare icono-derechoshumanos"
+                />
+              </div>
+              <div class="topic-info">
+                <h3>
+                  Derechos<br />
+                  Humanos
+                </h3>
+                <p>
+                  Políticas de derechos <br />
+                  laborales
+                </p>
+              </div>
+              <div class="card">
+                <div class="topic-status">
+                  <span class="status-badge">Iniciar</span>
+                </div>
+              </div>
+            </div>
+            <div class="progress-container">
+              <div class="progress-label">
+                <span>Progreso</span>
+                <span>0%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="topic-actions">
+              <button
+                onclick="traerFormulario('derechos humanos', this)"
+                class="btn btn-primary"
+              >
+                <i class="fas fa-play"></i> Iniciar
+                <!-- iniciar/continuar/completado/ver  -->
+              </button>
+            </div>
+          </div>
+
+          <!-- Estándares Laborales -->
+          <div class="topic-card labor" style="display: none">
+            <div class="topic-header">
+              <div class="topic-icon">
+                <img
+                  src="../../static/icons/ico-estandareslaborales.svg"
+                  alt="Icono Estandares Laborales"
+                  class="icono-softsquare icono-estandares"
+                />
+              </div>
+              <div class="topic-info">
+                <h3>
+                  Estándares<br />
+                  Laborales
+                </h3>
+                <p>Condiciones de trabajo</p>
+              </div>
             </div>
             <div class="card">
               <div class="topic-status">
                 <span class="status-badge">Iniciar</span>
               </div>
             </div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">
-              <span>Progreso</span>
-              <span>0%</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 0%"></div>
-            </div>
-          </div>
-          <div class="topic-actions">
-            <button onclick="traerFormulario('informacion general', this)" class="btn btn-primary">
-              <i class="fas fa-edit"></i> Iniciar <!-- iniciar/continuar/completado/ver  -->
-            </button>
-          </div>
-        </div>
-
-        <!-- Anticorrupción -->
-        <div class="topic-card anticorruption" style="display: none">
-          <div class="topic-header">
-            <div class="topic-icon">
-              <img src="../../static/icons/ico-anticorrupcion.svg" alt="Icono Anticorrupción"
-                class="icono-softsquare icono-anticorrupcion" />
-            </div>
-            <div class="topic-info">
-              <h3>Anticorrupción</h3>
-              <p>Políticas contra sobornos</p>
-            </div>
-            <div class="card">
-              <div class="topic-status">
-                <span class="status-badge">Iniciar</span>
+            <div class="progress-container">
+              <div class="progress-label">
+                <span>Progreso</span>
+                <span>0%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
               </div>
             </div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">
-              <span>Progreso</span>
-              <span>0%</span>
+            <div class="topic-actions">
+              <button
+                onclick="traerFormulario('estandares laborales', this)"
+                class="btn btn-primary"
+              >
+                <i class="fas fa-eye"></i> Iniciar
+                <!-- iniciar/continuar/completado/ver  -->
+              </button>
             </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 0%"></div>
-            </div>
           </div>
-          <div class="topic-actions">
-            <button onclick="traerFormulario('anticorrupcion', this)" class="btn btn-primary">
-              <i class="fas fa-edit"></i> Iniciar <!-- iniciar/continuar/completado/ver  -->
-            </button>
-          </div>
-        </div>
 
-        <!-- Derechos Humanos -->
-        <div class="topic-card humanrights" style="display: none">
-          <div class="topic-header">
-            <div class="topic-icon">
-              <img src="../../static/icons/ico-derechoshumanos.svg" alt="Icono Derechos Humanos"
-                class="icono-softsquare icono-derechoshumanos" />
-            </div>
-            <div class="topic-info">
-              <h3>
-                Derechos<br />
-                Humanos
-              </h3>
-              <p>
-                Políticas de derechos <br />
-                laborales
-              </p>
-            </div>
-            <div class="card">
-              <div class="topic-status">
-                <span class="status-badge">Iniciar</span>
+          <!-- Medio Ambiente -->
+          <div class="topic-card environment" style="display: none">
+            <div class="topic-header">
+              <div class="topic-icon">
+                <img
+                  src="../../static/icons/ico-medioambiente.svg"
+                  alt="Icono Medio Ambiente"
+                  class="icono-softsquare icono-medioambiente"
+                />
+              </div>
+              <div class="topic-info">
+                <h3>Medio Ambiente</h3>
+                <p>Prácticas sostenibles</p>
+              </div>
+              <div class="card">
+                <div class="topic-status">
+                  <span class="status-badge">Iniciar</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">
-              <span>Progreso</span>
-              <span>0%</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 0%"></div>
-            </div>
-          </div>
-          <div class="topic-actions">
-            <button onclick="traerFormulario('derechos humanos', this)" class="btn btn-primary">
-              <i class="fas fa-play"></i> Iniciar <!-- iniciar/continuar/completado/ver  -->
-            </button>
-          </div>
-        </div>
-
-        <!-- Estándares Laborales -->
-        <div class="topic-card labor" style="display: none">
-          <div class="topic-header">
-            <div class="topic-icon">
-              <img src="../../static/icons/ico-estandareslaborales.svg" alt="Icono Estandares Laborales"
-                class="icono-softsquare icono-estandares" />
-            </div>
-            <div class="topic-info">
-              <h3>
-                Estándares<br />
-                Laborales
-              </h3>
-              <p>Condiciones de trabajo</p>
-            </div>
-          </div>
-          <div class="card">
-            <div class="topic-status">
-              <span class="status-badge">Iniciar</span>
-            </div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">
-              <span>Progreso</span>
-              <span>0%</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 0%"></div>
-            </div>
-          </div>
-          <div class="topic-actions">
-            <button onclick="traerFormulario('estandares laborales', this)" class="btn btn-primary">
-              <i class="fas fa-eye"></i> Iniciar <!-- iniciar/continuar/completado/ver  -->
-            </button>
-          </div>
-        </div>
-
-        <!-- Medio Ambiente -->
-        <div class="topic-card environment" style="display: none">
-          <div class="topic-header">
-            <div class="topic-icon">
-              <img src="../../static/icons/ico-medioambiente.svg" alt="Icono Medio Ambiente"
-                class="icono-softsquare icono-medioambiente" />
-            </div>
-            <div class="topic-info">
-              <h3>Medio Ambiente</h3>
-              <p>Prácticas sostenibles</p>
-            </div>
-            <div class="card">
-              <div class="topic-status">
-                <span class="status-badge">Iniciar</span>
+            <div class="progress-container">
+              <div class="progress-label">
+                <span>Progreso</span>
+                <span>0%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
               </div>
             </div>
-          </div>
-          <div class="progress-container">
-            <div class="progress-label">
-              <span>Progreso</span>
-              <span>0%</span>
+            <div class="topic-actions">
+              <button
+                onclick="traerFormulario('medio ambiente', this)"
+                class="btn btn-primary"
+              >
+                <i class="fas fa-edit"></i> Iniciar
+                <!-- iniciar/continuar/completado/ver  -->
+              </button>
             </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 0%"></div>
-            </div>
-          </div>
-          <div class="topic-actions">
-            <button onclick="traerFormulario('medio ambiente', this)" class="btn btn-primary">
-              <i class="fas fa-edit"></i> Iniciar <!-- iniciar/continuar/completado/ver  -->
-            </button>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Modal de ayuda -->
+    <!-- Modal de ayuda -->
 
-  <div id="modalAyudaPersonalizado" class="modal-personalizado">
-    <div class="modal-contenido">
-      <span class="cerrar-modal">&times;</span>
-      <h3>¿Necesitas ayuda?</h3>
-      <p>Por favor, contáctate con <strong>it@transparencialatam.com</strong> para recibir asistencia.</p>
-      <div class="modal-acciones">
-        <button class="btn btn-secondary cerrar-modal-btn">Cerrar</button>
-        <a href="mailto:it@transparencialatam.com" class="btn btn-primary">Enviar correo</a>
+    <div id="modalAyudaPersonalizado" class="modal-personalizado">
+      <div class="modal-contenido">
+        <span class="cerrar-modal">&times;</span>
+        <h2>¿Necesitas ayuda?</h2>
+        <p class="texto-ayuda-terceros">
+          Por favor, contáctate con
+          <strong>it@transparencialatam.com</strong> para recibir asistencia.
+        </p>
+        <div class="modal-acciones">
+          <button class="btn btn-secondary cerrar-modal-btn">Cerrar</button>
+          <a href="mailto:it@transparencialatam.com" class="btn btn-primary"
+            >Enviar correo</a
+          >
+        </div>
       </div>
     </div>
-  </div>
 
-
-  <script src="../../src/script.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      // Verifica si el usuario tiene acceso
-      function verificarAcceso() {
-        const usuario = localStorage.getItem("usuarioLogueado");
-        if (!usuario || usuario != "tercero") {
-          alert("No tienes acceso. Iniciá sesión.");
-          window.location.href = "../../index.html";
-        }
-      }
-
-      verificarAcceso(); // ejecutar al inicio de cada página privada
-
-      const data = localStorage.getItem("infoTercero");
-      if (data) {
-        const infoTercero = JSON.parse(data);
-        console.log("Info del tercero:", infoTercero);
-        const categorias = infoTercero?.categorias || [];
-
-        const cards = document.querySelectorAll(".topic-card");
-        let algunaVisible = false;
-
-        if (categorias.length === 0) {
-          document.getElementById("noFormMsg").style.display = "block";
-          return;
-        }
-
-        categorias.forEach((cat) => {
-          let className = "";
-          switch (cat.toLowerCase()) {
-            case "informacion general":
-              className = "general";
-              break;
-            case "anticorrupcion":
-              className = "anticorruption";
-              break;
-            case "derechos humanos":
-              className = "humanrights";
-              break;
-            case "estandares laborales":
-              className = "labor";
-              break;
-            case "medio ambiente":
-              className = "environment";
-              break;
-          }
-
-          const card = document.querySelector(`.topic-card.${className}`);
-          if (card) {
-            card.style.display = "block";
-            algunaVisible = true;
-          }
-        });
-
-        if (!algunaVisible) {
-          document.getElementById("noFormMsg").style.display = "block";
-        }
-      } else {
-        console.warn("No se encontró info del tercero en localStorage");
-      }
-    });
-
-    document
-      .getElementById("logoutBtn")
-      .addEventListener("click", function () {
-        localStorage.clear();
-        window.location.href = "../../index.html";
-      });
-
-    function traerFormulario(categoria, buttonElement) {
-      const info = JSON.parse(localStorage.getItem("infoTercero"));
-
-      if (!info || !info.tercero || !info.tercero.formulario_id) {
-        console.error(
-          "No se encontró la info del tercero o el ID del formulario."
-        );
-        return;
-      }
-
-      const formularioId = info.tercero.formulario_id;
-
-      fetch(
-        `http://localhost:8000/formularios/${formularioId}/categoria/${categoria}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          if (!data || data.length === 0) {
-            console.warn("No hay preguntas en el formulario");
-            return;
-          }
-
-          // Obtener color de borde top (puede estar en el contenedor topic-card)
-          const card = buttonElement.closest(".topic-card");
-          const borderTop = getComputedStyle(card).borderTopColor;
-
-          // Guardar en SessionStorage
-          localStorage.setItem("preguntas_categoria", JSON.stringify(data));
-          sessionStorage.setItem("categoria_actual", categoria);
-          sessionStorage.setItem("color_categoria", borderTop);
-
-          window.location.href = "formularios_terceros.html";
-        })
-        .catch((err) => {
-          console.error("Error al traer el formulario:", err);
-        });
-    }
-  </script>
-</body>
-
+    <script src="./src/terceros.js"></script>
+  </body>
 </html>
