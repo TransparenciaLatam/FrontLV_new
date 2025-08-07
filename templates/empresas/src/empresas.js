@@ -248,6 +248,7 @@
             const icono = `<i class="fas fa-file-alt"></i> `;
             formulariosCell.innerHTML =
               icono + tercero.formulario_generado.nombre_formulario;
+              formulariosCell.classList.add("formulario-asignado");
           } else {
             formulariosCell.innerHTML = `<em>Sin asignar</em>`;
           }

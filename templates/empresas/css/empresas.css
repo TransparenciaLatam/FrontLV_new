@@ -214,6 +214,10 @@ td li {
   cursor: pointer;
 }
 
+.formulario-asignado {
+  color: green !important; /* verde Bootstrap */
+}
+
 /*ESTILOS PLANTILLA TERCEROS*/
 .icono-softsquare {
   width: 48px;
@@ -239,6 +243,7 @@ td li {
   font-size: 1.06rem;
   margin-top: 1rem;
 }
+
 
 /* Estilos para el modal AYUDA EN AMBAS PLANTILLAS */
 .modal-personalizado {
