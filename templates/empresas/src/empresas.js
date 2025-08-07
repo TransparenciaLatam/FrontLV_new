@@ -250,7 +250,7 @@
               icono + tercero.formulario_generado.nombre_formulario;
               formulariosCell.classList.add("formulario-asignado");
           } else {
-            formulariosCell.innerHTML = `<em>Sin asignar</em>`;
+            formulariosCell.innerHTML = `<em class="formulario-no-asignado">Sin asignar</em>`;
           }
 
           // Agregar celdas a la fila

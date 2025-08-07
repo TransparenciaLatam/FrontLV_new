@@ -218,6 +218,11 @@ td li {
   color: green !important; /* verde Bootstrap */
 }
 
+.formulario-no-asignado {
+  color: #6c757d; /* Gris Bootstrap */
+  font-style: italic;
+}
+
 /*ESTILOS PLANTILLA TERCEROS*/
 .icono-softsquare {
   width: 48px;
