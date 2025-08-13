@@ -87,7 +87,7 @@ function recolectarDatosFormulario() {
     });
   });
 
-   console.log(resultado);
+   guardarRespuestas(resultado);
 }
 
 
@@ -95,8 +95,6 @@ async function guardarRespuestas(respuestas){
 
 const dataStr = localStorage.getItem("infoTercero");
 const infoTercero = JSON.parse(dataStr);
-
-console.log("Info del tercero:", infoTercero);
 
 const categoria = sessionStorage.getItem("categoria_actual");
 
@@ -130,6 +128,7 @@ const progreso_categoria = 100;
         if (!response.ok) {
             console.error(`Error al enviar`, await response.text());
             alert(`Error al enviar`, await response.text())
+            window.location.href = "../terceros.html";
         } else {
             console.log(`Enviado correctamente`);
             alert(`Enviado correctamente`)
@@ -141,4 +140,159 @@ const progreso_categoria = 100;
 
 
 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+async function obtenerRespuestas(categoria, id_tercero) {
+
+
+  
+    try {
+        const url = `http://localhost:8000/respuestas?categorias=${encodeURIComponent(categoria)}&id_tercero=${id_tercero}`;
+        
+        const response = await fetch(url);
+        if (!response.ok) {
+            console.error("Error en la solicitud:", response.statusText);
+            alert("Error en la solicitud:", response.statusText);
+            return;
+        }
+
+        const data = await response.json();
+
+        // Si está vacío no hace nada
+        if (!data || (Array.isArray(data) && data.length === 0)) {
+            console.log("No hay respuestas para cargar.");
+            alert("No hay respuestas para cargar.");
+            return;
+        }
+
+        // Si trae datos, llama a cargarRespuestas
+        cargarRespuestas(data.respuestas);
+
+    } catch (error) {
+        console.error("Error al obtener respuestas:", error);
+        alert("Error al obtener respuestas:", error);
+    }
+}
+
+
+
+
+
+
+
+
+function cargarRespuestas(respuestasArray) {
+    // Crear loader
+    let loader = document.createElement("div");
+    loader.id = "loader-respuestas";
+    loader.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        ">
+            <div style="
+                background: white;
+                padding: 20px 40px;
+                border-radius: 8px;
+                font-size: 18px;
+                font-family: sans-serif;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            ">
+                <div class="spinner" style="
+                    width: 40px;
+                    height: 40px;
+                    border: 4px solid #ccc;
+                    border-top: 4px solid #3498db;
+                    border-radius: 50%;
+                    animation: spin 1s linear infinite;
+                    margin-bottom: 10px;
+                "></div>
+                Cargando respuestas...
+            </div>
+        </div>
+    `;
+    document.body.appendChild(loader);
+
+    const style = document.createElement("style");
+    style.innerHTML = `
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    `;
+    document.head.appendChild(style);
+
+    setTimeout(() => {
+        respuestasArray.forEach(item => {
+            const grupoId = item.id;
+            const respuestas = item.respuestas;
+
+            const grupo = document.getElementById(`grupo-${grupoId}`);
+            if (!grupo) return;
+
+            // Obtener todas las preguntas del grupo como array
+            const preguntas = Array.from(grupo.querySelectorAll("[id-respuesta]"));
+
+            preguntas.forEach((preguntaDiv, index) => {
+                // Convertir el id-respuesta a clave en JSON
+                const preguntaKey = preguntaDiv.getAttribute("id-respuesta").replace(/-/g, "_");
+
+                if (!(preguntaKey in respuestas)) return;
+
+                const valor = respuestas[preguntaKey];
+
+                const input = preguntaDiv.querySelector("input, textarea, select");
+                if (!input) return;
+
+                // Asignar valor
+                if (input.type === "radio") {
+                    const radio = preguntaDiv.querySelector(`input[type="radio"][value="${valor}"]`);
+                    if (radio) radio.checked = true;
+                } else if (input.type === "checkbox") {
+                    if (Array.isArray(valor)) {
+                        valor.forEach(v => {
+                            const checkbox = preguntaDiv.querySelector(`input[type="checkbox"][value="${v}"]`);
+                            if (checkbox) checkbox.checked = true;
+                        });
+                    }
+                } else {
+                    input.value = valor;
+                }
+
+                // NUEVO: Mostrar las preguntas adicionales si tienen contenido
+                if (index > 0) { // solo las que no son la primera
+                    if (valor !== "" && !(Array.isArray(valor) && valor.length === 0)) {
+                        preguntaDiv.style.display = "block"; // quitar display:none
+                    }
+                }
+            });
+        });
+
+        // Quitar loader
+        loader.remove();
+    }, 300);
 }

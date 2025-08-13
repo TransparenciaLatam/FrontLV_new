@@ -469,8 +469,6 @@ function mostrarError(contenedor, mensaje) {
  
         contenedor.setAttribute("id-respuesta", id_respuesta);
 
-        console.log(id_respuesta)
-
         // Ocultar si index > 1
         if (pregunta.index > 1) {
             contenedor.style.display = "none"; 

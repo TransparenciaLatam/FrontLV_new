@@ -348,6 +348,10 @@
       const categoria = sessionStorage.getItem("categoria_actual");
       const color = sessionStorage.getItem("color_categoria");
 
+      const dataStr = localStorage.getItem("infoTercero");
+      const infoTercero = JSON.parse(dataStr);
+      const id_tercero = infoTercero.idTercero;
+
 
       try {
         const preguntas = JSON.parse(data);
@@ -355,6 +359,8 @@
         if (Array.isArray(preguntas)) {
           
           renderizarPreguntasTerceros(preguntas, "responder-formulario");
+
+          obtenerRespuestas(categoria, id_tercero)
           
         } else {
           console.error("El JSON parseado no es un array:", preguntas);
