@@ -297,11 +297,15 @@ function mostrarError(contenedor, mensaje) {
 
 //ESta funcion toma una pregunta enviada desde la base de datos y la arma en un div, para agregar a otro contenedor
 
- function crearPregunta(pregunta) {
+ function crearPregunta(pregunta,grupoId,numeroId) {
         const contenedor = document.createElement("div");
         
         contenedor.classList.add("pregunta","question-item");
         contenedor.classList.add(`pregunta-${pregunta.index}`); 
+        contenedor.classList.add(`clase}`); 
+        id_respuesta = `pregunta-${pregunta.index}-${numeroId}`
+
+        contenedor.setAttribute("id-respuesta", id_respuesta);
 
         contenedor.dataset.index = pregunta.index;
         
@@ -334,7 +338,7 @@ function mostrarError(contenedor, mensaje) {
 
             const input = document.createElement("input");
             input.type = pregunta.tipo_pregunta;
-            input.name = `pregunta-${pregunta.index}`;
+            input.name = `pregunta-${pregunta.index}-grupo-${grupoId}`;
             input.value = opcion;
             input.class = `opcion-${pregunta.index}-${i}`;
             input.classList.add("form-check-input");
@@ -401,7 +405,7 @@ function mostrarError(contenedor, mensaje) {
     input.type = "file";
     input.className = "d-none";
     input.id = `file-input-${pregunta.index}`;
-    input.name = `pregunta-${pregunta.index}[]`;
+    input.name = `pregunta-${pregunta.index}`;
     input.multiple = true;
     input.accept = ".pdf,.jpg,.jpeg,.png,.doc,.docx,.xlsx"
 
@@ -454,20 +458,23 @@ function mostrarError(contenedor, mensaje) {
 
 //ESta funcion toma una pregunta enviada desde la base de datos y la arma en un div, para agregar a otro contenedor
 
- function crearPreguntaTerceros(pregunta) {
+ function crearPreguntaTerceros(pregunta,grupoId,numeroId) {
         const contenedor = document.createElement("div");
         
         contenedor.classList.add("pregunta","question-item");
         contenedor.classList.add(`pregunta-${pregunta.index}`); 
 
         contenedor.dataset.index = pregunta.index;
+        id_respuesta = `pregunta-${pregunta.index}-${numeroId}`
+ 
+        contenedor.setAttribute("id-respuesta", id_respuesta);
+
+        console.log(id_respuesta)
 
         // Ocultar si index > 1
         if (pregunta.index > 1) {
-            contenedor.style.display = "none";      
-
+            contenedor.style.display = "none"; 
         }
-
 
 
         // Texto de la pregunta
@@ -493,7 +500,7 @@ function mostrarError(contenedor, mensaje) {
 
             const input = document.createElement("input");
             input.type = pregunta.tipo_pregunta;
-            input.name = `pregunta-${pregunta.index}`;
+            input.name = `pregunta-${pregunta.index}-grupo-${grupoId}`;
             input.value = opcion;
             input.class = `opcion-${pregunta.index}-${i}`;
             input.classList.add("form-check-input");
@@ -560,7 +567,7 @@ const input = document.createElement("input");
 input.type = "file";
 input.className = "d-none";
 input.id = `file-input-${pregunta.index}`;
-input.name = `pregunta-${pregunta.index}[]`;
+input.name = `pregunta-${pregunta.index}`;
 input.multiple = true; // habilitar múltiples archivos
 input.accept = ".pdf,.jpg,.jpeg,.png,.doc,.docx,.xlsx";
 
@@ -670,8 +677,9 @@ input.addEventListener("change", async (event) => {
 
 
 function configurarPreguntasAdicionales(gi, pn, indexAdicional, detonador) {
+  
     const grupoId = 'grupo-' + gi;
-    const preguntaName = 'pregunta-' + pn;
+    const preguntaName = 'pregunta-' + pn + '-'+grupoId;
     const grupoPreguntas = document.getElementById(grupoId);
 
     if (!grupoPreguntas) {
@@ -722,7 +730,7 @@ function configurarPreguntasAdicionales(gi, pn, indexAdicional, detonador) {
 
 function renderizarPreguntas(listaPreguntas, contenedorId) {
     const contenedor = document.getElementById(contenedorId);
-
+    numeroId = 1
     if (!contenedor) {
         console.error(`No se encontró el contenedor con id: ${contenedorId}`);
         return;
@@ -740,7 +748,8 @@ function renderizarPreguntas(listaPreguntas, contenedorId) {
 
         // Renderizar preguntas individuales
         pregunta.preguntas.forEach(p => {
-            const divPregunta = crearPregunta(p);
+            const divPregunta = crearPregunta(p,pregunta.id,numeroId);
+            numeroId = numeroId+1
             divContenedorPreguntasGrupo.appendChild(divPregunta);
 
             if (p.opciones) {
@@ -818,6 +827,7 @@ function renderizarPreguntas(listaPreguntas, contenedorId) {
 
 function renderizarPreguntasTerceros(listaPreguntas, contenedorId) {
     const contenedor = document.getElementById(contenedorId);
+    numeroId = 1
 
     if (!contenedor) {
         console.error(`No se encontró el contenedor con id: ${contenedorId}`);
@@ -840,7 +850,8 @@ function renderizarPreguntasTerceros(listaPreguntas, contenedorId) {
         
         // Renderizar preguntas individuales
         pregunta.preguntas.forEach(p => {
-            const divPregunta = crearPreguntaTerceros(p);
+            const divPregunta = crearPreguntaTerceros(p,pregunta.id,numeroId);
+            numeroId = numeroId+1
              
 
             divContenedorPreguntasGrupo.appendChild(divPregunta);

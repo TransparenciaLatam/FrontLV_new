@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="../../src/script.js"></script>
+  <script src="src/formularios_terceros.js"></script>
   <style>
     :root {
       --primary-color: #001162;
@@ -352,7 +353,9 @@
         const preguntas = JSON.parse(data);
 
         if (Array.isArray(preguntas)) {
+          
           renderizarPreguntasTerceros(preguntas, "responder-formulario");
+          
         } else {
           console.error("El JSON parseado no es un array:", preguntas);
         }
@@ -462,25 +465,36 @@
           progressBar.style.width = `${porcentaje}%`;
         }
       }
-      // Botón siguiente
-      nextBtn.addEventListener('click', () => {
-        if (currentGroup < grupos.length - 1) {
-          currentGroup++;
-          mostrarGrupo(currentGroup);
-        }
-      });
+    nextBtn.addEventListener('click', () => {
 
-      // Botón anterior
-      prevBtn.addEventListener('click', () => {
-        if (currentGroup > 0) {
-          currentGroup--;
-          mostrarGrupo(currentGroup);
-        }
-      });
+      if (currentGroup < grupos.length - 1) {
+        currentGroup++;
+        mostrarGrupo(currentGroup);
+
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+
+      if (currentGroup > 0) {
+        currentGroup--;
+        mostrarGrupo(currentGroup);
+
+      }
+    });
 
       // Mostrar el primer grupo al iniciar
       mostrarGrupo(currentGroup);
 
+
+
+
+      let saveBtn = document.getElementById('save-btn')
+      saveBtn.addEventListener('click', () =>{
+
+        recolectarDatosFormulario()
+
+      })
 
     })
   </script>

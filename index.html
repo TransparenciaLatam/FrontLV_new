@@ -260,6 +260,7 @@
                         return res.json();
                     })
                     .then(data => {
+                        data.idTercero = idTercero;
                         // Guardar en localStorage
                         localStorage.setItem("infoTercero", JSON.stringify(data));
                         
