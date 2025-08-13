@@ -1,164 +1,177 @@
- document.addEventListener("DOMContentLoaded", async () => {
-        // Verifica si el usuario tiene acceso
-        function verificarAcceso() {
-          const usuario = localStorage.getItem("usuarioLogueado");
-          if (!usuario || usuario != "tercero") {
-            alert("No tienes acceso. Iniciá sesión.");
-            window.location.href = "../../index.html";
-          }
-        }
+// ===== terceros.js =====
 
-        verificarAcceso(); // ejecutar al inicio de cada página privada
+// Helper: convierte a entero seguro
+function toInt(x) {
+  if (x === null || x === undefined) return NaN;
+  if (typeof x === "number") return Number.isFinite(x) ? x : NaN;
+  return parseInt(String(x).trim(), 10);
+}
 
-        const data = localStorage.getItem("infoTercero");
-        if (data) {
-          const infoTercero = JSON.parse(data);
-          console.log("Info del tercero:", infoTercero);
+// Helper: resuelve idTercero desde múltiples fuentes
+function resolveIdTercero(infoTercero) {
+  const candRoot = infoTercero?.idTercero;       // { idTercero: 1 }
+  const candObj  = infoTercero?.tercero?.id;     // { tercero: { id: 1 } }
+  const candSess = sessionStorage.getItem("id_tercero");
+  const id = toInt(candRoot) || toInt(candObj) || toInt(candSess);
+  console.log("[ID] root:", candRoot, " tercero.id:", candObj, " session:", candSess, " => resuelto:", id);
+  return id;
+}
 
-          // Mostrar el nombre del cliente y del tercero
-          document.getElementById("nombre-cliente").textContent = `${
-            infoTercero.cliente?.nombre || "No disponible"
-          }`;
-          document.getElementById("nombre-tercero").textContent = `${
-            infoTercero.tercero?.nombre || "No disponible"
-          }`;
+// Espera hasta que window.Progreso exista (máx 2s)
+function waitForProgreso(timeoutMs = 2000, stepMs = 50) {
+  return new Promise((resolve) => {
+    const t0 = Date.now();
+    (function tick() {
+      if (window.Progreso && typeof window.Progreso.initProgreso === "function") {
+        return resolve(true);
+      }
+      if (Date.now() - t0 >= timeoutMs) return resolve(false);
+      setTimeout(tick, stepMs);
+    })();
+  });
+}
 
-          // Mostrar iniciales del tercero como avatar con estilo .company-logo
-          const nombreTercero = infoTercero.tercero?.nombre || "";
-          const iniciales = nombreTercero
-            .split(" ")
-            .map((p) => p.charAt(0))
-            .join("")
-            .toUpperCase()
-            .slice(0, 2);
+document.addEventListener("DOMContentLoaded", async () => {
+  // ===== 1) Acceso =====
+  const usuario = localStorage.getItem("usuarioLogueado");
+  if (!usuario || usuario !== "tercero") {
+    alert("No tienes acceso. Iniciá sesión.");
+    window.location.href = "../../index.html";
+    return;
+  }
 
-          document.getElementById("avatar-iniciales").textContent = iniciales;
+  // ===== 2) Cargar infoTercero =====
+  const raw = localStorage.getItem("infoTercero");
+  if (!raw) {
+    console.warn("No se encontró info del tercero en localStorage");
+    const nf = document.getElementById("noFormMsg");
+    if (nf) nf.style.display = "block";
+    return;
+  }
+  const infoTercero = JSON.parse(raw);
+  console.log("Info del tercero:", infoTercero);
 
-          const categorias = infoTercero?.categorias || [];
+  // ===== 3) Header (cliente/tercero/avatar) =====
+  const elCliente = document.getElementById("nombre-cliente");
+  const elTercero = document.getElementById("nombre-tercero");
+  const elAvatar  = document.getElementById("avatar-iniciales");
 
-          const cards = document.querySelectorAll(".topic-card");
-          let algunaVisible = false;
+  if (elCliente) elCliente.textContent = infoTercero?.cliente?.nombre || "No disponible";
+  if (elTercero) elTercero.textContent = infoTercero?.tercero?.nombre || "No disponible";
+  if (elAvatar) {
+    const iniciales = (infoTercero?.tercero?.nombre || "")
+      .split(" ").map(p => p.charAt(0)).join("").toUpperCase().slice(0, 2) || "US";
+    elAvatar.textContent = iniciales;
+  }
 
-          if (categorias.length === 0) {
-            document.getElementById("noFormMsg").style.display = "block";
-            return;
-          }
-          //THE END DEL CAMBIO
+  // ===== 4) Categorías =====
+  const categorias = Array.isArray(infoTercero?.categorias) ? infoTercero.categorias : [];
+  if (!categorias.length) {
+    document.getElementById("noFormMsg")?.style && (document.getElementById("noFormMsg").style.display = "block");
+    document.querySelectorAll(".topic-card").forEach(c => c.style.display = "none");
+    return;
+  }
 
-          categorias.forEach((cat) => {
-            let className = "";
-            switch (cat.toLowerCase()) {
-              case "informacion general":
-                className = "general";
-                break;
-              case "anticorrupcion":
-                className = "anticorruption";
-                break;
-              case "derechos humanos":
-                className = "humanrights";
-                break;
-              case "estandares laborales":
-                className = "labor";
-                break;
-              case "medio ambiente":
-                className = "environment";
-                break;
-            }
+  // ===== 5) idTercero y API base =====
+  const idTercero = resolveIdTercero(infoTercero);
+  const BASE_URL  = "http://localhost:8000"; // ⬅️ Cambiá a http://localhost:5000 si tu API corre en 5000
 
-            const card = document.querySelector(`.topic-card.${className}`);
-            if (card) {
-              card.style.display = "block";
-              algunaVisible = true;
-            }
-          });
+  if (!Number.isFinite(idTercero) || idTercero <= 0) {
+    console.warn("No se pudo resolver id_tercero");
+  } else {
+    // Guardalo en sessionStorage para próximas vistas (opcional)
+    sessionStorage.setItem("id_tercero", String(idTercero));
+  }
 
-          if (!algunaVisible) {
-            document.getElementById("noFormMsg").style.display = "block";
-          }
-        } else {
-          console.warn("No se encontró info del tercero en localStorage");
-        }
+  // ===== 6) Modal de ayuda =====
+  (function setupModal() {
+    const modal           = document.getElementById("modalAyudaPersonalizado");
+    const btnAbrir        = document.getElementById("botonAyuda");
+    const btnCerrarX      = document.querySelector(".cerrar-modal");
+    const btnCerrarFooter = document.querySelector(".cerrar-modal-btn");
+    if (!modal || !btnAbrir) return;
+
+    const abrir  = () => { modal.classList.add("mostrar"); document.body.style.overflow = "hidden"; };
+    const cerrar = () => { modal.classList.remove("mostrar"); document.body.style.overflow = ""; };
+
+    btnAbrir.addEventListener("click", abrir);
+    btnCerrarX?.addEventListener("click", cerrar);
+    btnCerrarFooter?.addEventListener("click", cerrar);
+    modal.addEventListener("click", (e) => { if (e.target === modal) cerrar(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && modal.classList.contains("mostrar")) cerrar(); });
+  })();
+
+  // ===== 7) Logout =====
+  document.getElementById("logoutBtn")?.addEventListener("click", () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = "../../index.html";
+  });
+
+  // ===== 8) Render de progreso =====
+  const hasProgreso = await waitForProgreso(2000, 50);
+  console.log("[Progreso] disponible:", hasProgreso, "obj:", window.Progreso);
+
+  if (hasProgreso && Number.isFinite(idTercero) && idTercero > 0) {
+    try {
+      await window.Progreso.initProgreso({
+        idTercero,
+        baseUrl: BASE_URL,
       });
+    } catch (e) {
+      console.error("Error al renderizar progreso:", e);
+    }
+  } else {
+    console.warn("Progreso.initProgreso no disponible o falta idTercero");
+    // Fallback: mostrar solo las categorías asignadas
+    document.querySelectorAll(".topic-card").forEach(c => c.style.display = "none");
+    const MAP = {
+      "informacion general": "general",
+      "anticorrupcion": "anticorruption",
+      "derechos humanos": "humanrights",
+      "estandares laborales": "labor",
+      "medio ambiente": "environment",
+    };
+    categorias.forEach(cat => {
+      const cls = MAP[String(cat).toLowerCase()];
+      const card = document.querySelector(`.topic-card.${cls}`);
+      if (card) card.style.display = "block";
+    });
+  }
 
-      document
-        .getElementById("logoutBtn")
-        .addEventListener("click", function () {
-          localStorage.clear();
-          window.location.href = "../../index.html";
-        });
+  // ===== 9) Global: abrir formulario por categoría =====
+  // Debe ser global para que funcione el onclick="traerFormulario(...)"
+  window.traerFormulario = function traerFormulario(categoria, buttonElement) {
+    const info = JSON.parse(localStorage.getItem("infoTercero") || "{}");
+    const formularioId = info?.tercero?.formulario_id;
 
-      function traerFormulario(categoria, buttonElement) {
-        const info = JSON.parse(localStorage.getItem("infoTercero"));
+    if (!formularioId) {
+      console.error("No se encontró el ID del formulario del tercero.");
+      return;
+    }
 
-        if (!info || !info.tercero || !info.tercero.formulario_id) {
-          console.error(
-            "No se encontró la info del tercero o el ID del formulario."
-          );
+    fetch(`${BASE_URL}/formularios/${formularioId}/categoria/${categoria}`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        if (!data || data.length === 0) {
+          console.warn("No hay preguntas en el formulario");
           return;
         }
 
-        const formularioId = info.tercero.formulario_id;
+        const card = buttonElement?.closest?.(".topic-card");
+        const borderTop = card ? getComputedStyle(card).borderTopColor : "#ccc";
 
-        fetch(
-          `http://localhost:8000/formularios/${formularioId}/categoria/${categoria}`
-        )
-          .then((res) => res.json())
-          .then((data) => {
-            if (!data || data.length === 0) {
-              console.warn("No hay preguntas en el formulario");
-              return;
-            }
+        localStorage.setItem("preguntas_categoria", JSON.stringify(data));
+        sessionStorage.setItem("categoria_actual", categoria);
+        sessionStorage.setItem("color_categoria", borderTop);
 
-            // Obtener color de borde top (puede estar en el contenedor topic-card)
-            const card = buttonElement.closest(".topic-card");
-            const borderTop = getComputedStyle(card).borderTopColor;
-
-            // Guardar en SessionStorage
-            localStorage.setItem("preguntas_categoria", JSON.stringify(data));
-            sessionStorage.setItem("categoria_actual", categoria);
-            sessionStorage.setItem("color_categoria", borderTop);
-
-            window.location.href = "formularios_terceros.html";
-          })
-          .catch((err) => {
-            console.error("Error al traer el formulario:", err);
-          });
-      }
-
-      // Boton ayuda
-      document.addEventListener("DOMContentLoaded", function () {
-        // Elementos del modal
-        const modal = document.getElementById("modalAyudaPersonalizado");
-        const btnAbrir = document.getElementById("botonAyuda");
-        const btnCerrar = document.querySelector(".cerrar-modal");
-        const btnCerrarModal = document.querySelector(".cerrar-modal-btn");
-
-        // Abrir modal
-        btnAbrir.addEventListener("click", function () {
-          modal.classList.add("mostrar");
-          document.body.style.overflow = "hidden";
-        });
-
-        // Cerrar modal
-        function cerrarModal() {
-          modal.classList.remove("mostrar");
-          document.body.style.overflow = "";
-        }
-
-        btnCerrar.addEventListener("click", cerrarModal);
-        btnCerrarModal.addEventListener("click", cerrarModal);
-
-        // Cerrar al hacer clic fuera del contenido
-        modal.addEventListener("click", function (e) {
-          if (e.target === modal) {
-            cerrarModal();
-          }
-        });
-
-        // Cerrar con tecla ESC
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "Escape" && modal.classList.contains("mostrar")) {
-            cerrarModal();
-          }
-        });
+        window.location.href = "formularios_terceros.html";
+      })
+      .catch((err) => {
+        console.error("Error al traer el formulario:", err);
       });
+  };
+});
